@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&C — Fiches Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
+
+  :root {
+    --void: #08080f;
+    --panel: #0f0f1e;
+    --border: #1e1e3a;
+    --text: #b0a8c8;
+    --text-dim: #5a5278;
+    --white: #f0eaf8;
+    --gold: #c9a84c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Raleway', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 50% 30% at 20% 40%, rgba(124,58,237,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 30% at 80% 40%, rgba(14,165,200,0.05) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 25% at 50% 80%, rgba(34,168,42,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 56px; }
+
+  .game-badge {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 4px 16px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+
+  .tagline { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 28px auto 0;
+    max-width: 300px;
+  }
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-icon { color: var(--gold); font-size: 14px; }
+
+  /* GRID */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-bottom: 50px;
+  }
+
+  /* CARD */
+  .hero-card {
+    display: block;
+    text-decoration: none;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+  }
+
+  .hero-card:hover { transform: translateY(-4px); }
+
+  .hero-card.dark:hover  { border-color: #7c3aed; box-shadow: 0 8px 32px rgba(124,58,237,0.15); }
+  .hero-card.ice:hover   { border-color: #0ea5c8; box-shadow: 0 8px 32px rgba(14,165,200,0.15); }
+  .hero-card.nature:hover{ border-color: #22a82a; box-shadow: 0 8px 32px rgba(34,168,42,0.15); }
+  .hero-card.fire:hover  { border-color: #c84a0e; box-shadow: 0 8px 32px rgba(200,74,14,0.15); }
+
+  /* Top accent bar */
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    z-index: 1;
+  }
+  .hero-card.dark::before   { background: linear-gradient(90deg, #7c3aed, #e040a0); }
+  .hero-card.ice::before    { background: linear-gradient(90deg, #0ea5c8, #38d1f0); }
+  .hero-card.nature::before { background: linear-gradient(90deg, #22a82a, #4ade50); }
+  .hero-card.fire::before   { background: linear-gradient(90deg, #c84a0e, #f97316); }
+
+  .card-body { padding: 26px 22px 22px; }
+
+  .card-element {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .dark   .card-element { color: #a855f7; }
+  .ice    .card-element { color: #38d1f0; }
+  .nature .card-element { color: #4ade50; }
+  .fire   .card-element { color: #f97316; }
+
+  .card-name {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+
+  .card-role {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 18px;
+  }
+
+  /* Mini ratings */
+  .card-ratings { display: flex; gap: 6px; margin-bottom: 18px; }
+
+  .mini-rating {
+    flex: 1;
+    text-align: center;
+    padding: 7px 4px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+
+  .mini-mode { font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); display: block; margin-bottom: 3px; }
+  .mini-grade { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; }
+
+  .grade-s  { color: #f472b6; }
+  .grade-a  { color: var(--gold); }
+  .grade-b  { color: #38d1f0; }
+  .grade-c  { color: var(--text-dim); }
+
+  /* Key stats */
+  .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 16px; }
+  .stat-item { font-size: 11px; color: var(--text-dim); }
+  .stat-item span { color: var(--gold); font-weight: 600; }
+
+  /* Skill preview */
+  .card-skill {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 9px 12px;
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .skill-preview-name { font-family: 'Cinzel', serif; font-size: 11px; margin-bottom: 3px; }
+  .dark   .skill-preview-name { color: #a855f7; }
+  .ice    .skill-preview-name { color: #38d1f0; }
+  .nature .skill-preview-name { color: #4ade50; }
+  .fire   .skill-preview-name { color: #f97316; }
+
+  /* CTA */
+  .card-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .dark   .card-cta { color: #a855f7; }
+  .ice    .card-cta { color: #38d1f0; }
+  .nature .card-cta { color: #4ade50; }
+  .fire   .card-cta { color: #f97316; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--border);
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 540px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="game-badge">Puzzles &amp; Chaos: Frozen Castle</div>
+    <h1>FICHES HÉROS</h1>
+    <p class="tagline">Roster · Analyses · Synergies</p>
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-icon">⚔</div>
+      <div class="divider-line"></div>
+    </div>
+  </div>
+
+  <!-- HERO GRID -->
+  <div class="hero-grid">
+
+    <!-- AERPOSIA -->
+    <a href="aerposia_fiche.html" class="hero-card dark">
+      <div class="card-body">
+        <div class="card-element">⬡ Sombre · S2</div>
+        <div class="card-name">AERPOSIA</div>
+        <div class="card-role">Cavalerie · Carry DPS · Burst</div>
+        <div class="card-ratings">
+          <div class="mini-rating"><span class="mini-mode">PvP</span><div class="mini-grade grade-s">S</div></div>
+          <div class="mini-rating"><span class="mini-mode">PvE</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">Boss</span><div class="mini-grade grade-c">C</div></div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">Puissance <span>2 406 540</span></div>
+          <div class="stat-item">Talent <span>+4</span></div>
+          <div class="stat-item">Étoiles <span>5★ → 6★</span></div>
+          <div class="stat-item">Arme <span>Faux +13</span></div>
+        </div>
+        <div class="card-skill">
+          <div class="skill-preview-name">Garrot Sombre</div>
+          Marque Mortelle → Spectre 2 tours · <strong style="color:var(--gold)">1 088% dégâts</strong>
+        </div>
+        <div class="card-cta"><span>Voir la fiche complète</span><span>→</span></div>
+      </div>
+    </a>
+
+    <!-- TANIA -->
+    <a href="tania_fiche.html" class="hero-card ice">
+      <div class="card-body">
+        <div class="card-element">❄ Glace · 6★ Ascendée</div>
+        <div class="card-name">TANIA</div>
+        <div class="card-role">Cavalerie · Support · Soigneuse</div>
+        <div class="card-ratings">
+          <div class="mini-rating"><span class="mini-mode">PvP</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">PvE</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">Boss</span><div class="mini-grade grade-b">B+</div></div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">Puissance <span>3 618 487</span></div>
+          <div class="stat-item">Talent <span>+6</span></div>
+          <div class="stat-item">Étoiles <span style="color:#ff6666;">★ Rouge</span></div>
+          <div class="stat-item">Arme <span>Harpe +9</span></div>
+        </div>
+        <div class="card-skill">
+          <div class="skill-preview-name">Allégro de Vie</div>
+          Soin AoE <strong style="color:#4ade80">+44% PV</strong> · Bouclier équipe <strong style="color:var(--gold)">DEF +63%</strong>
+        </div>
+        <div class="card-cta"><span>Voir la fiche complète</span><span>→</span></div>
+      </div>
+    </a>
+
+    <!-- DIMINA -->
+    <a href="dimina_fiche.html" class="hero-card nature">
+      <div class="card-body">
+        <div class="card-element">🌿 Nature · S2</div>
+        <div class="card-name">DIMINA</div>
+        <div class="card-role">Cavalerie & Archer · Contrôle Rage</div>
+        <div class="card-ratings">
+          <div class="mini-rating"><span class="mini-mode">PvP</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">PvE</span><div class="mini-grade grade-s">S</div></div>
+          <div class="mini-rating"><span class="mini-mode">Boss</span><div class="mini-grade grade-a">A</div></div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">Puissance <span>2 081 040</span></div>
+          <div class="stat-item">Talent <span>+2</span></div>
+          <div class="stat-item">Étoiles <span>5★ → 6★</span></div>
+          <div class="stat-item">Arme <span>Bâton (aperçu)</span></div>
+        </div>
+        <div class="card-skill">
+          <div class="skill-preview-name">Croissance Infinie</div>
+          <strong style="color:var(--gold)">210%</strong> dégâts × rangs · Zone <strong style="color:var(--gold)">300%</strong> · Rage ennemie bloquée
+        </div>
+        <div class="card-cta"><span>Voir la fiche complète</span><span>→</span></div>
+      </div>
+    </a>
+
+    <!-- TUTANHET -->
+    <a href="tutanhet_fiche.html" class="hero-card fire">
+      <div class="card-body">
+        <div class="card-element">🔥 Feu · 5★</div>
+        <div class="card-name">TUTANHET</div>
+        <div class="card-role">Toutes troupes · Contrôle & Paralysie</div>
+        <div class="card-ratings">
+          <div class="mini-rating"><span class="mini-mode">PvP</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">PvE</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">Boss</span><div class="mini-grade grade-b">B</div></div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">Puissance <span>1 910 415</span></div>
+          <div class="stat-item">Talent <span>+4</span></div>
+          <div class="stat-item">Étoiles <span>5★ → 6★</span></div>
+          <div class="stat-item">Arme <span>Artefact 4★ +2</span></div>
+        </div>
+        <div class="card-skill">
+          <div class="skill-preview-name">Flamboiement Ésotérique</div>
+          <strong style="color:var(--gold)">240%</strong> dégâts × 3 cibles · Paralysie + Poison + Rage bloquée
+        </div>
+        <div class="card-cta"><span>Voir la fiche complète</span><span>→</span></div>
+      </div>
+    </a>
+
+    <!-- BOYD -->
+    <a href="boyd_fiche.html" class="hero-card nature">
+      <div class="card-body">
+        <div class="card-element">🌿 Nature · 5★</div>
+        <div class="card-name">BOYD</div>
+        <div class="card-role">Cavalerie · Carry Nature · Counter Feu</div>
+        <div class="card-ratings">
+          <div class="mini-rating"><span class="mini-mode">PvP</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">PvE</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">Boss</span><div class="mini-grade grade-b">B+</div></div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">Puissance <span>2 334 090</span></div>
+          <div class="stat-item">Talent <span>+4</span></div>
+          <div class="stat-item">Étoiles <span>5★ → 6★</span></div>
+          <div class="stat-item">Arme <span>Griffe 4★ +5</span></div>
+        </div>
+        <div class="card-skill">
+          <div class="skill-preview-name">Griffe du Vide</div>
+          <strong style="color:var(--gold)">530%</strong> dégâts mono · Vol de buff · Counter Feu <strong style="color:#ef4444">+40%</strong>
+        </div>
+        <div class="card-cta"><span>Voir la fiche complète</span><span>→</span></div>
+      </div>
+    </a>
+
+    <!-- HERUKAB -->
+    <a href="herukab_fiche.html" class="hero-card" style="border-color:#3d3210;">
+      <style>.hero-card.light:hover{border-color:#fbbf24;box-shadow:0 8px 32px rgba(251,191,36,0.15);}.hero-card.light::before{background:linear-gradient(90deg,#c9920e,#fbbf24);}</style>
+      <div class="card-body" style="background:#1c1808;">
+        <div class="card-element" style="color:#fbbf24;">☀ Lumière · S3 · Ascendée</div>
+        <div class="card-name" style="color:#fffbeb;text-shadow:0 0 20px rgba(251,191,36,0.4);">HERUKAB</div>
+        <div class="card-role" style="color:#7a6a2a;">Toutes troupes · Debuffeur AoE · Double Frappe</div>
+        <div class="card-ratings">
+          <div class="mini-rating"><span class="mini-mode">PvP</span><div class="mini-grade grade-a">A</div></div>
+          <div class="mini-rating"><span class="mini-mode">PvE</span><div class="mini-grade grade-a">A+</div></div>
+          <div class="mini-rating"><span class="mini-mode">Boss</span><div class="mini-grade grade-b">B</div></div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">Puissance <span>1 469 268</span></div>
+          <div class="stat-item">Talent <span style="color:#f87171;">+1 ⚠</span></div>
+          <div class="stat-item">Étoiles <span style="color:#ff6666;">★ Rouge S3</span></div>
+          <div class="stat-item">Arme <span>Sceptre (aperçu)</span></div>
+        </div>
+        <div class="card-skill" style="background:rgba(201,146,14,0.05);border-color:#3d3210;">
+          <div class="skill-preview-name" style="color:#fbbf24;">Tempête Dorée × Frappe Multiple</div>
+          <strong style="color:#c9a84c;">264%</strong> dégâts AoE × 2 · Debuff coups <strong style="color:#f472b6;">−34%</strong> + ATQ <strong style="color:#f472b6;">−35%</strong>
+        </div>
+        <div class="card-cta" style="border-color:#3d3210;color:#fbbf24;"><span>Voir la fiche complète</span><span>→</span></div>
+      </div>
+    </a>
+
+    <!-- PATTY -->
+    <a href="patty_fiche.html" class="hero-card" style="border-color:#3d2e08;background:#1c1604;">
+      <div class="card-body" style="background:#1c1604;">
+        <div class="card-element" style="color:#fbbf24;">♛ Lumière · S3 · Économie</div>
+        <div class="card-name" style="color:#fffdf0;text-shadow:0 0 20px rgba(251,191,36,0.3);">PATTY</div>
+        <div class="card-role" style="color:#7a6420;">Collecte · Ralliement · Support Lumière</div>
+        <div class="card-ratings">
+          <div class="mini-rating"><span class="mini-mode">Éco</span><div class="mini-grade" style="color:#4ade80;font-family:'Cinzel',serif;font-size:16px;font-weight:700;">S</div></div>
+          <div class="mini-rating"><span class="mini-mode">PvP</span><div class="mini-grade grade-b">B</div></div>
+          <div class="mini-rating"><span class="mini-mode">Boss</span><div class="mini-grade grade-c">C</div></div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">Puissance <span>1 344 465</span></div>
+          <div class="stat-item">Talent <span style="color:#f87171;">+1 ⚠</span></div>
+          <div class="stat-item">Étoiles <span>5★ → 6★</span></div>
+          <div class="stat-item">Arme <span>Couronne 5★ +6</span></div>
+        </div>
+        <div class="card-skill" style="background:rgba(184,134,11,0.05);border-color:#3d2e08;">
+          <div class="skill-preview-name" style="color:#fbbf24;">Volonté de la Reine</div>
+          Blocage Rage <strong style="color:#f472b6">4 tours</strong> · Soin AoE <strong style="color:#4ade80">+26% PV</strong> · Immunité debuff <strong style="color:#2dd4bf">2 tours</strong>
+        </div>
+        <div class="card-cta" style="border-color:#3d2e08;color:#fbbf24;"><span>Voir la fiche complète</span><span>→</span></div>
+      </div>
+    </a>
+
+    <!-- TALA -->
+    <a href="tala_fiche.html" class="hero-card nature">
+      <div class="card-body">
+        <div class="card-element" style="color:#34d399;">🌿 Nature · 6★ Ascendée · Spé. Rage</div>
+        <div class="card-name">TALA</div>
+        <div class="card-role" style="color:#2e6a4a;">Génération Rage · Économie · Support</div>
+        <div class="card-ratings">
+          <div class="mini-rating"><span class="mini-mode">Rage</span><div class="mini-grade" style="color:#60a5fa;font-family:'Cinzel',serif;font-size:16px;font-weight:700;">S</div></div>
+          <div class="mini-rating"><span class="mini-mode">Éco</span><div class="mini-grade" style="color:#34d399;font-family:'Cinzel',serif;font-size:16px;font-weight:700;">S</div></div>
+          <div class="mini-rating"><span class="mini-mode">PvE</span><div class="mini-grade grade-a">A</div></div>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">Talent <span>+8 ★</span></div>
+          <div class="stat-item">Arme <span style="color:#34d399;">+30 MAX</span></div>
+          <div class="stat-item">Étoiles <span style="color:#ff6666;">★ Rouge</span></div>
+          <div class="stat-item">Fer <span style="color:#34d399;">+300%</span></div>
+        </div>
+        <div class="card-skill">
+          <div class="skill-preview-name" style="color:#34d399;">Étreinte Verte + Revigoration</div>
+          Recharge Rage alliés <strong style="color:#60a5fa">×3</strong> · ATQ équipe <strong style="color:var(--gold)">+10%</strong> indiss. · Fer <strong style="color:#34d399">+300%</strong>
+        </div>
+        <div class="card-cta"><span>Voir la fiche complète</span><span>→</span></div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiches générées juin 2026</div>
+
+</div>
+</body>
+</html>
