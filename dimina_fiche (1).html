@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dimina — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
+  :root{--void:#060e06;--panel:#0d1e0e;--border:#1a3d1c;--nat-dim:#1a5c1e;--nat-mid:#22a82a;--nat-bright:#4ade50;--gold:#c9a84c;--gold-light:#f0d080;--green:#4ade80;--text:#a8d4a8;--text-dim:#4a7a4c;--white:#eafaea;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);color:var(--text);font-family:'Raleway',sans-serif;min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,168,42,.15) 0%,transparent 70%);pointer-events:none;z-index:0;}
+  .container{max-width:860px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
+  .header{text-align:center;padding:40px 20px 32px;}
+  .element-badge{display:inline-block;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--nat-bright);border:1px solid var(--border);padding:4px 16px;border-radius:2px;margin-bottom:16px;background:rgba(34,168,42,.08);}
+  h1{font-family:'Cinzel',serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:var(--white);letter-spacing:.08em;line-height:1;text-shadow:0 0 40px rgba(74,222,80,.6),0 0 80px rgba(74,222,80,.3);margin-bottom:8px;}
+  .subtitle{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;}
+  .divider{display:flex;align-items:center;gap:16px;margin:0 auto 32px;max-width:400px;}
+  .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--nat-mid),transparent);}
+  .divider-icon{color:var(--nat-bright);font-size:20px;}
+  .identity-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;}
+  .id-cell{background:var(--panel);padding:16px 12px;text-align:center;}
+  .id-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px;}
+  .id-value{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);font-weight:700;}
+  .ratings-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+  .rating-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px 16px;text-align:center;position:relative;overflow:hidden;}
+  .rating-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .rating-card.pvp::before{background:linear-gradient(90deg,var(--nat-mid),var(--nat-bright));}
+  .rating-card.pve::before{background:linear-gradient(90deg,var(--nat-mid),#fde047);}
+  .rating-card.boss::before{background:linear-gradient(90deg,var(--nat-dim),var(--gold));}
+  .rating-mode{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block;}
+  .rating-grade{font-family:'Cinzel',serif;font-size:36px;font-weight:900;line-height:1;}
+  .rating-card.pvp .rating-grade{color:var(--nat-bright);text-shadow:0 0 20px rgba(74,222,80,.5);}
+  .rating-card.pve .rating-grade{color:#fde047;text-shadow:0 0 20px rgba(253,224,71,.5);}
+  .rating-card.boss .rating-grade{color:var(--gold);text-shadow:0 0 15px rgba(201,168,76,.4);}
+  .rating-label{font-size:10px;color:var(--text-dim);margin-top:4px;}
+  .section{margin-bottom:20px;}
+  .section-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--nat-bright);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+  .skills-grid{display:grid;gap:8px;}
+  .skill-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;}
+  .skill-dot{width:8px;height:8px;border-radius:50%;background:var(--nat-bright);box-shadow:0 0 8px var(--nat-bright);flex-shrink:0;}
+  .skill-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:2px;}
+  .skill-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+  .skill-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--nat-bright);background:rgba(34,168,42,.12);border:1px solid var(--border);padding:3px 8px;border-radius:2px;white-space:nowrap;align-self:flex-start;}
+  .skill-tag.passive{color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2);}
+  .skill-tag.locked{color:var(--text-dim);background:transparent;}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .troop-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;}
+  .troop-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
+  .troop-value{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);font-weight:700;}
+  .troop-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
+  .weapon-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;}
+  .weapon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .weapon-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold-light);}
+  .weapon-level{font-size:10px;color:var(--nat-bright);border:1px solid var(--border);padding:2px 10px;border-radius:2px;}
+  .weapon-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
+  .wstat{font-size:11px;color:var(--text-dim);}
+  .wstat span{color:var(--gold);font-weight:600;}
+  .weapon-exclusive{border-top:1px solid var(--border);padding-top:12px;}
+  .excl-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+  .excl-row{font-size:11px;color:var(--gold);margin-bottom:4px;display:flex;gap:8px;}
+  .excl-row::before{content:'›';color:var(--nat-bright);}
+  .context-table{width:100%;border-collapse:collapse;}
+  .context-table tr{border-bottom:1px solid var(--border);}
+  .context-table tr:last-child{border-bottom:none;}
+  .context-table td{padding:10px 12px;font-size:12px;}
+  .context-table td:first-child{color:var(--text-dim);font-size:11px;letter-spacing:.1em;white-space:nowrap;width:160px;}
+  .ctx-best{color:#86efac;}.ctx-good{color:var(--nat-bright);}.ctx-avg{color:var(--gold);}.ctx-bad{color:#f87171;}
+  .synergy-grid{display:grid;gap:8px;}
+  .synergy-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .syn-left{flex:1;}
+  .syn-name{font-family:'Cinzel',serif;font-size:13px;color:var(--white);}
+  .syn-role{color:var(--text-dim);font-size:11px;margin-top:2px;}
+  .syn-reason{font-size:11px;color:var(--text-dim);margin-top:4px;line-height:1.4;font-style:italic;}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+  .syn-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--nat-bright);background:rgba(34,168,42,.1);border:1px solid var(--border);padding:2px 6px;border-radius:2px;}
+  .syn-right{text-align:right;min-width:60px;}
+  .syn-tier{font-family:'Cinzel',serif;font-size:20px;font-weight:700;}
+  .tier-s{color:#f472b6;text-shadow:0 0 15px rgba(244,114,182,.5);}
+  .tier-a{color:var(--gold);}
+  .tier-b{color:var(--nat-bright);}
+  .syn-own{font-size:9px;margin-top:2px;}
+  .own-yes{color:var(--green);}
+  .own-no{color:#f87171;}
+  .formation-grid{display:grid;gap:10px;}
+  .formation-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 18px;}
+  .formation-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:8px;}
+  .formation-heroes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+  .hero-pill{font-size:10px;letter-spacing:.1em;padding:3px 10px;border-radius:12px;border:1px solid var(--border);font-family:'Cinzel',serif;}
+  .pill-own{color:var(--nat-bright);background:rgba(34,168,42,.15);border-color:var(--nat-dim);}
+  .pill-need{color:#f87171;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
+  .formation-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+  .priority-list{display:grid;gap:8px;}
+  .priority-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;}
+  .priority-num{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:var(--border);line-height:1;min-width:28px;}
+  .priority-text{font-size:12px;color:var(--text);line-height:1.6;}
+  .priority-text strong{color:var(--gold-light);font-weight:600;}
+  .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-dim);}
+  .legend-dot{width:10px;height:10px;border-radius:2px;}
+  .footer{text-align:center;padding-top:32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--border);}
+  @media(max-width:540px){.identity-strip{grid-template-columns:repeat(2,1fr);}.troop-grid{grid-template-columns:1fr;}h1{font-size:38px;}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="element-badge">🌿 Élément Nature · S2 · A partout</div>
+    <h1>DIMINA</h1>
+    <div class="subtitle">La Déesse de la Nature · Cavalerie & Archer · Blocage Rage ennemie</div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+  </div>
+
+  <div class="identity-strip">
+    <div class="id-cell"><span class="id-label">Saison</span><span class="id-value">S2</span></div>
+    <div class="id-cell"><span class="id-label">Étoiles</span><span style="color:var(--gold);font-size:13px;">★★★★★</span></div>
+    <div class="id-cell"><span class="id-label">Talent actuel</span><span class="id-value" style="color:#f87171;">+2 ⚠</span></div>
+    <div class="id-cell"><span class="id-label">Puissance</span><span class="id-value">2 081 040</span></div>
+  </div>
+
+  <div class="ratings-row">
+    <div class="rating-card pvp"><span class="rating-mode">PvP · Arène</span><div class="rating-grade">A</div><div class="rating-label">Blocage Rage adverse</div></div>
+    <div class="rating-card pve"><span class="rating-mode">PvE · Campagne</span><div class="rating-grade">S</div><div class="rating-label">Bombes + Rage bloquée</div></div>
+    <div class="rating-card boss"><span class="rating-mode">Boss Alliance</span><div class="rating-grade">A</div><div class="rating-label">Bonne contrib. Nature</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compétences de Héros — Plein Potentiel</div>
+    <div class="skills-grid">
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Croissance Infinie <span style="font-size:10px;color:var(--text-dim);font-family:'Raleway',sans-serif;">(Régén. Rage : Moyenne)</span></div><div class="skill-desc">Élimine 2 rangs → <strong style="color:var(--gold)">210% dégâts par pièce</strong> (Rage ennemie NON générée) + <strong style="color:var(--gold)">300% dégâts de zone</strong> immédiats. Mécanique unique : prive l'ennemi de Rage pendant l'attaque.</div></div><div class="skill-tag">Active</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Couvent de Nature</div><div class="skill-desc">Les pièces éliminées <strong style="color:var(--nat-bright)">n'augmentent PAS la Rage ennemie</strong>. Avantage tactique unique — l'adversaire ne peut pas charger pendant l'attaque de Dimina.</div></div><div class="skill-tag passive">Améliorée</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Pouvoir de la Nature</div><div class="skill-desc"><strong style="color:var(--nat-bright)">2 bombes dès le tour 1</strong> au début du combat. Avantage immédiat avant même le premier tour complet.</div></div><div class="skill-tag passive">Passif</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Protection Terrestre</div><div class="skill-desc">Potion temporaire 3 tours → <strong style="color:var(--gold)">restaure 20% des dégâts subis</strong> sur 3 tours après. Bouclier rétrospectif sur toute l'équipe.</div></div><div class="skill-tag">Bouclier</div></div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div><div><div class="skill-name" style="color:var(--text-dim)">Faiblesse de Cible</div><div class="skill-desc" style="color:#2a4a2c">+30% Briser. Chance d'ignorer la Parade. Gain offensif majeur verrouillé.</div></div><div class="skill-tag locked">🔒 6 étoiles</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compétences de Troupe (+2 → objectif +6)</div>
+    <div class="troop-grid">
+      <div class="troop-card"><div class="troop-label">Compétence active</div><div class="troop-value">+150%</div><div class="troop-sub">ATQ troupe (objectif : +500% à +8)</div></div>
+      <div class="troop-card"><div class="troop-label">ATQ Cavalerie</div><div class="troop-value">+40%</div><div class="troop-sub">Objectif +128% à +6</div></div>
+      <div class="troop-card"><div class="troop-label">ATQ Archer</div><div class="troop-value">+40%</div><div class="troop-sub">Objectif +128% à +6</div></div>
+      <div class="troop-card"><div class="troop-label">DEF Troupe</div><div class="troop-value">+40%</div><div class="troop-sub">Défense générale</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Arme Exclusive — Aperçu Maximal</div>
+    <div class="weapon-card">
+      <div class="weapon-header"><div class="weapon-name">🌿 Bâton d'Abondance (8★ +30 max)</div><div class="weapon-level">Non obtenu</div></div>
+      <div style="font-size:10px;color:#f87171;margin-bottom:14px;">⚠ Arme non encore obtenue — via événements de fête (Parchemins de Curiosité)</div>
+      <div class="weapon-stats">
+        <div class="wstat">ATQ/DEF/PV Troupe <span>+106% chacun</span></div>
+        <div class="wstat">ATQ Héros <span>+600</span></div>
+        <div class="wstat">DEF Héros <span>+600</span></div>
+        <div class="wstat">PV Héros <span>+1 200</span></div>
+      </div>
+      <div class="weapon-exclusive">
+        <div class="excl-title">Attributs Exclusifs Max (Dimina uniquement)</div>
+        <div class="excl-row">Héros +0 : PV Cavalerie <strong style="color:var(--gold)">+200%</strong></div>
+        <div class="excl-row">Héros +2 : PV Archer <strong style="color:var(--gold)">+200%</strong></div>
+        <div class="excl-row">Héros +4 : DEF Troupe <strong style="color:var(--gold)">+100%</strong></div>
+        <div class="excl-row">Héros +6 : ATQ Cavalerie <strong style="color:var(--gold)">+200%</strong> + ATQ Archer <strong style="color:var(--gold)">+200%</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Contexte d'Utilisation</div>
+    <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+      <table class="context-table">
+        <tr><td>PvE · Campagne</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">Bombes T1 + blocage Rage → stages difficiles</span></td></tr>
+        <tr><td>Boss Alliance</td><td><span class="ctx-best">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">A Boss — bonne contrib. Nature avec Guan Yu</span></td></tr>
+        <tr><td>PvP · Arène</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Blocage Rage ennemie = avantage tactique</span></td></tr>
+        <tr><td>KvK · Expédition</td><td><span class="ctx-good">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Efficace mais moins qu'Aerposia en burst</span></td></tr>
+        <tr><td>Formation Nature</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">Trio Guan Yu + Dimina + Boyd optimal</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Synergies Meta Complètes</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(74,222,128,.4);border:1px solid #4ade80;"></div>Possédé</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(239,68,68,.3);border:1px solid #f87171;"></div>À acquérir</div>
+    </div>
+    <div class="synergy-grid">
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Guan Yu</div>
+          <div class="syn-role">Nature · S Boss · S PvP · Meilleur Boss du jeu</div>
+          <div class="syn-reason">Duo Nature indispensable. Guan Yu 3★ dépasse Dimina 5★ en Boss — ensemble ils forment la spine Nature. Priorité absolue d'acquisition pour maximiser Dimina.</div>
+          <div class="syn-tags"><span class="syn-tag">Boss</span><span class="syn-tag">Nature</span><span class="syn-tag">PvP</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-no">À acquérir</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Khaos</div>
+          <div class="syn-role">Dark · S universel · Complète toute formation</div>
+          <div class="syn-reason">Formation Boss optimale : Guan Yu + Dimina + Khaos. Khaos en Dark complète la couverture élémentale et amplifie les dégâts globaux en Boss.</div>
+          <div class="syn-tags"><span class="syn-tag">Boss</span><span class="syn-tag">PvP</span><span class="syn-tag">Universel</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-no">À acquérir</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Tala</div>
+          <div class="syn-role">Nature · Support Rage · 6★ Ascendée</div>
+          <div class="syn-reason">Tala recharge la Rage de Dimina → Croissance Infinie s'active plus vite → plus de blocage Rage ennemie. Trio Nature Tala + Dimina + Guan Yu = formation PvE dominante.</div>
+          <div class="syn-tags"><span class="syn-tag">Rage → Blocage</span><span class="syn-tag">Nature</span><span class="syn-tag">Possédé</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Boyd</div>
+          <div class="syn-role">Nature · A PvE · Counter Feu</div>
+          <div class="syn-reason">Instinct d'auto-guérison de Boyd (+5% PV/tour) profite à Dimina au début du combat. Trio Nature Boyd + Dimina + Tala ou Guan Yu efficace en PvE et vs formations Feu.</div>
+          <div class="syn-tags"><span class="syn-tag">Nature</span><span class="syn-tag">PvE</span><span class="syn-tag">Possédé</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Tania</div>
+          <div class="syn-role">Glace · Meilleure soigneuse · Support</div>
+          <div class="syn-reason">Le soin 44% AoE de Tania compense les dégâts reçus pendant les 2 tours où la Protection Terrestre accumule. Formation PvP Dimina + Tania + Khaos est très solide.</div>
+          <div class="syn-tags"><span class="syn-tag">Sustain</span><span class="syn-tag">PvP</span><span class="syn-tag">Possédé</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Norris</div>
+          <div class="syn-role">Feu · A Boss · Secondaire Boss</div>
+          <div class="syn-reason">Formation Boss : Guan Yu + Norris + Khaos est la meta Boss, mais Dimina peut remplacer Norris si Norris n'est pas disponible. Ordre tuiles : Vert (Guan Yu) → Violet (Khaos).</div>
+          <div class="syn-tags"><span class="syn-tag">Boss</span><span class="syn-tag">Feu</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-b">B</div><div class="syn-own own-no">À acquérir</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Formations Recommandées</div>
+    <div class="formation-grid">
+      <div class="formation-card">
+        <div class="formation-title">✓ Formation Nature PvE (opérationnelle)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Dimina</span><span class="hero-pill pill-own">Tala</span><span class="hero-pill pill-own">Boyd</span></div>
+        <div class="formation-desc">Trio Nature disponible maintenant. Tala recharge Rage, Boyd soigne en passif, Dimina bloque la Rage ennemie. Excellent en PvE difficile.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">⭐ Formation Boss Nature (objectif)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-need">Guan Yu</span><span class="hero-pill pill-own">Dimina</span><span class="hero-pill pill-need">Khaos</span></div>
+        <div class="formation-desc">Formation Boss A à construire. <strong style="color:var(--gold-light)">Acquérir Guan Yu en priorité absolue Nature.</strong> Ordre tuiles : Vert → Violet.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">🏆 Formation Boss Optimale (meta)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-need">Guan Yu</span><span class="hero-pill pill-need">Norris</span><span class="hero-pill pill-need">Khaos</span></div>
+        <div class="formation-desc">La formation Boss la plus efficace — Dimina n'y figure pas mais profite de la libérer Aerposia pour PvP.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Priorités d'Investissement</div>
+    <div class="priority-list">
+      <div class="priority-item"><div class="priority-num">01</div><div class="priority-text"><strong>Monter le talent de +2 à +6 minimum</strong> — Les compétences troupe à +2 sont très en dessous du potentiel. À +6 : ATQ cavalerie et archer atteignent +128% comme Tania.</div></div>
+      <div class="priority-item"><div class="priority-num">02</div><div class="priority-text"><strong>Acquérir Guan Yu</strong> — Guan Yu 3★ dépasse Dimina 5★ en Boss. Sans lui, Dimina ne peut pas contribuer pleinement à la formation Boss Alliance.</div></div>
+      <div class="priority-item"><div class="priority-num">03</div><div class="priority-text"><strong>Débloquer les 6 étoiles</strong> — Active Faiblesse de Cible (+30% Briser), gain offensif sur Croissance Infinie (210% × rangs).</div></div>
+      <div class="priority-item"><div class="priority-num">04</div><div class="priority-text"><strong>Obtenir le Bâton d'Abondance</strong> via événements — Au max : +106% légion + ATQ cav/archer +200% à +6 héros. Les meilleurs attributs exclusifs du jeu.</div></div>
+    </div>
+  </div>
+
+  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche v2 — juin 2026</div>
+</div>
+</body>
+</html>
