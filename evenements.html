@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&C — Fiches Événements</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--red:#c0392b;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a2540 0%,#0d1117 70%)}
+
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
+  .back:hover{color:var(--gold)}
+
+  h1{font-family:'Cinzel',serif;color:var(--gold);text-align:center;font-size:1.55rem;letter-spacing:2px;text-shadow:0 0 20px rgba(232,184,75,.5);margin-bottom:4px}
+  .subtitle{text-align:center;font-size:.78rem;color:#7a8fa8;margin-bottom:24px;letter-spacing:1px;text-transform:uppercase}
+
+  /* ── CARTE ÉVÉNEMENT ── */
+  .event-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;display:block;margin-bottom:16px;transition:transform .15s,box-shadow .15s}
+  .event-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+  .event-card::before{content:'';display:block;height:3px;background:linear-gradient(90deg,#922b21,#e8b84b)}
+
+  .event-inner{padding:16px 18px 18px}
+  .event-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .event-icon{font-size:1.8rem;flex-shrink:0}
+  .event-title{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);letter-spacing:.5px}
+  .event-type{font-size:.7rem;color:#5a7090;text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+  .event-desc{font-size:.82rem;color:#8fa8c0;line-height:1.5;margin-bottom:12px}
+
+  .event-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+  .chip{padding:3px 10px;border-radius:20px;font-size:.7rem;border:1px solid}
+  .chip-red  {background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .chip-gold {background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .chip-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .chip-blue {background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+
+  .event-arrow{display:flex;justify-content:flex-end;align-items:center;gap:5px;font-size:.75rem;color:var(--gold);font-weight:700}
+
+  /* ── CARTE "BIENTÔT" ── */
+  .soon-card{background:var(--panel);border:1px dashed var(--border);border-radius:12px;padding:20px 18px;text-align:center;color:#3a4d63;margin-bottom:16px}
+  .soon-icon{font-size:1.5rem;margin-bottom:6px}
+  .soon-title{font-family:'Cinzel',serif;font-size:.85rem;color:#3a4d63;margin-bottom:4px}
+  .soon-sub{font-size:.75rem}
+
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Retour à l'accueil</a>
+
+<h1>📋 FICHES ÉVÉNEMENTS</h1>
+<p class="subtitle">Guides · Stratégies · Plans d'alliance</p>
+
+<!-- CONQUÊTE DES SEIGNEURS -->
+<a class="event-card" href="col_guide.html">
+  <div class="event-inner">
+    <div class="event-head">
+      <span class="event-icon">⚔️</span>
+      <div>
+        <div class="event-title">Conquête des Seigneurs</div>
+        <div class="event-type">Guerre inter-royaumes · Toutes les 2 semaines</div>
+      </div>
+    </div>
+    <p class="event-desc">
+      Le grand événement de guerre de l'alliance. Capture de Salles de Puissance, points personnels, multiplicateur de récompenses et plan de l'alliance détaillé. Guide complet pour débutants.
+    </p>
+    <div class="event-chips">
+      <span class="chip chip-gold">🎯 Objectif : 12 000 pts</span>
+      <span class="chip chip-green">✅ Guide débutant</span>
+      <span class="chip chip-red">⚠ Infirmeries</span>
+      <span class="chip chip-blue">✖ Multiplicateur ×7 → ×10</span>
+    </div>
+    <div class="event-arrow">Ouvrir le guide →</div>
+  </div>
+</a>
+
+<!-- PROCHAINS GUIDES -->
+<div class="soon-card">
+  <div class="soon-icon">🏹</div>
+  <div class="soon-title">Front en Flammes</div>
+  <div class="soon-sub">Guide à venir</div>
+</div>
+
+<div class="soon-card">
+  <div class="soon-icon">👑</div>
+  <div class="soon-title">Conquête des Seigneurs — Seigneur Invaincu</div>
+  <div class="soon-sub">Guide à venir</div>
+</div>
+
+<div class="soon-card">
+  <div class="soon-icon">🗺️</div>
+  <div class="soon-title">Expédition du Royaume</div>
+  <div class="soon-sub">Guide à venir</div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiches Événements · Juin 2026</footer>
+
+</body>
+</html>

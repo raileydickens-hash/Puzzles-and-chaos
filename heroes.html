@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&C — Fiches Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a2540 0%,#0d1117 70%)}
+
+  /* ── RETOUR ── */
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:0.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:0.5px}
+  .back:hover{color:var(--gold)}
+
+  h1{font-family:'Cinzel',serif;color:var(--gold);text-align:center;font-size:1.55rem;letter-spacing:2px;text-shadow:0 0 20px rgba(232,184,75,.5);margin-bottom:4px}
+  .subtitle{text-align:center;font-size:.78rem;color:#7a8fa8;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase}
+
+  /* ── FILTRES ── */
+  .filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;justify-content:center}
+  .filter-btn{background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.75rem;color:#7a8fa8;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .15s}
+  .filter-btn:hover,.filter-btn.active{background:rgba(232,184,75,.12);border-color:rgba(232,184,75,.5);color:var(--gold)}
+
+  /* ── CARTES HÉROS ── */
+  .hero-grid{display:flex;flex-direction:column;gap:12px}
+
+  .hero-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;overflow:hidden;text-decoration:none;color:inherit;display:block;position:relative;transition:transform .15s,box-shadow .15s}
+  .hero-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+  .hero-card::before{content:'';display:block;height:2px}
+
+  .elem-sombre::before{background:linear-gradient(90deg,#6c3483,#a569bd)}
+  .elem-glace::before {background:linear-gradient(90deg,#1a5276,#5dade2)}
+  .elem-nature::before{background:linear-gradient(90deg,#1e8449,#58d68d)}
+  .elem-feu::before   {background:linear-gradient(90deg,#922b21,#ec7063)}
+  .elem-lumiere::before{background:linear-gradient(90deg,#7d6608,#f4d03f)}
+
+  .hero-inner{padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+  .hero-icon{font-size:1.6rem;flex-shrink:0;line-height:1;margin-top:2px}
+  .hero-info{flex:1;min-width:0}
+  .hero-name{font-family:'Cinzel',serif;font-size:.95rem;color:var(--gold);letter-spacing:.5px}
+  .hero-role{font-size:.7rem;color:#5a7090;text-transform:uppercase;letter-spacing:.8px;margin-top:1px}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+  .tag{padding:2px 8px;border-radius:12px;font-size:.68rem;font-weight:700;border:1px solid}
+  .tag-s{background:rgba(232,184,75,.15);color:var(--gold);border-color:rgba(232,184,75,.4)}
+  .tag-a{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .tag-b{background:rgba(46,61,85,.4);color:#7a9ab8;border-color:var(--border)}
+  .tag-pvp{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .tag-pve{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .tag-eco{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+
+  .hero-arrow{font-size:.85rem;color:var(--gold);flex-shrink:0;margin-top:4px}
+
+  .section-label{font-family:'Cinzel',serif;font-size:.72rem;color:#2e3d55;letter-spacing:2px;text-transform:uppercase;text-align:center;padding:8px 0 6px;margin-top:4px}
+
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:28px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Retour à l'accueil</a>
+
+<h1>⚔️ FICHES HÉROS</h1>
+<p class="subtitle">Roster complet · Synergies meta · Potentiel maximal</p>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filter('all',this)">Tous</button>
+  <button class="filter-btn" onclick="filter('sombre',this)">⬡ Sombre</button>
+  <button class="filter-btn" onclick="filter('glace',this)">❄ Glace</button>
+  <button class="filter-btn" onclick="filter('nature',this)">🌿 Nature</button>
+  <button class="filter-btn" onclick="filter('feu',this)">🔥 Feu</button>
+  <button class="filter-btn" onclick="filter('lumiere',this)">☀ Lumière</button>
+</div>
+
+<div class="hero-grid" id="grid">
+
+  <div class="section-label">⬡ Élément Sombre</div>
+
+  <a class="hero-card elem-sombre" href="aerposia_fiche.html" data-elem="sombre">
+    <div class="hero-inner">
+      <div class="hero-icon">⬡</div>
+      <div class="hero-info">
+        <div class="hero-name">AERPOSIA</div>
+        <div class="hero-role">Cavalerie · Carry DPS Burst</div>
+        <div class="hero-tags">
+          <span class="tag tag-s">S-Tier</span>
+          <span class="tag tag-pvp">PvP A</span>
+          <span class="tag tag-pve">PvE A</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+  <div class="section-label">❄ Élément Glace</div>
+
+  <a class="hero-card elem-glace" href="tania_fiche.html" data-elem="glace">
+    <div class="hero-inner">
+      <div class="hero-icon">❄</div>
+      <div class="hero-info">
+        <div class="hero-name">TANIA</div>
+        <div class="hero-role">Cavalerie · Soigneuse · Support</div>
+        <div class="hero-tags">
+          <span class="tag tag-a">A-Tier</span>
+          <span class="tag tag-pvp">PvP A</span>
+          <span class="tag tag-pve">PvE A</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+  <div class="section-label">🌿 Élément Nature</div>
+
+  <a class="hero-card elem-nature" href="dimina_fiche.html" data-elem="nature">
+    <div class="hero-inner">
+      <div class="hero-icon">🌿</div>
+      <div class="hero-info">
+        <div class="hero-name">DIMINA</div>
+        <div class="hero-role">Cav. & Archer · Blocage Rage</div>
+        <div class="hero-tags">
+          <span class="tag tag-s">S-Tier</span>
+          <span class="tag tag-pvp">PvP A</span>
+          <span class="tag tag-pve">PvE S</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+  <a class="hero-card elem-nature" href="tala_fiche.html" data-elem="nature">
+    <div class="hero-inner">
+      <div class="hero-icon">🌿</div>
+      <div class="hero-info">
+        <div class="hero-name">TALA</div>
+        <div class="hero-role">Support Rage · Économie Fer</div>
+        <div class="hero-tags">
+          <span class="tag tag-s">S-Tier</span>
+          <span class="tag tag-eco">Éco S</span>
+          <span class="tag tag-pve">PvE A</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+  <a class="hero-card elem-nature" href="boyd_fiche.html" data-elem="nature">
+    <div class="hero-inner">
+      <div class="hero-icon">🌿</div>
+      <div class="hero-info">
+        <div class="hero-name">BOYD</div>
+        <div class="hero-role">Cavalerie · Carry · Sang Froid</div>
+        <div class="hero-tags">
+          <span class="tag tag-b">D-Tier</span>
+          <span class="tag tag-pve">PvE A</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+  <div class="section-label">🔥 Élément Feu</div>
+
+  <a class="hero-card elem-feu" href="tutanhet_fiche.html" data-elem="feu">
+    <div class="hero-inner">
+      <div class="hero-icon">🔥</div>
+      <div class="hero-info">
+        <div class="hero-name">TUTANHET</div>
+        <div class="hero-role">Toutes troupes · Paralysie</div>
+        <div class="hero-tags">
+          <span class="tag tag-a">A-Tier</span>
+          <span class="tag tag-pvp">PvP A</span>
+          <span class="tag tag-pve">PvE A</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+  <a class="hero-card elem-feu" href="fiona_fiche.html" data-elem="feu">
+    <div class="hero-inner">
+      <div class="hero-icon">🔥</div>
+      <div class="hero-info">
+        <div class="hero-name">FIONA</div>
+        <div class="hero-role">AoE Poison · Buff ATQ · Économie</div>
+        <div class="hero-tags">
+          <span class="tag tag-a">A-Tier</span>
+          <span class="tag tag-eco">Éco A</span>
+          <span class="tag tag-pvp">PvP B</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+  <div class="section-label">☀ Élément Lumière</div>
+
+  <a class="hero-card elem-lumiere" href="herukab_fiche.html" data-elem="lumiere">
+    <div class="hero-inner">
+      <div class="hero-icon">☀</div>
+      <div class="hero-info">
+        <div class="hero-name">HERUKAB</div>
+        <div class="hero-role">Double AoE · Double Debuff</div>
+        <div class="hero-tags">
+          <span class="tag tag-a">A-Tier</span>
+          <span class="tag tag-pvp">PvP A</span>
+          <span class="tag tag-pve">PvE A+</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+  <a class="hero-card elem-lumiere" href="patty_fiche.html" data-elem="lumiere">
+    <div class="hero-inner">
+      <div class="hero-icon">☀</div>
+      <div class="hero-info">
+        <div class="hero-name">PATTY</div>
+        <div class="hero-role">Collecte · Ralliement · Support</div>
+        <div class="hero-tags">
+          <span class="tag tag-s">S-Tier</span>
+          <span class="tag tag-eco">Éco S</span>
+          <span class="tag tag-pve">Support A</span>
+        </div>
+      </div>
+      <div class="hero-arrow">→</div>
+    </div>
+  </a>
+
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiches v2 — Juin 2026</footer>
+
+<script>
+function filter(elem, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.hero-card').forEach(card => {
+    if (elem === 'all' || card.dataset.elem === elem) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  document.querySelectorAll('.section-label').forEach(label => {
+    label.style.display = elem === 'all' ? 'block' : 'none';
+  });
+}
+</script>
+</body>
+</html>
