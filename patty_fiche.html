@@ -6,505 +6,266 @@
 <title>Patty — Fiche Héros</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
-
-  :root {
-    --void: #0e0b02;
-    --panel: #1c1604;
-    --border: #3d2e08;
-    --sun-dim: #5c4208;
-    --sun-mid: #b8860b;
-    --sun-bright: #fbbf24;
-    --sun-pale: #fef9e7;
-    --gold: #c9a84c;
-    --gold-light: #f0d080;
-    --teal: #2dd4bf;
-    --green: #4ade80;
-    --pink: #f472b6;
-    --text: #d4bc6a;
-    --text-dim: #7a6420;
-    --white: #fffdf0;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--void);
-    color: var(--text);
-    font-family: 'Raleway', sans-serif;
-    font-weight: 400;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(184,134,11,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 30% at 20% 80%, rgba(251,191,36,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 30% 20% at 80% 60%, rgba(45,212,191,0.04) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 60px; position: relative; z-index: 1; }
-
-  /* HEADER */
-  .header { text-align: center; padding: 40px 20px 32px; }
-
-  .element-badge {
-    display: inline-block; font-family: 'Raleway', sans-serif; font-weight: 600;
-    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--sun-bright); border: 1px solid var(--border); padding: 4px 16px;
-    border-radius: 2px; margin-bottom: 16px; background: rgba(184,134,11,0.08);
-  }
-
-  h1 {
-    font-family: 'Cinzel', serif; font-size: clamp(42px, 8vw, 72px); font-weight: 900;
-    color: var(--white); letter-spacing: 0.08em; line-height: 1;
-    text-shadow: 0 0 40px rgba(251,191,36,0.6), 0 0 80px rgba(184,134,11,0.3);
-    margin-bottom: 8px;
-  }
-
-  .subtitle { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 24px; }
-
-  .divider { display: flex; align-items: center; gap: 16px; margin: 0 auto 32px; max-width: 400px; }
-  .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--sun-mid), transparent); }
-  .divider-icon { color: var(--sun-bright); font-size: 20px; }
-
-  /* IDENTITY STRIP */
-  .identity-strip {
-    display: grid; grid-template-columns: repeat(5, 1fr);
-    gap: 1px; background: var(--border); border: 1px solid var(--border);
-    border-radius: 4px; overflow: hidden; margin-bottom: 24px;
-  }
-  .id-cell { background: var(--panel); padding: 14px 8px; text-align: center; }
-  .id-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); display: block; margin-bottom: 6px; }
-  .id-value { font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold); font-weight: 700; }
-  .stars { color: var(--gold); font-size: 12px; letter-spacing: 1px; }
-
-  /* ROLE BANNER */
-  .role-banner {
-    background: linear-gradient(135deg, rgba(92,66,8,0.4), rgba(184,134,11,0.1));
-    border: 1px solid var(--sun-dim); border-radius: 4px;
-    padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 14px;
-  }
-  .role-icon { font-size: 28px; flex-shrink: 0; }
-  .role-title { font-family: 'Cinzel', serif; font-size: 13px; color: var(--sun-bright); margin-bottom: 4px; }
-  .role-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
-
-  /* RATINGS */
-  .ratings-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
-  .rating-card {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 16px 10px; text-align: center; position: relative; overflow: hidden;
-  }
-  .rating-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
-  .rating-card.eco::before    { background: linear-gradient(90deg, var(--sun-mid), var(--green)); }
-  .rating-card.pvp::before    { background: linear-gradient(90deg, var(--sun-mid), var(--pink)); }
-  .rating-card.pve::before    { background: linear-gradient(90deg, var(--sun-dim), var(--sun-mid)); }
-  .rating-card.support::before{ background: linear-gradient(90deg, var(--sun-mid), var(--teal)); }
-
-  .rating-mode { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; display: block; }
-  .rating-grade { font-family: 'Cinzel', serif; font-size: 30px; font-weight: 900; line-height: 1; }
-  .rating-card.eco     .rating-grade { color: var(--green);      text-shadow: 0 0 15px rgba(74,222,128,0.5); }
-  .rating-card.pvp     .rating-grade { color: var(--pink);       text-shadow: 0 0 15px rgba(244,114,182,0.5); }
-  .rating-card.pve     .rating-grade { color: var(--sun-bright); text-shadow: 0 0 15px rgba(251,191,36,0.5); }
-  .rating-card.support .rating-grade { color: var(--teal);       text-shadow: 0 0 15px rgba(45,212,191,0.5); }
-  .rating-label { font-size: 9px; color: var(--text-dim); margin-top: 4px; }
-
-  /* SECTIONS */
-  .section { margin-bottom: 20px; }
-  .section-title {
-    font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.3em;
-    text-transform: uppercase; color: var(--sun-bright); margin-bottom: 12px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  /* SKILLS */
-  .skills-grid { display: grid; gap: 8px; }
-  .skill-row {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 14px 16px; display: grid; grid-template-columns: auto 1fr auto;
-    align-items: center; gap: 14px;
-  }
-  .skill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sun-bright); box-shadow: 0 0 8px var(--sun-bright); flex-shrink: 0; }
-  .skill-name { font-family: 'Cinzel', serif; font-size: 12px; color: var(--gold-light); margin-bottom: 2px; }
-  .skill-desc { font-size: 11px; color: var(--text-dim); line-height: 1.5; }
-  .skill-tag {
-    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--sun-bright); background: rgba(184,134,11,0.12);
-    border: 1px solid var(--border); padding: 3px 8px; border-radius: 2px;
-    white-space: nowrap; align-self: flex-start;
-  }
-  .skill-tag.heal    { color: var(--green);  background: rgba(74,222,128,0.08);  border-color: rgba(74,222,128,0.2); }
-  .skill-tag.ctrl    { color: var(--pink);   background: rgba(244,114,182,0.08); border-color: rgba(244,114,182,0.2); }
-  .skill-tag.passive { color: var(--gold);   background: rgba(201,168,76,0.1);   border-color: rgba(201,168,76,0.2); }
-  .skill-tag.shield  { color: var(--teal);   background: rgba(45,212,191,0.08);  border-color: rgba(45,212,191,0.2); }
-  .skill-tag.locked  { color: var(--text-dim); background: transparent; }
-
-  /* TROOP SKILLS */
-  .troop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .troop-card { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; padding: 14px; }
-  .troop-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
-  .troop-value { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); font-weight: 700; }
-  .troop-sub { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
-
-  /* WEAPON */
-  .weapon-card { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; padding: 20px; }
-  .weapon-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .weapon-name { font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold-light); }
-  .weapon-level { font-size: 10px; color: var(--sun-bright); border: 1px solid var(--border); padding: 2px 10px; border-radius: 2px; }
-  .weapon-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
-  .wstat { font-size: 11px; color: var(--text-dim); }
-  .wstat span { color: var(--gold); font-weight: 600; }
-  .weapon-exclusive { border-top: 1px solid var(--border); padding-top: 12px; }
-  .excl-title { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
-  .excl-row { font-size: 11px; color: var(--gold); margin-bottom: 4px; display: flex; gap: 8px; }
-  .excl-row::before { content: '›'; color: var(--sun-bright); }
-  .excl-row.locked { color: var(--text-dim); }
-  .excl-row.locked::before { color: var(--text-dim); }
-
-  /* CONTEXT TABLE */
-  .context-table { width: 100%; border-collapse: collapse; }
-  .context-table tr { border-bottom: 1px solid var(--border); }
-  .context-table tr:last-child { border-bottom: none; }
-  .context-table td { padding: 10px 12px; font-size: 12px; }
-  .context-table td:first-child { color: var(--text-dim); font-size: 11px; letter-spacing: 0.1em; white-space: nowrap; width: 160px; }
-  .ctx-best { color: #86efac; }
-  .ctx-good { color: var(--sun-bright); }
-  .ctx-avg  { color: var(--gold); }
-  .ctx-bad  { color: #f87171; }
-
-  /* SYNERGIES */
-  .synergy-grid { display: grid; gap: 8px; }
-  .synergy-row {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  }
-  .syn-name { font-family: 'Cinzel', serif; font-size: 13px; color: var(--white); }
-  .syn-role { color: var(--text-dim); font-size: 11px; margin-top: 2px; }
-  .syn-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-  .syn-tag {
-    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--sun-bright); background: rgba(184,134,11,0.1);
-    border: 1px solid var(--border); padding: 2px 6px; border-radius: 2px;
-  }
-  .syn-tier { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; }
-  .tier-s { color: #f472b6; text-shadow: 0 0 15px rgba(244,114,182,0.5); }
-  .tier-a { color: var(--gold); }
-  .tier-b { color: var(--sun-bright); }
-
-  /* PRIORITIES */
-  .priority-list { display: grid; gap: 8px; }
-  .priority-item {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 14px 16px; display: flex; align-items: flex-start; gap: 14px;
-  }
-  .priority-num { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; color: var(--border); line-height: 1; min-width: 28px; }
-  .priority-text { font-size: 12px; color: var(--text); line-height: 1.6; }
-  .priority-text strong { color: var(--gold-light); font-weight: 600; }
-
-  .footer { text-align: center; padding-top: 32px; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--border); }
-
-  @media (max-width: 600px) {
-    .identity-strip { grid-template-columns: repeat(3, 1fr); }
-    .ratings-row { grid-template-columns: repeat(2, 1fr); }
-    .troop-grid { grid-template-columns: 1fr; }
-    h1 { font-size: 38px; }
-  }
+  :root{--void:#0e0b02;--panel:#1c1604;--border:#3d2e08;--sun-dim:#5c4208;--sun-mid:#b8860b;--sun-bright:#fbbf24;--gold:#c9a84c;--gold-light:#f0d080;--teal:#2dd4bf;--green:#4ade80;--pink:#f472b6;--text:#d4bc6a;--text-dim:#7a6420;--white:#fffdf0;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);color:var(--text);font-family:'Raleway',sans-serif;min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(184,134,11,.18) 0%,transparent 70%);pointer-events:none;z-index:0;}
+  .container{max-width:860px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
+  .header{text-align:center;padding:40px 20px 32px;}
+  .element-badge{display:inline-block;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--sun-bright);border:1px solid var(--border);padding:4px 16px;border-radius:2px;margin-bottom:16px;background:rgba(184,134,11,.08);}
+  h1{font-family:'Cinzel',serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:var(--white);letter-spacing:.08em;line-height:1;text-shadow:0 0 40px rgba(251,191,36,.6),0 0 80px rgba(184,134,11,.3);margin-bottom:8px;}
+  .subtitle{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;}
+  .divider{display:flex;align-items:center;gap:16px;margin:0 auto 32px;max-width:400px;}
+  .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--sun-mid),transparent);}
+  .divider-icon{color:var(--sun-bright);font-size:20px;}
+  .identity-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;}
+  .id-cell{background:var(--panel);padding:14px 8px;text-align:center;}
+  .id-label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px;}
+  .id-value{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);font-weight:700;}
+  .ratings-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+  .rating-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 10px;text-align:center;position:relative;overflow:hidden;}
+  .rating-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .rating-card.eco::before{background:linear-gradient(90deg,var(--sun-mid),var(--green));}
+  .rating-card.support::before{background:linear-gradient(90deg,var(--sun-mid),var(--teal));}
+  .rating-card.pvp::before{background:linear-gradient(90deg,var(--sun-mid),var(--pink));}
+  .rating-card.boss::before{background:linear-gradient(90deg,var(--sun-dim),var(--sun-dim));}
+  .rating-mode{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;display:block;}
+  .rating-grade{font-family:'Cinzel',serif;font-size:28px;font-weight:900;line-height:1;}
+  .rating-card.eco .rating-grade{color:var(--green);text-shadow:0 0 15px rgba(74,222,128,.5);}
+  .rating-card.support .rating-grade{color:var(--teal);text-shadow:0 0 15px rgba(45,212,191,.5);}
+  .rating-card.pvp .rating-grade{color:var(--pink);text-shadow:0 0 15px rgba(244,114,182,.5);}
+  .rating-card.boss .rating-grade{color:var(--text-dim);}
+  .rating-label{font-size:9px;color:var(--text-dim);margin-top:4px;}
+  .section{margin-bottom:20px;}
+  .section-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--sun-bright);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+  .skills-grid{display:grid;gap:8px;}
+  .skill-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;}
+  .skill-dot{width:8px;height:8px;border-radius:50%;background:var(--sun-bright);box-shadow:0 0 8px var(--sun-bright);flex-shrink:0;}
+  .skill-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:2px;}
+  .skill-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+  .skill-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--sun-bright);background:rgba(184,134,11,.12);border:1px solid var(--border);padding:3px 8px;border-radius:2px;white-space:nowrap;align-self:flex-start;}
+  .skill-tag.heal{color:var(--green);background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.2);}
+  .skill-tag.ctrl{color:var(--pink);background:rgba(244,114,182,.08);border-color:rgba(244,114,182,.2);}
+  .skill-tag.shield{color:var(--teal);background:rgba(45,212,191,.08);border-color:rgba(45,212,191,.2);}
+  .skill-tag.passive{color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2);}
+  .skill-tag.locked{color:var(--text-dim);background:transparent;}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .troop-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;}
+  .troop-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
+  .troop-value{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);font-weight:700;}
+  .troop-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
+  .troop-card.eco .troop-value{color:var(--green);}
+  .weapon-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;}
+  .weapon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .weapon-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold-light);}
+  .weapon-level{font-size:10px;color:var(--sun-bright);border:1px solid var(--border);padding:2px 10px;border-radius:2px;}
+  .weapon-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
+  .wstat{font-size:11px;color:var(--text-dim);}
+  .wstat span{color:var(--gold);font-weight:600;}
+  .weapon-exclusive{border-top:1px solid var(--border);padding-top:12px;}
+  .excl-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+  .excl-row{font-size:11px;color:var(--gold);margin-bottom:4px;display:flex;gap:8px;}
+  .excl-row::before{content:'›';color:var(--sun-bright);}
+  .excl-row.locked{color:var(--text-dim);}
+  .excl-row.locked::before{color:var(--text-dim);}
+  .context-table{width:100%;border-collapse:collapse;}
+  .context-table tr{border-bottom:1px solid var(--border);}
+  .context-table tr:last-child{border-bottom:none;}
+  .context-table td{padding:10px 12px;font-size:12px;}
+  .context-table td:first-child{color:var(--text-dim);font-size:11px;letter-spacing:.1em;white-space:nowrap;width:160px;}
+  .ctx-best{color:#86efac;}.ctx-good{color:var(--sun-bright);}.ctx-avg{color:var(--gold);}.ctx-bad{color:#f87171;}
+  .synergy-grid{display:grid;gap:8px;}
+  .synergy-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .syn-left{flex:1;}
+  .syn-name{font-family:'Cinzel',serif;font-size:13px;color:var(--white);}
+  .syn-role{color:var(--text-dim);font-size:11px;margin-top:2px;}
+  .syn-reason{font-size:11px;color:var(--text-dim);margin-top:4px;line-height:1.4;font-style:italic;}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+  .syn-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--sun-bright);background:rgba(184,134,11,.1);border:1px solid var(--border);padding:2px 6px;border-radius:2px;}
+  .syn-right{text-align:right;min-width:60px;}
+  .syn-tier{font-family:'Cinzel',serif;font-size:20px;font-weight:700;}
+  .tier-s{color:#f472b6;text-shadow:0 0 15px rgba(244,114,182,.5);}
+  .tier-a{color:var(--gold);}
+  .tier-b{color:var(--sun-bright);}
+  .syn-own{font-size:9px;margin-top:2px;}
+  .own-yes{color:var(--green);}
+  .own-no{color:#f87171;}
+  .formation-grid{display:grid;gap:10px;}
+  .formation-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 18px;}
+  .formation-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:8px;}
+  .formation-heroes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+  .hero-pill{font-size:10px;letter-spacing:.1em;padding:3px 10px;border-radius:12px;border:1px solid var(--border);font-family:'Cinzel',serif;}
+  .pill-own{color:var(--sun-bright);background:rgba(184,134,11,.15);border-color:var(--sun-dim);}
+  .pill-need{color:#f87171;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
+  .formation-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+  .priority-list{display:grid;gap:8px;}
+  .priority-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;}
+  .priority-num{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:var(--border);line-height:1;min-width:28px;}
+  .priority-text{font-size:12px;color:var(--text);line-height:1.6;}
+  .priority-text strong{color:var(--gold-light);font-weight:600;}
+  .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-dim);}
+  .legend-dot{width:10px;height:10px;border-radius:2px;}
+  .footer{text-align:center;padding-top:32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--border);}
+  @media(max-width:600px){.identity-strip{grid-template-columns:repeat(3,1fr);}.ratings-row{grid-template-columns:repeat(2,1fr);}.troop-grid{grid-template-columns:1fr;}h1{font-size:38px;}}
 </style>
 </head>
 <body>
 <div class="container">
-
-  <!-- HEADER -->
   <div class="header">
-    <div class="element-badge">☀ Élément Lumière · S3 · Héros Économique</div>
+    <div class="element-badge">♛ Lumière · S3 · Économie & Support</div>
     <h1>PATTY</h1>
     <div class="subtitle">La Reine du Désert · Support Lumière · Collecte & Ralliement</div>
-    <div class="divider">
-      <div class="divider-line"></div>
-      <div class="divider-icon">♛</div>
-      <div class="divider-line"></div>
-    </div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-icon">♛</div><div class="divider-line"></div></div>
   </div>
 
-  <!-- IDENTITY STRIP -->
   <div class="identity-strip">
-    <div class="id-cell">
-      <span class="id-label">Saison</span>
-      <span class="id-value">S3</span>
-    </div>
-    <div class="id-cell">
-      <span class="id-label">Étoiles</span>
-      <span class="stars">★★★★★</span>
-    </div>
-    <div class="id-cell">
-      <span class="id-label">Talent</span>
-      <span class="id-value" style="color:#f87171;">+1 ⚠</span>
-    </div>
-    <div class="id-cell">
-      <span class="id-label">Puissance</span>
-      <span class="id-value">1 344 465</span>
-    </div>
-    <div class="id-cell">
-      <span class="id-label">Cœur</span>
-      <span class="id-value">10</span>
-    </div>
+    <div class="id-cell"><span class="id-label">Saison</span><span class="id-value">S3</span></div>
+    <div class="id-cell"><span class="id-label">Étoiles</span><span style="color:var(--gold);font-size:12px;">★★★★★</span></div>
+    <div class="id-cell"><span class="id-label">Talent</span><span class="id-value" style="color:#f87171;">+1 ⚠</span></div>
+    <div class="id-cell"><span class="id-label">Puissance</span><span class="id-value">1 344 465</span></div>
+    <div class="id-cell"><span class="id-label">Cœur</span><span class="id-value">10</span></div>
   </div>
 
-  <!-- ROLE BANNER -->
-  <div class="role-banner">
-    <div class="role-icon">👑</div>
-    <div>
-      <div class="role-title">Rôle Unique — Héros Économique + Support Lumière</div>
-      <div class="role-desc">Patty est le seul héros du roster à combiner un rôle <strong style="color:var(--sun-bright)">économique (collecte, ralliement, capacité de troupe)</strong> et un kit de soutien combat Lumière (soin AoE, blocage Rage, immunité debuff). Elle est à déployer en dehors des combats principaux pour maximiser les ressources, et en combat dans les formations Lumière avec Herukab.</div>
-    </div>
-  </div>
-
-  <!-- RATINGS -->
   <div class="ratings-row">
-    <div class="rating-card eco">
-      <span class="rating-mode">Économie</span>
-      <div class="rating-grade">S</div>
-      <div class="rating-label">Collecte + Ralliement</div>
-    </div>
-    <div class="rating-card support">
-      <span class="rating-mode">Support combat</span>
-      <div class="rating-grade">A</div>
-      <div class="rating-label">Lumière synergique</div>
-    </div>
-    <div class="rating-card pvp">
-      <span class="rating-mode">PvP · Arène</span>
-      <div class="rating-grade">B</div>
-      <div class="rating-label">Talent trop bas</div>
-    </div>
-    <div class="rating-card pve">
-      <span class="rating-mode">Boss Alliance</span>
-      <div class="rating-grade">C</div>
-      <div class="rating-label">Pas son rôle</div>
-    </div>
+    <div class="rating-card eco"><span class="rating-mode">Économie</span><div class="rating-grade">S</div><div class="rating-label">Collecte + Ralliement</div></div>
+    <div class="rating-card support"><span class="rating-mode">Support Lumière</span><div class="rating-grade">A</div><div class="rating-label">Code d'Or + Immunité</div></div>
+    <div class="rating-card pvp"><span class="rating-mode">Ctrl Rage PvP</span><div class="rating-grade">B</div><div class="rating-label">Blocage 4 tours</div></div>
+    <div class="rating-card boss"><span class="rating-mode">Boss Alliance</span><div class="rating-grade">C</div><div class="rating-label">Ne pas déployer</div></div>
   </div>
 
-  <!-- COMPÉTENCES HÉROS -->
   <div class="section">
-    <div class="section-title">Compétences de Héros</div>
+    <div class="section-title">Compétences de Héros — Plein Potentiel</div>
     <div class="skills-grid">
-
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Volonté de la Reine <span style="font-size:10px;color:var(--text-dim);font-family:'Raleway',sans-serif;">(Régén. Rage : Moyenne)</span></div>
-          <div class="skill-desc">Empêche la cible de <strong style="color:var(--pink)">régénérer sa Rage pendant 4 tours</strong>. Contrôle de Rage mono-cible durable — prive le carry ennemi de son cycle offensif.</div>
-        </div>
-        <div class="skill-tag ctrl">Blocage Rage</div>
-      </div>
-
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Éclat de la Vie</div>
-          <div class="skill-desc">Compétence active améliorée : restaure <strong style="color:var(--green)">26% de PV à tous les alliés</strong>. Soin AoE — inférieur à Tania (44%) mais couvre toute l'équipe.</div>
-        </div>
-        <div class="skill-tag heal">Soin AoE</div>
-      </div>
-
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Code d'Or</div>
-          <div class="skill-desc">Au début du combat, restaure <strong style="color:var(--sun-bright)">5% de Rage par tour aux alliés de Lumière</strong> pendant 6 tours. Boost Rage passif d'ouverture pour toute la composition Lumière — accélère Herukab.</div>
-        </div>
-        <div class="skill-tag passive">Regen Rage</div>
-      </div>
-
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Protection du Désert</div>
-          <div class="skill-desc">Compétence active améliorée : <strong style="color:var(--teal)">immunise tous les alliés contre les nouveaux debuffs pendant 2 tours</strong>. Indissipable. Bouclier anti-debuff total — contre Herukab ennemi, Tutanhet, Aerposia (Neutralisation).</div>
-        </div>
-        <div class="skill-tag shield">Immunité</div>
-      </div>
-
-      <div class="skill-row">
-        <div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div>
-        <div>
-          <div class="skill-name" style="color:var(--text-dim)">Volonté d'Acier</div>
-          <div class="skill-desc" style="color:#3d2e08">Augmente la Résistance Critique de +30%. Chance de recevoir des dégâts normaux en recevant un coup critique.</div>
-        </div>
-        <div class="skill-tag locked">🔒 6 étoiles</div>
-      </div>
-
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Volonté de la Reine <span style="font-size:10px;color:var(--text-dim);font-family:'Raleway',sans-serif;">(Régén. Rage : Moyenne)</span></div><div class="skill-desc">Empêche la cible de <strong style="color:var(--pink)">régénérer sa Rage pendant 4 tours</strong>. Contre Aerposia (Barrière Spirituelle) : inefficace. Contre la plupart des autres carries : très fort.</div></div><div class="skill-tag ctrl">Blocage Rage</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Éclat de la Vie</div><div class="skill-desc">Restaure <strong style="color:var(--green)">26% de PV à tous les alliés</strong>. Soin AoE — inférieur à Tania (44%) mais complément utile en formation Lumière sans Tania.</div></div><div class="skill-tag heal">Soin AoE</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Code d'Or</div><div class="skill-desc">Au début du combat : <strong style="color:var(--sun-bright)">+5% de Rage/tour aux alliés Lumière pendant 6 tours</strong>. Herukab et Maxim activent leurs compétences significativement plus tôt.</div></div><div class="skill-tag passive">Regen Rage</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Protection du Désert</div><div class="skill-desc"><strong style="color:var(--teal)">Immunise tous les alliés contre les nouveaux debuffs pendant 2 tours</strong>. Indissipable. Contre Herukab ennemi (−34%/−35% AoE) : protection totale.</div></div><div class="skill-tag shield">Immunité</div></div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div><div><div class="skill-name" style="color:var(--text-dim)">Volonté d'Acier</div><div class="skill-desc" style="color:#3d2e08">+30% Résistance Critique. Réduit les dégâts critiques reçus.</div></div><div class="skill-tag locked">🔒 6 étoiles</div></div>
     </div>
   </div>
 
-  <!-- COMPÉTENCES DE TROUPE -->
   <div class="section">
     <div class="section-title">Compétences de Troupe (+1 — Économie & Combat)</div>
     <div class="troop-grid">
-      <div class="troop-card">
-        <div class="troop-label">Compétence active</div>
-        <div class="troop-value">+120%</div>
-        <div class="troop-sub">ATQ de troupe à l'ennemi</div>
-      </div>
-      <div class="troop-card">
-        <div class="troop-label">Vitesse de collecte</div>
-        <div class="troop-value">+9%</div>
-        <div class="troop-sub">Ressources plus rapides</div>
-      </div>
-      <div class="troop-card">
-        <div class="troop-label">ATQ de Ralliement</div>
-        <div class="troop-value">+16%</div>
-        <div class="troop-sub">Bonus en ralliement alliance</div>
-      </div>
-      <div class="troop-card">
-        <div class="troop-label">Capacité de Troupe</div>
-        <div class="troop-value">+2 400</div>
-        <div class="troop-sub">Plafond de troupe élargi</div>
-      </div>
+      <div class="troop-card"><div class="troop-label">Compétence active</div><div class="troop-value">+120%</div><div class="troop-sub">ATQ de troupe</div></div>
+      <div class="troop-card eco"><div class="troop-label">Vitesse de Collecte</div><div class="troop-value">+9%</div><div class="troop-sub">Ressources récoltées plus vite</div></div>
+      <div class="troop-card eco"><div class="troop-label">ATQ de Ralliement</div><div class="troop-value">+16%</div><div class="troop-sub">Bonus en ralliement alliance</div></div>
+      <div class="troop-card eco"><div class="troop-label">Capacité de Troupe</div><div class="troop-value">+2 400</div><div class="troop-sub">Plus de troupes par marche</div></div>
     </div>
   </div>
 
-  <!-- ARME EXCLUSIVE -->
   <div class="section">
     <div class="section-title">Arme Exclusive</div>
     <div class="weapon-card">
-      <div class="weapon-header">
-        <div class="weapon-name">♛ Couronne de la Reine ★★★★★</div>
-        <div class="weapon-level">Niveau +6</div>
-      </div>
+      <div class="weapon-header"><div class="weapon-name">♛ Couronne de la Reine ★★★★★</div><div class="weapon-level">Niveau +6</div></div>
       <div class="weapon-stats">
-        <div class="wstat">ATQ Troupe <span>+9%</span></div>
-        <div class="wstat">DEF Troupe <span>+9%</span></div>
-        <div class="wstat">PV Troupe <span>+9%</span></div>
+        <div class="wstat">ATQ/DEF/PV Troupe <span>+9% chacun</span></div>
         <div class="wstat">ATQ Héros <span>+300</span></div>
         <div class="wstat">DEF Héros <span>+300</span></div>
         <div class="wstat">PV Héros <span>+600</span></div>
       </div>
       <div class="weapon-exclusive">
-        <div class="excl-title">Attributs Exclusifs (actifs uniquement sur Patty)</div>
-        <div class="excl-row">Héros +0 : DEF Troupe <strong style="color:var(--gold)">+100%</strong></div>
-        <div class="excl-row locked">Héros +2 : PV Troupe <strong>+100%</strong> <span style="font-size:9px;">(non débloqué)</span></div>
-        <div class="excl-row locked">Héros +4 : Capacité de troupe <strong>+10 000</strong> <span style="font-size:9px;">(non débloqué)</span></div>
-        <div style="font-size:10px;color:var(--text-dim);margin-top:10px;">⚡ Priorité : monter héros +2 pour débloquer PV Troupe +100%</div>
+        <div class="excl-title">Attributs Exclusifs (Patty uniquement)</div>
+        <div class="excl-row">Héros +0 : DEF Troupe <strong style="color:var(--gold)">+100%</strong> ✓ actif</div>
+        <div class="excl-row locked">Héros +2 : PV Troupe <strong>+100%</strong> → monter héros +2</div>
+        <div class="excl-row locked">Héros +4 : Capacité Troupe <strong>+10 000</strong> → très fort pour ralliements</div>
       </div>
     </div>
   </div>
 
-  <!-- CONTEXTE D'UTILISATION -->
   <div class="section">
     <div class="section-title">Contexte d'Utilisation</div>
     <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
       <table class="context-table">
-        <tr>
-          <td>Collecte ressources</td>
-          <td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">Vitesse +9% — héros dédié hors combat</span></td>
-        </tr>
-        <tr>
-          <td>Ralliements alliance</td>
-          <td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">ATQ ralliement +16% + capacité +2 400</span></td>
-        </tr>
-        <tr>
-          <td>Formation Lumière</td>
-          <td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Code d'Or accélère Herukab dès tour 1</span></td>
-        </tr>
-        <tr>
-          <td>Anti-debuff (PvP)</td>
-          <td><span class="ctx-good">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Protection du Désert immunise 2 tours</span></td>
-        </tr>
-        <tr>
-          <td>Boss Alliance</td>
-          <td><span class="ctx-bad">●○○○○</span> <span style="font-size:11px;color:var(--text-dim)">Kit non adapté — ne pas déployer</span></td>
-        </tr>
+        <tr><td>Collecte ressources</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">+9% vitesse — assigner à toute marche de récolte</span></td></tr>
+        <tr><td>Ralliements alliance</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">+16% ATQ + +2 400 capacité → puissance accrue</span></td></tr>
+        <tr><td>Formation Lumière</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Code d'Or accélère Herukab + Maxim dès T1</span></td></tr>
+        <tr><td>Anti-debuff (PvP)</td><td><span class="ctx-good">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Protection du Désert immunise 2 tours</span></td></tr>
+        <tr><td>Boss Alliance</td><td><span class="ctx-bad">●○○○○</span> <span style="font-size:11px;color:var(--text-dim)">Kit inadapté — ne jamais déployer en Boss</span></td></tr>
       </table>
     </div>
   </div>
 
-  <!-- SYNERGIES -->
   <div class="section">
-    <div class="section-title">Synergies Recommandées</div>
+    <div class="section-title">Synergies Meta Complètes</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(74,222,128,.4);border:1px solid #4ade80;"></div>Possédé</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(239,68,68,.3);border:1px solid #f87171;"></div>À acquérir</div>
+    </div>
     <div class="synergy-grid">
-
       <div class="synergy-row">
-        <div>
+        <div class="syn-left">
           <div class="syn-name">Herukab</div>
-          <div class="syn-role">Lumière · S3 · Debuffeur AoE</div>
-          <div class="syn-tags"><span class="syn-tag">Lumière</span><span class="syn-tag">Code d'Or</span><span class="syn-tag">PvP</span></div>
+          <div class="syn-role">Lumière · S3 · Double AoE · Debuffeur</div>
+          <div class="syn-reason">Synergie Lumière naturelle. Code d'Or (+5% Rage/tour) accélère Herukab → il active Tempête Dorée + Frappe Multiple plus tôt → 528% AoE au tour 2 au lieu du tour 3-4.</div>
+          <div class="syn-tags"><span class="syn-tag">Lumière</span><span class="syn-tag">Rage → AoE</span><span class="syn-tag">Possédé</span></div>
         </div>
-        <div style="text-align:right">
-          <div class="syn-tier tier-s">S</div>
-          <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">DUO LUMIÈRE</div>
-        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
       </div>
-
       <div class="synergy-row">
-        <div>
-          <div class="syn-name">Tania</div>
-          <div class="syn-role">Glace · Support · 6★ Ascendée</div>
-          <div class="syn-tags"><span class="syn-tag">Soin</span><span class="syn-tag">Cavalerie</span></div>
+        <div class="syn-left">
+          <div class="syn-name">Maxim</div>
+          <div class="syn-role">Lumière · S PvP · S PvE · Carry Lumière</div>
+          <div class="syn-reason">Trio Lumière S3 optimal. Code d'Or accélère aussi Maxim. Formation Maxim + Herukab + Patty = debuff AoE + burst Lumière S-Tier + support Rage + blocage Rage ennemie.</div>
+          <div class="syn-tags"><span class="syn-tag">Lumière</span><span class="syn-tag">PvP</span><span class="syn-tag">PvE</span></div>
         </div>
-        <div style="text-align:right">
-          <div class="syn-tier tier-a">A</div>
-          <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">DOUBLE SUPPORT</div>
-        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-no">À acquérir</div></div>
       </div>
-
       <div class="synergy-row">
-        <div>
+        <div class="syn-left">
+          <div class="syn-name">Tala</div>
+          <div class="syn-role">Nature · Support Rage · Production Fer</div>
+          <div class="syn-reason">Duo économie parfait. Tala produit le Fer (+300%), Patty récolte les ressources (+9% vitesse) et gère les ralliements (+16% ATQ, +2 400 capacité). Ensemble = économie complète.</div>
+          <div class="syn-tags"><span class="syn-tag">Économie</span><span class="syn-tag">Fer + Collecte</span><span class="syn-tag">Possédé</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
           <div class="syn-name">Aerposia</div>
-          <div class="syn-role">Dark · Cavalerie · Carry DPS</div>
-          <div class="syn-tags"><span class="syn-tag">Blocage Rage</span><span class="syn-tag">PvP</span></div>
+          <div class="syn-role">Dark · S PvP · Carry DPS</div>
+          <div class="syn-reason">Volonté de la Reine (blocage Rage 4 tours) s'utilise vs le carry adverse pendant qu'Aerposia construit sa propre Rage. Note : Aeroposia est immune au blocage Rage (Barrière Spirituelle).</div>
+          <div class="syn-tags"><span class="syn-tag">PvP</span><span class="syn-tag">Ctrl Rage ennemie</span><span class="syn-tag">Possédé</span></div>
         </div>
-        <div style="text-align:right">
-          <div class="syn-tier tier-a">A</div>
-          <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">CTRL + BURST</div>
-        </div>
+        <div class="syn-right"><div class="syn-tier tier-b">B</div><div class="syn-own own-yes">✓ Possédé</div></div>
       </div>
-
-      <div class="synergy-row">
-        <div>
-          <div class="syn-name">Khaos</div>
-          <div class="syn-role">Dark · Universel · S-Tier</div>
-          <div class="syn-tags"><span class="syn-tag">PvP</span><span class="syn-tag">Alliance</span></div>
-        </div>
-        <div style="text-align:right">
-          <div class="syn-tier tier-b">B</div>
-          <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">GÉNÉRAL</div>
-        </div>
-      </div>
-
     </div>
   </div>
 
-  <!-- PRIORITÉS -->
+  <div class="section">
+    <div class="section-title">Formations Recommandées</div>
+    <div class="formation-grid">
+      <div class="formation-card">
+        <div class="formation-title">🏭 Trio Économie (déployer maintenant)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Patty</span><span class="hero-pill pill-own" style="color:#34d399;background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.2);">Tala</span><span class="hero-pill pill-own" style="color:#f97316;background:rgba(249,115,22,.1);border-color:rgba(249,115,22,.2);">Fiona</span></div>
+        <div class="formation-desc">Patty récolte (+9% vitesse), Tala produit le Fer (+300%), Fiona réduit les coûts d'entraînement (−9%×2). Le trio économie complet du roster — immédiatement actif sans investissement.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">✓ Formation Lumière actuelle (opérationnelle)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Herukab</span><span class="hero-pill pill-own">Patty</span><span class="hero-pill pill-own">Tania</span></div>
+        <div class="formation-desc">Code d'Or accélère Herukab, Patty bloque la Rage ennemie, Tania soigne. Formation Lumière disponible maintenant — efficace en PvE et PvP.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">⭐ Formation Lumière S3 Optimale (objectif)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-need">Maxim</span><span class="hero-pill pill-own">Herukab</span><span class="hero-pill pill-own">Patty</span></div>
+        <div class="formation-desc">Maxim porte le burst Lumière S-Tier, Herukab double AoE + debuff, Patty accélère la Rage et immunise les debuffs. <strong style="color:var(--gold-light)">Acquérir Maxim.</strong></div>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
     <div class="section-title">Priorités d'Investissement</div>
     <div class="priority-list">
-      <div class="priority-item">
-        <div class="priority-num">01</div>
-        <div class="priority-text"><strong>Utiliser Patty en collecte de ressources dès maintenant</strong> — C'est son rôle immédiat sans investissement supplémentaire. Vitesse +9% et capacité +2 400 s'appliquent déjà.</div>
-      </div>
-      <div class="priority-item">
-        <div class="priority-num">02</div>
-        <div class="priority-text"><strong>Monter héros +2 pour débloquer PV Troupe +100%</strong> sur la Couronne — L'exclusif +0 (DEF +100%) est actif mais les +2 et +4 restent verrouillés. Priorité talent et ascension.</div>
-      </div>
-      <div class="priority-item">
-        <div class="priority-num">03</div>
-        <div class="priority-text"><strong>Associer Patty + Herukab en formation Lumière</strong> — Code d'Or accélère la Rage d'Herukab dès le tour 1, lui permettant de lancer Tempête Dorée + Frappe Multiple plus rapidement.</div>
-      </div>
-      <div class="priority-item">
-        <div class="priority-num">04</div>
-        <div class="priority-text"><strong>Débloquer les 6 étoiles</strong> — Active Volonté d'Acier (Rés. Crit. +30%), améliorant sa survie en tant que support en première ligne.</div>
-      </div>
+      <div class="priority-item"><div class="priority-num">01</div><div class="priority-text"><strong>Déployer Patty en collecte de ressources dès maintenant</strong> — +9% vitesse de collecte, +16% ATQ ralliement, +2 400 capacité. S'applique immédiatement sans investissement.</div></div>
+      <div class="priority-item"><div class="priority-num">02</div><div class="priority-text"><strong>Monter héros +2 pour débloquer PV Troupe +100%</strong> sur la Couronne. Et +4 pour +10 000 capacité de troupe — énorme pour les ralliements d'alliance.</div></div>
+      <div class="priority-item"><div class="priority-num">03</div><div class="priority-text"><strong>Former le duo Patty + Herukab en combat</strong> — Code d'Or accélère Herukab dès T1. La formation Lumière la plus efficace actuellement disponible.</div></div>
+      <div class="priority-item"><div class="priority-num">04</div><div class="priority-text"><strong>Acquérir Maxim</strong> pour compléter le trio Lumière S3 Maxim + Herukab + Patty — la formation Lumière dominante du jeu.</div></div>
     </div>
   </div>
 
-  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche générée juin 2026</div>
-
+  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche v2 — juin 2026</div>
 </div>
 </body>
 </html>

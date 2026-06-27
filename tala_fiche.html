@@ -6,534 +6,315 @@
 <title>Tala — Fiche Héros</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
-
-  :root {
-    --void: #04090e;
-    --panel: #091418;
-    --border: #0e2d20;
-    --nat-dim: #0e4d28;
-    --nat-mid: #059669;
-    --nat-bright: #34d399;
-    --blue: #60a5fa;
-    --purple: #a78bfa;
-    --gold: #c9a84c;
-    --gold-light: #f0d080;
-    --red-star: #ff4444;
-    --text: #86d4b0;
-    --text-dim: #2e6a4a;
-    --white: #e8fff5;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--void);
-    color: var(--text);
-    font-family: 'Raleway', sans-serif;
-    font-weight: 400;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(5,150,105,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 30% at 20% 80%, rgba(52,211,153,0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 30% 20% at 80% 60%, rgba(96,165,250,0.06) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 60px; position: relative; z-index: 1; }
-
-  .header { text-align: center; padding: 40px 20px 32px; }
-
-  .element-badge {
-    display: inline-block; font-family: 'Raleway', sans-serif; font-weight: 600;
-    font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--nat-bright); border: 1px solid var(--border); padding: 4px 16px;
-    border-radius: 2px; margin-bottom: 16px; background: rgba(5,150,105,0.08);
-  }
-
-  h1 {
-    font-family: 'Cinzel', serif; font-size: clamp(42px, 8vw, 72px); font-weight: 900;
-    color: var(--white); letter-spacing: 0.08em; line-height: 1;
-    text-shadow: 0 0 40px rgba(52,211,153,0.6), 0 0 80px rgba(96,165,250,0.3);
-    margin-bottom: 8px;
-  }
-
-  .subtitle { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 24px; }
-
-  .divider { display: flex; align-items: center; gap: 16px; margin: 0 auto 32px; max-width: 400px; }
-  .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--nat-mid), transparent); }
-  .divider-icon { color: var(--nat-bright); font-size: 20px; }
-
-  /* IDENTITY STRIP */
-  .identity-strip {
-    display: grid; grid-template-columns: repeat(5, 1fr);
-    gap: 1px; background: var(--border); border: 1px solid var(--border);
-    border-radius: 4px; overflow: hidden; margin-bottom: 24px;
-  }
-  .id-cell { background: var(--panel); padding: 14px 8px; text-align: center; }
-  .id-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); display: block; margin-bottom: 6px; }
-  .id-value { font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold); font-weight: 700; }
-  .red-star { color: var(--red-star); font-size: 18px; text-shadow: 0 0 12px rgba(255,68,68,0.7); }
-
-  /* ROLE BANNER */
-  .role-banner {
-    background: linear-gradient(135deg, rgba(14,77,40,0.4), rgba(5,150,105,0.1));
-    border: 1px solid var(--nat-dim); border-radius: 4px;
-    padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 14px;
-  }
-  .role-icon { font-size: 28px; flex-shrink: 0; }
-  .role-title { font-family: 'Cinzel', serif; font-size: 13px; color: var(--nat-bright); margin-bottom: 4px; }
-  .role-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
-
-  /* RATINGS */
-  .ratings-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
-  .rating-card {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 20px 16px; text-align: center; position: relative; overflow: hidden;
-  }
-  .rating-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
-  .rating-card.eco::before    { background: linear-gradient(90deg, var(--nat-mid), var(--nat-bright)); }
-  .rating-card.pvp::before    { background: linear-gradient(90deg, var(--nat-mid), var(--blue)); }
-  .rating-card.boss::before   { background: linear-gradient(90deg, var(--nat-dim), var(--nat-mid)); }
-
-  .rating-mode { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; display: block; }
-  .rating-grade { font-family: 'Cinzel', serif; font-size: 36px; font-weight: 900; line-height: 1; }
-  .rating-card.eco  .rating-grade { color: var(--nat-bright); text-shadow: 0 0 20px rgba(52,211,153,0.5); }
-  .rating-card.pvp  .rating-grade { color: var(--blue);       text-shadow: 0 0 20px rgba(96,165,250,0.5); }
-  .rating-card.boss .rating-grade { color: var(--gold);       text-shadow: 0 0 15px rgba(201,168,76,0.4); }
-  .rating-label { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
-
-  /* SECTIONS */
-  .section { margin-bottom: 20px; }
-  .section-title {
-    font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.3em;
-    text-transform: uppercase; color: var(--nat-bright); margin-bottom: 12px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  /* SKILLS */
-  .skills-grid { display: grid; gap: 8px; }
-  .skill-row {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 14px 16px; display: grid; grid-template-columns: auto 1fr auto;
-    align-items: center; gap: 14px;
-  }
-  .skill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--nat-bright); box-shadow: 0 0 8px var(--nat-bright); flex-shrink: 0; }
-  .skill-name { font-family: 'Cinzel', serif; font-size: 12px; color: var(--gold-light); margin-bottom: 2px; }
-  .skill-desc { font-size: 11px; color: var(--text-dim); line-height: 1.5; }
-  .skill-tag {
-    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--nat-bright); background: rgba(5,150,105,0.12);
-    border: 1px solid var(--border); padding: 3px 8px; border-radius: 2px;
-    white-space: nowrap; align-self: flex-start;
-  }
-  .skill-tag.rage   { color: var(--blue);   background: rgba(96,165,250,0.08);  border-color: rgba(96,165,250,0.2); }
-  .skill-tag.passive{ color: var(--gold);   background: rgba(201,168,76,0.1);   border-color: rgba(201,168,76,0.2); }
-  .skill-tag.death  { color: var(--purple); background: rgba(167,139,250,0.08); border-color: rgba(167,139,250,0.2); }
-  .skill-tag.locked { color: var(--text-dim); background: transparent; }
-
-  /* TROOP SKILLS */
-  .troop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .troop-card { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; padding: 14px; }
-  .troop-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
-  .troop-value { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); font-weight: 700; }
-  .troop-sub { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
-  .troop-card.eco { border-color: rgba(52,211,153,0.2); }
-  .troop-card.eco .troop-value { color: var(--nat-bright); }
-
-  /* WEAPON */
-  .weapon-card { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; padding: 20px; }
-  .weapon-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .weapon-name { font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold-light); }
-  .weapon-level { font-size: 10px; color: var(--nat-bright); border: 1px solid var(--border); padding: 2px 10px; border-radius: 2px; }
-  .weapon-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 14px; }
-  .wstat { font-size: 11px; color: var(--text-dim); }
-  .wstat span { color: var(--gold); font-weight: 600; }
-  .weapon-exclusive { border-top: 1px solid var(--border); padding-top: 12px; }
-  .excl-title { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
-  .excl-row { font-size: 11px; color: var(--gold); margin-bottom: 4px; display: flex; gap: 8px; }
-  .excl-row::before { content: '›'; color: var(--nat-bright); }
-  .excl-note { font-size: 10px; color: var(--text-dim); margin-top: 10px; font-style: italic; }
-
-  /* RAGE BOX */
-  .rage-box {
-    background: rgba(96,165,250,0.05);
-    border: 1px solid rgba(96,165,250,0.2);
-    border-radius: 4px; padding: 16px 20px; margin-bottom: 20px;
-  }
-  .rage-title { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.2em; color: var(--blue); margin-bottom: 12px; }
-  .rage-row { display: flex; gap: 12px; align-items: flex-start; font-size: 11px; margin-bottom: 8px; }
-  .rage-num { color: var(--nat-bright); font-weight: 700; min-width: 20px; flex-shrink: 0; }
-  .rage-desc { color: var(--text-dim); line-height: 1.5; }
-
-  /* CONTEXT TABLE */
-  .context-table { width: 100%; border-collapse: collapse; }
-  .context-table tr { border-bottom: 1px solid var(--border); }
-  .context-table tr:last-child { border-bottom: none; }
-  .context-table td { padding: 10px 12px; font-size: 12px; }
-  .context-table td:first-child { color: var(--text-dim); font-size: 11px; letter-spacing: 0.1em; white-space: nowrap; width: 160px; }
-  .ctx-best { color: #86efac; }
-  .ctx-good { color: var(--nat-bright); }
-  .ctx-avg  { color: var(--gold); }
-  .ctx-bad  { color: #f87171; }
-
-  /* SYNERGIES */
-  .synergy-grid { display: grid; gap: 8px; }
-  .synergy-row {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  }
-  .syn-name { font-family: 'Cinzel', serif; font-size: 13px; color: var(--white); }
-  .syn-role { color: var(--text-dim); font-size: 11px; margin-top: 2px; }
-  .syn-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-  .syn-tag {
-    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--nat-bright); background: rgba(5,150,105,0.1);
-    border: 1px solid var(--border); padding: 2px 6px; border-radius: 2px;
-  }
-  .syn-tier { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 700; }
-  .tier-s { color: #f472b6; text-shadow: 0 0 15px rgba(244,114,182,0.5); }
-  .tier-a { color: var(--gold); }
-  .tier-b { color: var(--nat-bright); }
-
-  /* PRIORITIES */
-  .priority-list { display: grid; gap: 8px; }
-  .priority-item {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 4px;
-    padding: 14px 16px; display: flex; align-items: flex-start; gap: 14px;
-  }
-  .priority-num { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; color: var(--border); line-height: 1; min-width: 28px; }
-  .priority-text { font-size: 12px; color: var(--text); line-height: 1.6; }
-  .priority-text strong { color: var(--gold-light); font-weight: 600; }
-
-  .footer { text-align: center; padding-top: 32px; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--border); }
-
-  @media (max-width: 600px) {
-    .identity-strip { grid-template-columns: repeat(3, 1fr); }
-    .troop-grid { grid-template-columns: 1fr; }
-    h1 { font-size: 38px; }
-  }
+  :root{--void:#04090e;--panel:#091418;--border:#0e2d20;--nat-dim:#0e4d28;--nat-mid:#059669;--nat-bright:#34d399;--blue:#60a5fa;--purple:#a78bfa;--gold:#c9a84c;--gold-light:#f0d080;--green:#4ade80;--red-star:#ff4444;--text:#86d4b0;--text-dim:#2e6a4a;--white:#e8fff5;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);color:var(--text);font-family:'Raleway',sans-serif;min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(5,150,105,.18) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 20% 80%,rgba(52,211,153,.08) 0%,transparent 60%),radial-gradient(ellipse 30% 20% at 80% 60%,rgba(96,165,250,.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
+  .container{max-width:860px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
+  .header{text-align:center;padding:40px 20px 32px;}
+  .element-badge{display:inline-block;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--nat-bright);border:1px solid var(--border);padding:4px 16px;border-radius:2px;margin-bottom:16px;background:rgba(5,150,105,.08);}
+  h1{font-family:'Cinzel',serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:var(--white);letter-spacing:.08em;line-height:1;text-shadow:0 0 40px rgba(52,211,153,.6),0 0 80px rgba(96,165,250,.3);margin-bottom:8px;}
+  .subtitle{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;}
+  .divider{display:flex;align-items:center;gap:16px;margin:0 auto 32px;max-width:400px;}
+  .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--nat-mid),transparent);}
+  .divider-icon{color:var(--nat-bright);font-size:20px;}
+  .identity-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;}
+  .id-cell{background:var(--panel);padding:14px 8px;text-align:center;}
+  .id-label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px;}
+  .id-value{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);font-weight:700;}
+  .red-star{color:var(--red-star);font-size:18px;text-shadow:0 0 12px rgba(255,68,68,.7);}
+  .role-banner{background:linear-gradient(135deg,rgba(14,77,40,.4),rgba(5,150,105,.1));border:1px solid var(--nat-dim);border-radius:4px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px;}
+  .role-icon{font-size:28px;flex-shrink:0;}
+  .role-title{font-family:'Cinzel',serif;font-size:13px;color:var(--nat-bright);margin-bottom:4px;}
+  .role-desc{font-size:12px;color:var(--text-dim);line-height:1.5;}
+  .ratings-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+  .rating-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px 16px;text-align:center;position:relative;overflow:hidden;}
+  .rating-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .rating-card.rage::before{background:linear-gradient(90deg,var(--nat-mid),var(--blue));}
+  .rating-card.eco::before{background:linear-gradient(90deg,var(--nat-mid),var(--nat-bright));}
+  .rating-card.pve::before{background:linear-gradient(90deg,var(--nat-dim),var(--gold));}
+  .rating-mode{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block;}
+  .rating-grade{font-family:'Cinzel',serif;font-size:36px;font-weight:900;line-height:1;}
+  .rating-card.rage .rating-grade{color:var(--blue);text-shadow:0 0 20px rgba(96,165,250,.5);}
+  .rating-card.eco  .rating-grade{color:var(--nat-bright);text-shadow:0 0 20px rgba(52,211,153,.5);}
+  .rating-card.pve  .rating-grade{color:var(--gold);}
+  .rating-label{font-size:10px;color:var(--text-dim);margin-top:4px;}
+  .section{margin-bottom:20px;}
+  .section-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--nat-bright);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+  .skills-grid{display:grid;gap:8px;}
+  .skill-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;}
+  .skill-dot{width:8px;height:8px;border-radius:50%;background:var(--nat-bright);box-shadow:0 0 8px var(--nat-bright);flex-shrink:0;}
+  .skill-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:2px;}
+  .skill-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+  .skill-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--nat-bright);background:rgba(5,150,105,.12);border:1px solid var(--border);padding:3px 8px;border-radius:2px;white-space:nowrap;align-self:flex-start;}
+  .skill-tag.rage{color:var(--blue);background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.2);}
+  .skill-tag.passive{color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2);}
+  .skill-tag.death{color:var(--purple);background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.2);}
+  .skill-tag.locked{color:var(--text-dim);background:transparent;}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .troop-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;}
+  .troop-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
+  .troop-value{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);font-weight:700;}
+  .troop-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
+  .troop-card.eco .troop-value{color:var(--nat-bright);}
+  .weapon-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;}
+  .weapon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .weapon-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold-light);}
+  .weapon-level{font-size:10px;color:var(--nat-bright);border:1px solid var(--border);padding:2px 10px;border-radius:2px;}
+  .weapon-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
+  .wstat{font-size:11px;color:var(--text-dim);}
+  .wstat span{color:var(--gold);font-weight:600;}
+  .weapon-exclusive{border-top:1px solid var(--border);padding-top:12px;}
+  .excl-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+  .excl-row{font-size:11px;color:var(--gold);margin-bottom:4px;display:flex;gap:8px;}
+  .excl-row::before{content:'›';color:var(--nat-bright);}
+  .rage-box{background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.2);border-radius:4px;padding:16px 20px;margin-bottom:20px;}
+  .rage-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;color:var(--blue);margin-bottom:12px;}
+  .rage-row{display:flex;gap:12px;align-items:flex-start;font-size:11px;margin-bottom:8px;}
+  .rage-num{color:var(--nat-bright);font-weight:700;min-width:24px;flex-shrink:0;}
+  .rage-desc{color:var(--text-dim);line-height:1.5;}
+  .context-table{width:100%;border-collapse:collapse;}
+  .context-table tr{border-bottom:1px solid var(--border);}
+  .context-table tr:last-child{border-bottom:none;}
+  .context-table td{padding:10px 12px;font-size:12px;}
+  .context-table td:first-child{color:var(--text-dim);font-size:11px;letter-spacing:.1em;white-space:nowrap;width:160px;}
+  .ctx-best{color:#86efac;}.ctx-good{color:var(--nat-bright);}.ctx-avg{color:var(--gold);}.ctx-bad{color:#f87171;}
+  .synergy-grid{display:grid;gap:8px;}
+  .synergy-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .syn-left{flex:1;}
+  .syn-name{font-family:'Cinzel',serif;font-size:13px;color:var(--white);}
+  .syn-role{color:var(--text-dim);font-size:11px;margin-top:2px;}
+  .syn-reason{font-size:11px;color:var(--text-dim);margin-top:4px;line-height:1.4;font-style:italic;}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+  .syn-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--nat-bright);background:rgba(5,150,105,.1);border:1px solid var(--border);padding:2px 6px;border-radius:2px;}
+  .syn-right{text-align:right;min-width:60px;}
+  .syn-tier{font-family:'Cinzel',serif;font-size:20px;font-weight:700;}
+  .tier-s{color:#f472b6;text-shadow:0 0 15px rgba(244,114,182,.5);}
+  .tier-a{color:var(--gold);}
+  .tier-b{color:var(--nat-bright);}
+  .syn-own{font-size:9px;margin-top:2px;}
+  .own-yes{color:var(--green);}
+  .own-no{color:#f87171;}
+  .formation-grid{display:grid;gap:10px;}
+  .formation-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 18px;}
+  .formation-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:8px;}
+  .formation-heroes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+  .hero-pill{font-size:10px;letter-spacing:.1em;padding:3px 10px;border-radius:12px;border:1px solid var(--border);font-family:'Cinzel',serif;}
+  .pill-own{color:var(--nat-bright);background:rgba(5,150,105,.15);border-color:var(--nat-dim);}
+  .pill-need{color:#f87171;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
+  .formation-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+  .priority-list{display:grid;gap:8px;}
+  .priority-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;}
+  .priority-num{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:var(--border);line-height:1;min-width:28px;}
+  .priority-text{font-size:12px;color:var(--text);line-height:1.6;}
+  .priority-text strong{color:var(--gold-light);font-weight:600;}
+  .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-dim);}
+  .legend-dot{width:10px;height:10px;border-radius:2px;}
+  .footer{text-align:center;padding-top:32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--border);}
+  @media(max-width:600px){.identity-strip{grid-template-columns:repeat(3,1fr);}.troop-grid{grid-template-columns:1fr;}h1{font-size:38px;}}
 </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- HEADER -->
   <div class="header">
-    <div class="element-badge">🌿 Élément Nature · 6★ Ascendée · Spécialiste Rage</div>
+    <div class="element-badge">🌿 Nature · 6★ Ascendée · Spécialiste Rage · Talent +8</div>
     <h1>TALA</h1>
-    <div class="subtitle">L'Esprit de la Forêt · Générateur de Rage · Économie</div>
-    <div class="divider">
-      <div class="divider-line"></div>
-      <div class="divider-icon">🌸</div>
-      <div class="divider-line"></div>
-    </div>
+    <div class="subtitle">L'Esprit de la Forêt · Triple Recharge Rage · Économie Fer</div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-icon">🌸</div><div class="divider-line"></div></div>
   </div>
 
-  <!-- IDENTITY STRIP -->
   <div class="identity-strip">
-    <div class="id-cell">
-      <span class="id-label">Élément</span>
-      <span class="id-value">Nature</span>
-    </div>
-    <div class="id-cell">
-      <span class="id-label">Étoiles</span>
-      <span class="red-star">★</span>
-      <div style="font-size:9px;color:var(--red-star);margin-top:2px;">Ascendée</div>
-    </div>
-    <div class="id-cell">
-      <span class="id-label">Talent</span>
-      <span class="id-value">+8</span>
-    </div>
-    <div class="id-cell">
-      <span class="id-label">Arme</span>
-      <span class="id-value">+30 !</span>
-    </div>
-    <div class="id-cell">
-      <span class="id-label">Rage Regen</span>
-      <span class="id-value" style="color:#f87171;font-size:11px;">Lente</span>
-    </div>
+    <div class="id-cell"><span class="id-label">Élément</span><span class="id-value">Nature</span></div>
+    <div class="id-cell"><span class="id-label">Étoiles</span><span class="red-star">★</span><div style="font-size:9px;color:var(--red-star);margin-top:2px;">Ascendée</div></div>
+    <div class="id-cell"><span class="id-label">Talent</span><span class="id-value" style="color:var(--nat-bright);">+8 ★</span></div>
+    <div class="id-cell"><span class="id-label">Arme</span><span class="id-value" style="color:var(--nat-bright);">+30</span></div>
+    <div class="id-cell"><span class="id-label">Rage Regen</span><span class="id-value" style="color:#f87171;font-size:11px;">Lente</span></div>
   </div>
 
-  <!-- ROLE BANNER -->
   <div class="role-banner">
     <div class="role-icon">⚡</div>
     <div>
-      <div class="role-title">Rôle Unique — Générateur de Rage + Économie avancée</div>
-      <div class="role-desc">Tala est le seul héros du roster spécialisé dans la <strong style="color:var(--nat-bright)">génération de Rage pour les alliés</strong>. Sa compétence active recharge complètement la Rage d'un allié aléatoire, Désespoir continue à en recharger sur 3 tours, et Revigoration la restaure complètement à sa propre mort. En parallèle, ses compétences de troupe couvrent l'économie (ressources sûres, production de fer) et le combat (PV troupe +150%). C'est le héros le plus développé du roster — talent +8, arme +30.</div>
+      <div class="role-title">Héros le plus développé du roster — Double rôle unique</div>
+      <div class="role-desc">Tala est le <strong style="color:var(--nat-bright)">seul héros du jeu</strong> qui recharge complètement la Rage d'un allié (active + continue + post-mortem). En parallèle, ses compétences de troupe au niveau +8 offrent <strong style="color:var(--gold)">Production Fer +300%</strong> et <strong style="color:var(--gold)">PV Troupe +150%</strong>. Sa limite : Rage personnelle Lente, synergies Rage aléatoires.</div>
     </div>
   </div>
 
-  <!-- RATINGS -->
   <div class="ratings-row">
-    <div class="rating-card eco">
-      <span class="rating-mode">Économie</span>
-      <div class="rating-grade">S</div>
-      <div class="rating-label">Ressources + Fer</div>
-    </div>
-    <div class="rating-card pvp">
-      <span class="rating-mode">Support Rage</span>
-      <div class="rating-grade">S</div>
-      <div class="rating-label">Meilleur générateur</div>
-    </div>
-    <div class="rating-card boss">
-      <span class="rating-mode">PvE / Boss</span>
-      <div class="rating-grade">A</div>
-      <div class="rating-label">PV troupe +150%</div>
-    </div>
+    <div class="rating-card rage"><span class="rating-mode">Support Rage</span><div class="rating-grade">S</div><div class="rating-label">Meilleur du jeu</div></div>
+    <div class="rating-card eco"><span class="rating-mode">Économie Fer</span><div class="rating-grade">S</div><div class="rating-label">+300% production</div></div>
+    <div class="rating-card pve"><span class="rating-mode">PvE / Boss</span><div class="rating-grade">A</div><div class="rating-label">PV +150% passif</div></div>
   </div>
 
-  <!-- COMPÉTENCES HÉROS -->
   <div class="section">
-    <div class="section-title">Compétences de Héros</div>
+    <div class="section-title">Compétences de Héros — Plein Potentiel</div>
     <div class="skills-grid">
-
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Étreinte Verte <span style="font-size:10px;color:#f87171;font-family:'Raleway',sans-serif;">(Régén. Rage : Lente ⚠)</span></div>
-          <div class="skill-desc">Inflige <strong style="color:var(--gold)">200% de dégâts</strong> à un ennemi et <strong style="color:var(--blue)">restaure complètement la Rage d'un allié aléatoire</strong>. Attaque + rechargement Rage simultanés.</div>
-        </div>
-        <div class="skill-tag rage">Recharge Rage</div>
-      </div>
-
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Désespoir</div>
-          <div class="skill-desc">Compétence active améliorée : restaure <strong style="color:var(--blue)">10% de Rage par tour à un allié aléatoire</strong> pendant 3 tours. Régénération continue sur 3 tours = 30% de Rage supplémentaire.</div>
-        </div>
-        <div class="skill-tag rage">Regen Rage</div>
-      </div>
-
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Revigoration</div>
-          <div class="skill-desc">Lors de la mort de Tala, <strong style="color:var(--purple)">restaure complètement la Rage d'un allié aléatoire</strong>. Recharge post-mortem — Tala donne encore après sa chute.</div>
-        </div>
-        <div class="skill-tag death">Post-mortem</div>
-      </div>
-
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Paysage</div>
-          <div class="skill-desc">Au début du combat, augmente l'<strong style="color:var(--nat-bright)">ATQ de tous les alliés de 10%</strong>. Indissipable. Buff offensif d'ouverture permanent pour toute l'équipe.</div>
-        </div>
-        <div class="skill-tag passive">Buff ATQ</div>
-      </div>
-
-      <div class="skill-row">
-        <div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div>
-        <div>
-          <div class="skill-name" style="color:var(--text-dim)">Maîtrise de Combat</div>
-          <div class="skill-desc" style="color:#0e2d20">Augmente le Critique de +30%. Chance d'infliger le double de dégâts.</div>
-        </div>
-        <div class="skill-tag locked">🔒 étoiles sup.</div>
-      </div>
-
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Étreinte Verte <span style="font-size:10px;color:#f87171;font-family:'Raleway',sans-serif;">(Régén. Rage : Lente ⚠)</span></div><div class="skill-desc">Inflige <strong style="color:var(--gold)">200% de dégâts</strong> à un ennemi ET <strong style="color:var(--blue)">restaure complètement la Rage d'un allié aléatoire</strong>. Attaque + rechargement complet simultanés.</div></div><div class="skill-tag rage">Recharge Rage</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Désespoir</div><div class="skill-desc">Améliorée : restaure <strong style="color:var(--blue)">10% de Rage/tour à un allié aléatoire pendant 3 tours</strong>. +30% de Rage supplémentaire sur 3 tours après chaque activation.</div></div><div class="skill-tag rage">Regen Continue</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Revigoration</div><div class="skill-desc">À sa mort : <strong style="color:var(--purple)">restaure complètement la Rage d'un allié aléatoire</strong>. Troisième recharge post-mortem — Tala offre encore après sa chute.</div></div><div class="skill-tag death">Post-mortem</div></div>
+      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Paysage</div><div class="skill-desc">Au début du combat : <strong style="color:var(--nat-bright)">ATQ de tous les alliés +10%</strong>. <strong style="color:var(--gold)">Indissipable.</strong> Buff offensif permanent dès T0 pour toute la formation.</div></div><div class="skill-tag passive">Buff ATQ</div></div>
+      <div class="skill-row"><div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div><div><div class="skill-name" style="color:var(--text-dim)">Maîtrise de Combat</div><div class="skill-desc" style="color:#0e2d20">+30% Critique. Sur un multiplicateur de 200%, gain modéré.</div></div><div class="skill-tag locked">🔒 étoiles sup.</div></div>
     </div>
   </div>
 
-  <!-- MÉCANIQUE RAGE -->
   <div class="rage-box">
-    <div class="rage-title">⚡ Cycle de Rage — Comment Tala accélère les carries</div>
-    <div class="rage-row">
-      <span class="rage-num">T1</span>
-      <span class="rage-desc"><strong style="color:var(--nat-bright)">Paysage</strong> → ATQ équipe +10% indissipable dès le début</span>
-    </div>
-    <div class="rage-row">
-      <span class="rage-num">T?</span>
-      <span class="rage-desc"><strong style="color:var(--blue)">Étreinte Verte</strong> → Rage d'un allié rechargée à 100% + 200% dégâts ennemi</span>
-    </div>
-    <div class="rage-row">
-      <span class="rage-num">+3T</span>
-      <span class="rage-desc"><strong style="color:var(--blue)">Désespoir</strong> → +10% Rage/tour à un allié pendant 3 tours = 30% bonus</span>
-    </div>
-    <div class="rage-row">
-      <span class="rage-num">Mort</span>
-      <span class="rage-desc"><strong style="color:var(--purple)">Revigoration</strong> → dernière recharge complète offerte à un allié</span>
-    </div>
+    <div class="rage-title">⚡ Cycle de Rage Tala — Comment elle accélère les carries</div>
+    <div class="rage-row"><span class="rage-num">T0</span><span class="rage-desc"><strong style="color:var(--nat-bright)">Paysage</strong> activé → ATQ équipe +10% indissipable dès le début</span></div>
+    <div class="rage-row"><span class="rage-num">Acti.</span><span class="rage-desc"><strong style="color:var(--blue)">Étreinte Verte</strong> → Rage d'un allié rechargée à 100% + 200% dégâts sur ennemi</span></div>
+    <div class="rage-row"><span class="rage-num">+3T</span><span class="rage-desc"><strong style="color:var(--blue)">Désespoir</strong> → +10% Rage/tour à un allié pendant 3 tours = +30% bonus continu</span></div>
+    <div class="rage-row"><span class="rage-num">Mort</span><span class="rage-desc"><strong style="color:var(--purple)">Revigoration</strong> → dernière recharge complète offerte à un allié</span></div>
     <div style="font-size:11px;color:var(--text-dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
-      ⚠ Régénération de Rage personnelle <strong style="color:#f87171">Lente</strong> — Tala dépend de ses alliés pour activer ses compétences fréquemment. À associer avec un héros qui génère des tuiles rapidement.
+      ⚠ Ciblage aléatoire — la Rage ne va pas forcément au carry prioritaire. <strong style="color:var(--gold-light)">Limiter la formation à 2-3 héros pour concentrer les recharges.</strong><br>
+      ⚠ Rage personnelle Lente — Tala s'active rarement. Activer Tala en priorité avec les tuiles match-3.
     </div>
   </div>
 
-  <!-- COMPÉTENCES DE TROUPE -->
   <div class="section">
-    <div class="section-title">Compétences de Troupe (toutes +8)</div>
+    <div class="section-title">Compétences de Troupe (toutes +8 — les meilleures du roster)</div>
     <div class="troop-grid">
-      <div class="troop-card">
-        <div class="troop-label">Compétence active</div>
-        <div class="troop-value">+500%</div>
-        <div class="troop-sub">ATQ de troupe à l'ennemi</div>
-      </div>
-      <div class="troop-card eco">
-        <div class="troop-label">Ressources sûres</div>
-        <div class="troop-value">+20%</div>
-        <div class="troop-sub">Protection ressources</div>
-      </div>
-      <div class="troop-card eco">
-        <div class="troop-label">Production de Fer</div>
-        <div class="troop-value">+300%</div>
-        <div class="troop-sub">Meilleure prod. du roster</div>
-      </div>
-      <div class="troop-card">
-        <div class="troop-label">PV de Troupe (Passif)</div>
-        <div class="troop-value">+150%</div>
-        <div class="troop-sub">Toutes troupes</div>
-      </div>
+      <div class="troop-card"><div class="troop-label">Compétence active</div><div class="troop-value">+500%</div><div class="troop-sub">ATQ de troupe — égale Tania</div></div>
+      <div class="troop-card eco"><div class="troop-label">Production de Fer</div><div class="troop-value">+300%</div><div class="troop-sub">Meilleure du roster</div></div>
+      <div class="troop-card eco"><div class="troop-label">Ressources Sûres</div><div class="troop-value">+20%</div><div class="troop-sub">Protection anti-pillage</div></div>
+      <div class="troop-card"><div class="troop-label">PV Troupe (Passif)</div><div class="troop-value">+150%</div><div class="troop-sub">Toutes troupes</div></div>
     </div>
   </div>
 
-  <!-- ARME EXCLUSIVE -->
   <div class="section">
     <div class="section-title">Arme Exclusive — Bourgeon de Vie</div>
     <div class="weapon-card">
-      <div class="weapon-header">
-        <div class="weapon-name">🌸 Bourgeon de Vie ★★★ (actuel)</div>
-        <div class="weapon-level">+30 !</div>
-      </div>
-      <div style="font-size:10px;color:var(--nat-bright);margin-bottom:14px;">✅ Arme au niveau +30 — le plus haut niveau du roster</div>
-      <div style="font-size:11px;color:var(--text-dim);margin-bottom:14px;">Aperçu maximal (8★ +30) :</div>
+      <div class="weapon-header"><div class="weapon-name">🌸 Bourgeon de Vie ★★★ · Niveau +30</div><div class="weapon-level">+30 — plus haut du roster</div></div>
+      <div style="font-size:10px;color:var(--nat-bright);margin-bottom:14px;">✅ Niveau +30 — le plus haut investissement arme du roster. Étoiles à monter pour débloquer les exclusifs.</div>
       <div class="weapon-stats">
-        <div class="wstat">ATQ Troupe <span>+106%</span></div>
-        <div class="wstat">DEF Troupe <span>+106%</span></div>
-        <div class="wstat">PV Troupe <span>+106%</span></div>
-        <div class="wstat">ATQ Héros <span>+600</span></div>
-        <div class="wstat">DEF Héros <span>+600</span></div>
-        <div class="wstat">PV Héros <span>+1 200</span></div>
+        <div class="wstat">Niveau actuel +30</div>
+        <div class="wstat">Étoiles actuelles <span>★★★</span></div>
       </div>
       <div class="weapon-exclusive">
-        <div class="excl-title">Attributs Exclusifs Max (actifs uniquement sur Tala)</div>
+        <div class="excl-title">Aperçu Maximal (8★ +30) — Exclusifs Tala</div>
         <div class="excl-row">Héros +0 : DEF Troupe <strong style="color:var(--gold)">+100%</strong></div>
         <div class="excl-row">Héros +2 : PV Troupe <strong style="color:var(--gold)">+100%</strong></div>
         <div class="excl-row">Héros +4 : ATQ Troupe <strong style="color:var(--gold)">+100%</strong></div>
         <div class="excl-row">Héros +6 : ATQ Troupe <strong style="color:var(--gold)">+150%</strong> supplémentaires</div>
-        <div class="excl-note">Disponible via événements — Parchemins de Curiosité en événements de fête</div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:10px;font-style:italic;">Priorité : monter les étoiles du Bourgeon pour débloquer les exclusifs — le niveau +30 est déjà excellent.</div>
       </div>
     </div>
   </div>
 
-  <!-- CONTEXTE D'UTILISATION -->
   <div class="section">
     <div class="section-title">Contexte d'Utilisation</div>
     <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
       <table class="context-table">
-        <tr>
-          <td>Production de Fer</td>
-          <td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">+300% — meilleure production du roster</span></td>
-        </tr>
-        <tr>
-          <td>Support Rage PvP</td>
-          <td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">Recharge complète + 30% continu → carry déchaîné</span></td>
-        </tr>
-        <tr>
-          <td>PvE / Campagne</td>
-          <td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">PV +150% + ATQ +10% indissipable dès T1</span></td>
-        </tr>
-        <tr>
-          <td>KvK · Expédition</td>
-          <td><span class="ctx-good">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Rage lente — moins efficace en combat court</span></td>
-        </tr>
-        <tr>
-          <td>Boss Alliance</td>
-          <td><span class="ctx-avg">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Utile mais pas le cœur du DPS Boss</span></td>
-        </tr>
+        <tr><td>Production Fer</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">+300% — déployer en ville dès maintenant</span></td></tr>
+        <tr><td>Support Rage PvP</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">Triple recharge → carry déchaîné</span></td></tr>
+        <tr><td>PvE / Campagne</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">PV +150% + ATQ +10% indissipable dès T0</span></td></tr>
+        <tr><td>Formation Nature</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Recharge Guan Yu, Dimina, Boyd</span></td></tr>
+        <tr><td>Formation Feu</td><td><span class="ctx-good">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Compense la Rage Lente de Fiona</span></td></tr>
       </table>
     </div>
   </div>
 
-  <!-- SYNERGIES -->
   <div class="section">
-    <div class="section-title">Synergies Recommandées</div>
+    <div class="section-title">Synergies Meta Complètes</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(74,222,128,.4);border:1px solid #4ade80;"></div>Possédé</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(239,68,68,.3);border:1px solid #f87171;"></div>À acquérir</div>
+    </div>
     <div class="synergy-grid">
-
       <div class="synergy-row">
-        <div>
+        <div class="syn-left">
           <div class="syn-name">Aerposia</div>
-          <div class="syn-role">Dark · Carry DPS · Moisson Spirituelle</div>
-          <div class="syn-tags"><span class="syn-tag">Rage → Burst</span><span class="syn-tag">PvP</span></div>
+          <div class="syn-role">Dark · S PvP · Carry DPS · Moisson Spirituelle</div>
+          <div class="syn-reason">Synergie explosive. Tala recharge la Rage d'Aerposia → Aerposia active Garrot Sombre 1 088% → kill → Moisson Spirituelle +40% Rage → nouvel enchaînement. Cycle offensif potentiellement infini.</div>
+          <div class="syn-tags"><span class="syn-tag">Rage → Burst</span><span class="syn-tag">PvP</span><span class="syn-tag">Possédé</span></div>
         </div>
-        <div style="text-align:right">
-          <div class="syn-tier tier-s">S</div>
-          <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">COMBO PARFAIT</div>
-        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
       </div>
-
       <div class="synergy-row">
-        <div>
+        <div class="syn-left">
+          <div class="syn-name">Guan Yu</div>
+          <div class="syn-role">Nature · S Boss · S PvP · Meilleur Boss</div>
+          <div class="syn-reason">Tala recharge la Rage de Guan Yu → il active ses compétences Boss plus souvent → dégâts Boss multipliés. Trio Nature Tala + Guan Yu + Dimina = formation PvE/Boss redoutable.</div>
+          <div class="syn-tags"><span class="syn-tag">Boss</span><span class="syn-tag">Nature</span><span class="syn-tag">Rage → Boss DPS</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-no">À acquérir</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
           <div class="syn-name">Dimina</div>
-          <div class="syn-role">Nature · S2 · Cavalerie & Archer</div>
-          <div class="syn-tags"><span class="syn-tag">Nature</span><span class="syn-tag">PvE</span></div>
+          <div class="syn-role">Nature · S PvE · A Boss · Blocage Rage</div>
+          <div class="syn-reason">Tala recharge Dimina → Dimina active Croissance Infinie + blocage Rage ennemie plus souvent → l'adversaire ne peut pas charger. Trio Nature Tala + Dimina + Boyd disponible maintenant.</div>
+          <div class="syn-tags"><span class="syn-tag">Nature</span><span class="syn-tag">PvE</span><span class="syn-tag">Possédé</span></div>
         </div>
-        <div style="text-align:right">
-          <div class="syn-tier tier-s">S</div>
-          <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">TRIO NATURE</div>
-        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
       </div>
-
       <div class="synergy-row">
-        <div>
-          <div class="syn-name">Boyd</div>
-          <div class="syn-role">Nature · Carry · Counter Feu</div>
-          <div class="syn-tags"><span class="syn-tag">Nature</span><span class="syn-tag">Rage → 530%</span></div>
+        <div class="syn-left">
+          <div class="syn-name">Fiona</div>
+          <div class="syn-role">Feu · AoE Poison · Rage Lente</div>
+          <div class="syn-reason">Synergie critique. Fiona a une Rage Lente — sans Tala, elle n'active ses compétences qu'une fois. Tala compense ce défaut et lui permet d'enchaîner AoE 193% + poison + buff ATQ +34%.</div>
+          <div class="syn-tags"><span class="syn-tag">Rage Lente → Active</span><span class="syn-tag">Feu</span><span class="syn-tag">Possédé</span></div>
         </div>
-        <div style="text-align:right">
-          <div class="syn-tier tier-a">A</div>
-          <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">ACCÉLÉRATEUR</div>
-        </div>
+        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
       </div>
-
       <div class="synergy-row">
-        <div>
-          <div class="syn-name">Herukab</div>
-          <div class="syn-role">Lumière · S3 · Double AoE</div>
-          <div class="syn-tags"><span class="syn-tag">Rage → AoE</span><span class="syn-tag">PvP</span></div>
+        <div class="syn-left">
+          <div class="syn-name">Khaos</div>
+          <div class="syn-role">Dark · S universel · Priorité absolue</div>
+          <div class="syn-reason">Tala recharge la Rage de Khaos → Khaos s'active plus souvent → dégâts Boss et PvP multipliés. Formation Tala + Khaos + Aerposia = carry Dark déchaîné.</div>
+          <div class="syn-tags"><span class="syn-tag">PvP</span><span class="syn-tag">Boss</span><span class="syn-tag">Universel</span></div>
         </div>
-        <div style="text-align:right">
-          <div class="syn-tier tier-a">A</div>
-          <div style="font-size:9px;color:var(--text-dim);letter-spacing:0.1em;">INTER-ÉLÉMENT</div>
-        </div>
+        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-no">À acquérir</div></div>
       </div>
-
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Patty</div>
+          <div class="syn-role">Lumière · S3 · Économie Collecte</div>
+          <div class="syn-reason">Duo économie parfait. Tala produit le Fer (+300%), Patty récolte les ressources (+9%) et gère les ralliements. Ensemble = économie complète du roster couverte par deux héros.</div>
+          <div class="syn-tags"><span class="syn-tag">Économie</span><span class="syn-tag">Fer + Collecte</span><span class="syn-tag">Possédé</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
+      </div>
     </div>
   </div>
 
-  <!-- PRIORITÉS -->
+  <div class="section">
+    <div class="section-title">Formations Recommandées</div>
+    <div class="formation-grid">
+      <div class="formation-card">
+        <div class="formation-title">⚡ Formation PvP Rage Burst (opérationnelle)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Tala</span><span class="hero-pill pill-own" style="color:#a855f7;background:rgba(168,85,247,.15);border-color:#3d2b6b;">Aerposia</span><span class="hero-pill pill-own" style="color:#38d1f0;background:rgba(56,209,240,.1);border-color:#1a3a52;">Tania</span></div>
+        <div class="formation-desc">Tala recharge la Rage d'Aerposia → 1 088% + Moisson Spirituelle → cycle. Tania soigne et protège. Formation la plus efficace du roster actuellement. Disponible maintenant.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">🌿 Trio Nature PvE (opérationnel)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Tala</span><span class="hero-pill pill-own">Dimina</span><span class="hero-pill pill-own">Boyd</span></div>
+        <div class="formation-desc">Tala recharge Dimina et Boyd, Boyd soigne 5% PV/tour à Dimina, Dimina bloque la Rage ennemie. Excellent en PvE difficile — disponible maintenant.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">🏭 Duo Économie (déployer maintenant)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Tala</span><span class="hero-pill pill-own" style="color:#fbbf24;background:rgba(251,191,36,.1);border-color:#3d2e08;">Patty</span></div>
+        <div class="formation-desc">Tala en production de Fer (+300%), Patty en collecte de ressources (+9% vitesse) et ralliements (+16% ATQ). Duo économie complet — déployer dès maintenant en dehors des combats.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">⭐ Formation Nature Optimale (objectif)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-need">Guan Yu</span><span class="hero-pill pill-own">Tala</span><span class="hero-pill pill-own">Dimina</span></div>
+        <div class="formation-desc">Guan Yu porte le DPS Boss/PvP, Tala recharge sa Rage, Dimina bloque la Rage ennemie. <strong style="color:var(--gold-light)">Acquérir Guan Yu — priorité Nature absolue.</strong></div>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
     <div class="section-title">Priorités d'Investissement</div>
     <div class="priority-list">
-      <div class="priority-item">
-        <div class="priority-num">01</div>
-        <div class="priority-text"><strong>Utiliser Tala en production de Fer dès maintenant</strong> — +300% production, c'est le meilleur du roster et ça s'applique déjà sans investissement supplémentaire.</div>
-      </div>
-      <div class="priority-item">
-        <div class="priority-num">02</div>
-        <div class="priority-text"><strong>Associer Tala + Aerposia en formation PvP</strong> — Tala recharge la Rage d'Aerposia, qui déclenche son Spectre 1 088% + Moisson Spirituelle. Combo le plus dévastateur du roster.</div>
-      </div>
-      <div class="priority-item">
-        <div class="priority-num">03</div>
-        <div class="priority-text"><strong>Monter les étoiles du Bourgeon de Vie</strong> — L'arme est à +30 (excellent !) mais le nombre d'étoiles n'est pas maximal. Chaque étoile supplémentaire débloque de nouveaux attributs exclusifs massifs.</div>
-      </div>
-      <div class="priority-item">
-        <div class="priority-num">04</div>
-        <div class="priority-text"><strong>Construire le trio Nature : Tala + Dimina + Boyd</strong> — Tala recharge Dimina et Boyd, Paysage +10% ATQ indissipable booste leurs multiplicateurs. Formation Nature complète.</div>
-      </div>
+      <div class="priority-item"><div class="priority-num">01</div><div class="priority-text"><strong>Déployer Tala en production de Fer dès maintenant</strong> — +300% production, le meilleur du roster. S'applique immédiatement sans investissement supplémentaire.</div></div>
+      <div class="priority-item"><div class="priority-num">02</div><div class="priority-text"><strong>Former le duo Tala + Aerposia en PvP</strong> — C'est la combinaison offensive la plus puissante du roster actuel. Tala recharge, Aerposia explose, Moisson Spirituelle enchaîne.</div></div>
+      <div class="priority-item"><div class="priority-num">03</div><div class="priority-text"><strong>Monter les étoiles du Bourgeon de Vie</strong> — Le niveau +30 est excellent mais les étoiles débloquent les exclusifs (+100% DEF/PV/ATQ troupe + +150% ATQ à +6). Priorité après Khaos/Guan Yu.</div></div>
+      <div class="priority-item"><div class="priority-num">04</div><div class="priority-text"><strong>Acquérir Guan Yu</strong> — Trio Nature Tala + Guan Yu + Dimina est la formation Nature optimale. Tala recharge Guan Yu → dégâts Boss multipliés.</div></div>
     </div>
   </div>
 
-  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche générée juin 2026</div>
-
+  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche v2 — juin 2026</div>
 </div>
 </body>
 </html>
