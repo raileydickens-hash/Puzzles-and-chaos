@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eris — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
+  :root{
+    --void:#08040f;--panel:#120a1e;--border:#2a1540;
+    --dark-dim:#3d1a6b;--dark-mid:#6b21a8;--dark-bright:#c084fc;
+    --red:#ef4444;--pink:#f472b6;--gold:#c9a84c;--gold-light:#f0d080;
+    --green:#4ade80;--blue:#60a5fa;
+    --text:#c4a8e0;--text-dim:#6a4a8a;--white:#f5eeff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--void);color:var(--text);font-family:'Raleway',sans-serif;min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(107,33,168,.18) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 80% 70%,rgba(239,68,68,.05) 0%,transparent 60%);pointer-events:none;z-index:0;}
+  .container{max-width:860px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
+  .header{text-align:center;padding:40px 20px 32px;}
+  .element-badge{display:inline-block;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--dark-bright);border:1px solid var(--border);padding:4px 16px;border-radius:2px;margin-bottom:16px;background:rgba(107,33,168,.1);}
+  h1{font-family:'Cinzel',serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:var(--white);letter-spacing:.08em;line-height:1;text-shadow:0 0 40px rgba(192,132,252,.6),0 0 80px rgba(107,33,168,.4);margin-bottom:8px;}
+  .subtitle{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;}
+  .divider{display:flex;align-items:center;gap:16px;margin:0 auto 32px;max-width:400px;}
+  .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--dark-mid),transparent);}
+  .divider-icon{color:var(--dark-bright);font-size:20px;}
+  .warning-banner{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.25);border-radius:4px;padding:12px 16px;margin-bottom:20px;font-size:11px;color:var(--text-dim);line-height:1.6;}
+  .identity-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;}
+  .id-cell{background:var(--panel);padding:16px 12px;text-align:center;}
+  .id-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px;}
+  .id-value{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);font-weight:700;}
+  .ratings-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+  .rating-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px 16px;text-align:center;position:relative;overflow:hidden;}
+  .rating-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+  .rating-card.pvp::before{background:linear-gradient(90deg,var(--dark-mid),var(--pink));}
+  .rating-card.pve::before{background:linear-gradient(90deg,var(--dark-mid),var(--dark-bright));}
+  .rating-card.boss::before{background:linear-gradient(90deg,var(--dark-dim),var(--dark-mid));}
+  .rating-mode{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block;}
+  .rating-grade{font-family:'Cinzel',serif;font-size:36px;font-weight:900;line-height:1;}
+  .rating-card.pvp .rating-grade{color:var(--pink);text-shadow:0 0 20px rgba(244,114,182,.5);}
+  .rating-card.pve .rating-grade{color:var(--dark-bright);text-shadow:0 0 20px rgba(192,132,252,.5);}
+  .rating-card.boss .rating-grade{color:var(--gold);}
+  .rating-label{font-size:10px;color:var(--text-dim);margin-top:4px;}
+  .section{margin-bottom:20px;}
+  .section-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--dark-bright);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+  .skills-grid{display:grid;gap:8px;}
+  .skill-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;}
+  .skill-dot{width:8px;height:8px;border-radius:50%;background:var(--dark-bright);box-shadow:0 0 8px var(--dark-bright);flex-shrink:0;}
+  .skill-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:2px;}
+  .skill-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+  .skill-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--dark-bright);background:rgba(107,33,168,.12);border:1px solid var(--border);padding:3px 8px;border-radius:2px;white-space:nowrap;align-self:flex-start;}
+  .skill-tag.debuff{color:var(--pink);background:rgba(244,114,182,.08);border-color:rgba(244,114,182,.2);}
+  .skill-tag.rage{color:var(--blue);background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.2);}
+  .skill-tag.ctrl{color:var(--dark-bright);background:rgba(192,132,252,.08);border-color:rgba(192,132,252,.2);}
+  .skill-tag.passive{color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2);}
+  .skill-tag.locked{color:var(--text-dim);background:transparent;}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .troop-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;}
+  .troop-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
+  .troop-value{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);font-weight:700;}
+  .troop-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
+  .weapon-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;}
+  .weapon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .weapon-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold-light);}
+  .weapon-level{font-size:10px;color:var(--dark-bright);border:1px solid var(--border);padding:2px 10px;border-radius:2px;}
+  .weapon-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
+  .wstat{font-size:11px;color:var(--text-dim);}
+  .wstat span{color:var(--gold);font-weight:600;}
+  .weapon-exclusive{border-top:1px solid var(--border);padding-top:12px;}
+  .excl-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+  .excl-row{font-size:11px;color:var(--gold);margin-bottom:4px;display:flex;gap:8px;}
+  .excl-row::before{content:'›';color:var(--dark-bright);}
+  .combo-box{background:rgba(192,132,252,.05);border:1px solid var(--dark-dim);border-radius:4px;padding:16px 20px;margin-bottom:20px;}
+  .combo-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;color:var(--dark-bright);margin-bottom:12px;}
+  .combo-row{display:flex;gap:12px;align-items:flex-start;font-size:11px;margin-bottom:8px;}
+  .combo-num{color:var(--dark-bright);font-weight:700;min-width:24px;flex-shrink:0;}
+  .combo-desc{color:var(--text-dim);line-height:1.5;}
+  .context-table{width:100%;border-collapse:collapse;}
+  .context-table tr{border-bottom:1px solid var(--border);}
+  .context-table tr:last-child{border-bottom:none;}
+  .context-table td{padding:10px 12px;font-size:12px;}
+  .context-table td:first-child{color:var(--text-dim);font-size:11px;letter-spacing:.1em;white-space:nowrap;width:160px;}
+  .ctx-best{color:#86efac;}.ctx-good{color:var(--dark-bright);}.ctx-avg{color:var(--gold);}.ctx-bad{color:#f87171;}
+  .synergy-grid{display:grid;gap:8px;}
+  .synergy-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .syn-left{flex:1;}
+  .syn-name{font-family:'Cinzel',serif;font-size:13px;color:var(--white);}
+  .syn-role{color:var(--text-dim);font-size:11px;margin-top:2px;}
+  .syn-reason{font-size:11px;color:var(--text-dim);margin-top:4px;line-height:1.4;font-style:italic;}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+  .syn-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dark-bright);background:rgba(107,33,168,.1);border:1px solid var(--border);padding:2px 6px;border-radius:2px;}
+  .syn-right{text-align:right;min-width:60px;}
+  .syn-tier{font-family:'Cinzel',serif;font-size:20px;font-weight:700;}
+  .tier-s{color:#f472b6;text-shadow:0 0 15px rgba(244,114,182,.5);}
+  .tier-a{color:var(--gold);}
+  .tier-b{color:var(--dark-bright);}
+  .syn-own{font-size:9px;margin-top:2px;}
+  .own-yes{color:var(--green);}
+  .own-no{color:#f87171;}
+  .formation-grid{display:grid;gap:10px;}
+  .formation-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 18px;}
+  .formation-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:8px;}
+  .formation-heroes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+  .hero-pill{font-size:10px;letter-spacing:.1em;padding:3px 10px;border-radius:12px;border:1px solid var(--border);font-family:'Cinzel',serif;}
+  .pill-own{color:var(--dark-bright);background:rgba(107,33,168,.15);border-color:var(--dark-dim);}
+  .pill-need{color:#f87171;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
+  .formation-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
+  .priority-list{display:grid;gap:8px;}
+  .priority-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;}
+  .priority-num{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:var(--border);line-height:1;min-width:28px;}
+  .priority-text{font-size:12px;color:var(--text);line-height:1.6;}
+  .priority-text strong{color:var(--gold-light);font-weight:600;}
+  .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-dim);}
+  .legend-dot{width:10px;height:10px;border-radius:2px;}
+  .footer{text-align:center;padding-top:32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--border);}
+  @media(max-width:540px){.identity-strip{grid-template-columns:repeat(2,1fr);}.troop-grid{grid-template-columns:1fr;}h1{font-size:38px;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="element-badge">⬡ Élément Sombre · 5★ · Debuffeur AoE</div>
+    <h1>ERIS</h1>
+    <div class="subtitle">La Reine des Ténèbres · AoE Dark · Debuff Coups · Étourdissement</div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-icon">🦇</div><div class="divider-line"></div></div>
+  </div>
+
+  <div class="warning-banner">
+    ⚠ <strong style="color:#f87171;">Rage Lente</strong> — Eris nécessite un support Rage (Tala, Sirona) pour être efficace. Sans accélération, elle s'active rarement en combat. Son kit est fort mais conditionné à cette contrainte.
+  </div>
+
+  <div class="identity-strip">
+    <div class="id-cell"><span class="id-label">Élément</span><span class="id-value">Sombre</span></div>
+    <div class="id-cell"><span class="id-label">Étoiles</span><span style="color:var(--gold);font-size:13px;">★★★★★</span></div>
+    <div class="id-cell"><span class="id-label">Talent</span><span class="id-value" style="color:#f87171;">+2 ⚠</span></div>
+    <div class="id-cell"><span class="id-label">Puissance</span><span class="id-value">1 697 790</span></div>
+  </div>
+
+  <div class="ratings-row">
+    <div class="rating-card pvp"><span class="rating-mode">PvP · Arène</span><div class="rating-grade">B+</div><div class="rating-label">Debuff + Étourdissement</div></div>
+    <div class="rating-card pve"><span class="rating-mode">PvE · Campagne</span><div class="rating-grade">B+</div><div class="rating-label">AoE + Rage init.</div></div>
+    <div class="rating-card boss"><span class="rating-mode">Boss Alliance</span><div class="rating-grade">C</div><div class="rating-label">Rage Lente pénalise</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compétences de Héros — Plein Potentiel</div>
+    <div class="skills-grid">
+      <div class="skill-row">
+        <div class="skill-dot"></div>
+        <div>
+          <div class="skill-name">Néant de l'Oubli <span style="font-size:10px;color:#f87171;font-family:'Raleway',sans-serif;">(Régén. Rage : Lente ⚠)</span></div>
+          <div class="skill-desc">Inflige <strong style="color:var(--gold)">220% de dégâts à TOUS les ennemis</strong>. AoE totale — comparable à Fiona (193%) mais en Sombre.</div>
+        </div>
+        <div class="skill-tag">AoE Sombre</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-dot"></div>
+        <div>
+          <div class="skill-name">Esprit Distrait</div>
+          <div class="skill-desc">Compétence active améliorée : réduit les <strong style="color:var(--pink)">coups de tous les ennemis de 40% pendant 6 tours</strong>. Debuff défensif AoE très fort — supérieur au −34% d'Herukab et dure 6 tours vs 4.</div>
+        </div>
+        <div class="skill-tag debuff">Debuff −40%</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-dot"></div>
+        <div>
+          <div class="skill-name">Rage Ennemie</div>
+          <div class="skill-desc">Gagne <strong style="color:var(--blue)">30% de Rage au début du combat</strong>. Compense partiellement la Rage Lente — elle démarre avec une avance de 30% dès le tour 1.</div>
+        </div>
+        <div class="skill-tag rage">Rage Init.</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-dot"></div>
+        <div>
+          <div class="skill-name">Descente de Peur</div>
+          <div class="skill-desc">Compétence active améliorée : <strong style="color:var(--dark-bright)">chance d'étourdir les ennemis pendant 2 tours</strong>. Contrôle AoE — si déclenché, toute la formation ennemie est immobilisée 2 tours.</div>
+        </div>
+        <div class="skill-tag ctrl">Étourdissement</div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div>
+        <div>
+          <div class="skill-name" style="color:var(--text-dim)">Maîtrise de Combat</div>
+          <div class="skill-desc" style="color:#2a1540">+30% Critique. Chance de dégâts doubles sur son AoE 220%.</div>
+        </div>
+        <div class="skill-tag locked">🔒 6 étoiles</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="combo-box">
+    <div class="combo-title">🦇 Séquence de Combat Eris</div>
+    <div class="combo-row"><span class="combo-num">T0</span><span class="combo-desc"><strong style="color:var(--blue)">Rage Ennemie</strong> → +30% Rage dès le début. Elle démarre avec une longueur d'avance sur les autres héros Rage Lente.</span></div>
+    <div class="combo-row"><span class="combo-num">Acti.</span><span class="combo-desc"><strong style="color:var(--gold)">Néant de l'Oubli</strong> → 220% dégâts sur TOUS les ennemis simultanément</span></div>
+    <div class="combo-row"><span class="combo-num">+6T</span><span class="combo-desc"><strong style="color:var(--pink)">Esprit Distrait</strong> → Coups ennemis −40% / 6 tours (toute la formation)</span></div>
+    <div class="combo-row"><span class="combo-num">Chance</span><span class="combo-desc"><strong style="color:var(--dark-bright)">Descente de Peur</strong> → Étourdissement AoE 2 tours si déclenché</span></div>
+    <div style="font-size:11px;color:var(--text-dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+      <strong style="color:var(--gold-light)">Comparaison Herukab :</strong> Eris debuff −40% coups / 6T vs Herukab −34% / 4T. Eris est supérieure sur ce point précis mais Herukab double AoE (528% vs 220%) et debuff ATQ en plus. Rôles différents.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compétences de Troupe (+2 — à développer)</div>
+    <div class="troop-grid">
+      <div class="troop-card"><div class="troop-label">Compétence active</div><div class="troop-value">+150%</div><div class="troop-sub">ATQ de troupe</div></div>
+      <div class="troop-card"><div class="troop-label">PV de Troupe</div><div class="troop-value">+12,8%</div><div class="troop-sub">Toutes troupes</div></div>
+      <div class="troop-card"><div class="troop-label">DEF de Troupe</div><div class="troop-value">+12,8%</div><div class="troop-sub">Toutes troupes</div></div>
+      <div class="troop-card"><div class="troop-label">ATQ de Troupe</div><div class="troop-value">+12,8%</div><div class="troop-sub">Toutes troupes</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Arme Exclusive — Aperçu Maximal</div>
+    <div class="weapon-card">
+      <div class="weapon-header"><div class="weapon-name">🦇 Aile Ennemie (8★ +30 max)</div><div class="weapon-level">Non obtenu</div></div>
+      <div style="font-size:10px;color:#f87171;margin-bottom:14px;">⚠ Arme non obtenue — via événements de fête (Parchemins de Curiosité)</div>
+      <div class="weapon-stats">
+        <div class="wstat">ATQ/DEF/PV Troupe <span>+106% chacun</span></div>
+        <div class="wstat">ATQ Héros <span>+600</span></div>
+        <div class="wstat">DEF Héros <span>+600</span></div>
+        <div class="wstat">PV Héros <span>+1 200</span></div>
+      </div>
+      <div class="weapon-exclusive">
+        <div class="excl-title">Attributs Exclusifs Max (Eris uniquement)</div>
+        <div class="excl-row">Héros +0 : DEF Troupe <strong style="color:var(--gold)">+100%</strong></div>
+        <div class="excl-row">Héros +2 : PV Troupe <strong style="color:var(--gold)">+100%</strong></div>
+        <div class="excl-row">Héros +4 : ATQ Troupe <strong style="color:var(--gold)">+100%</strong></div>
+        <div class="excl-row">Héros +6 : Dégâts Cavalerie vs Infanterie <strong style="color:var(--gold)">+30%</strong></div>
+        <div style="font-size:10px;color:var(--text-dim);margin-top:10px;font-style:italic;">Exclusif +6 : bonus cavalerie vs infanterie — intéressant en formation cavalerie Dark.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Contexte d'Utilisation</div>
+    <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+      <table class="context-table">
+        <tr><td>PvP avec support Rage</td><td><span class="ctx-best">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Debuff −40% + étourdissement AoE très fort</span></td></tr>
+        <tr><td>PvE · Campagne</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Rage init. +30% + AoE 220% dès T1-2</span></td></tr>
+        <tr><td>Formation Dark</td><td><span class="ctx-good">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Cohérence Dark avec Aerposia + Sirona</span></td></tr>
+        <tr><td>PvP sans support Rage</td><td><span class="ctx-avg">●●○○○</span> <span style="font-size:11px;color:var(--text-dim)">Rage Lente → activation tardive → inefficace</span></td></tr>
+        <tr><td>Boss Alliance</td><td><span class="ctx-bad">●○○○○</span> <span style="font-size:11px;color:var(--text-dim)">Rage Lente inadaptée — ne pas déployer</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Synergies Meta Complètes</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(74,222,128,.4);border:1px solid #4ade80;"></div>Possédé</div>
+      <div class="legend-item"><div class="legend-dot" style="background:rgba(239,68,68,.3);border:1px solid #f87171;"></div>À acquérir</div>
+    </div>
+    <div class="synergy-grid">
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Tala</div>
+          <div class="syn-role">Nature · Triple Recharge Rage · 6★</div>
+          <div class="syn-reason">Synergie critique. Tala compense la Rage Lente d'Eris → elle active Néant de l'Oubli + Esprit Distrait (−40%) bien plus tôt. Sans Tala, Eris reste trop longtemps inactive.</div>
+          <div class="syn-tags"><span class="syn-tag">Rage Lente → Active</span><span class="syn-tag">Possédé</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Aerposia</div>
+          <div class="syn-role">Sombre · S PvP · Carry DPS · 1 088%</div>
+          <div class="syn-reason">Combo Dark parfait. Eris debuff −40% coups de toute la formation → Aerposia pose son Spectre 1 088% sur des cibles affaiblies → dégâts amplifiés. Cohérence Dark totale.</div>
+          <div class="syn-tags"><span class="syn-tag">Dark</span><span class="syn-tag">Debuff → Burst</span><span class="syn-tag">Possédé</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Sirona</div>
+          <div class="syn-role">Sombre · Soigneuse Dark · Bénédiction Lunaire</div>
+          <div class="syn-reason">Bénédiction Lunaire (+24% Rage/T) accélère aussi Eris. Trio Dark Sirona + Eris + Aerposia = soigneuse Dark + debuffeur Dark + carry Dark. Cohérence d'élément maximale.</div>
+          <div class="syn-tags"><span class="syn-tag">Dark</span><span class="syn-tag">Rage +24%</span><span class="syn-tag">Possédé</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Khaos</div>
+          <div class="syn-role">Sombre · S universel · Priorité absolue</div>
+          <div class="syn-reason">Formation Dark optimale : Eris debuff −40% + étourdissement → Khaos et Aerposia explosent sur des cibles immobilisées et affaiblies. Eris est le setup parfait pour les carries Dark.</div>
+          <div class="syn-tags"><span class="syn-tag">Dark</span><span class="syn-tag">PvP</span><span class="syn-tag">Boss</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-no">À acquérir</div></div>
+      </div>
+      <div class="synergy-row">
+        <div class="syn-left">
+          <div class="syn-name">Violette</div>
+          <div class="syn-role">Sombre · S PvP · Carry Arène</div>
+          <div class="syn-reason">Eris debuff toute la formation (−40% coups) + étourdissement possible → Violette explose sur des cibles contrôlées. Trio Dark Eris + Violette + Aerposia en PvP Arène.</div>
+          <div class="syn-tags"><span class="syn-tag">Dark</span><span class="syn-tag">PvP</span><span class="syn-tag">Arène</span></div>
+        </div>
+        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-no">À acquérir</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Formations Recommandées</div>
+    <div class="formation-grid">
+      <div class="formation-card">
+        <div class="formation-title">✓ Formation Dark actuelle (opérationnelle)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Eris</span><span class="hero-pill pill-own">Aerposia</span><span class="hero-pill pill-own">Tala</span></div>
+        <div class="formation-desc">Tala recharge la Rage d'Eris, Eris debuff −40% coups de toute la formation, Aerposia explose 1 088% sur des cibles affaiblies. Disponible maintenant — efficace en PvE et PvP.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">⭐ Trio Dark Cohérent (objectif)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Eris</span><span class="hero-pill pill-own">Aerposia</span><span class="hero-pill pill-own">Sirona</span></div>
+        <div class="formation-desc">Cohérence Dark totale. Sirona soigne +44% et accélère la Rage +24% (compense Rage Lente d'Eris), Eris debuff −40%, Aerposia burst. Disponible maintenant — formation Dark la plus cohérente du roster.</div>
+      </div>
+      <div class="formation-card">
+        <div class="formation-title">🏆 Formation Dark Optimale (long terme)</div>
+        <div class="formation-heroes"><span class="hero-pill pill-own">Sirona</span><span class="hero-pill pill-own">Aerposia</span><span class="hero-pill pill-need">Khaos</span></div>
+        <div class="formation-desc">Au niveau meta, Eris est remplacée par Khaos (S universel) dans la formation Dark optimale. Eris reste utile en PvE et en formation tri-Dark alternative.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Priorités d'Investissement</div>
+    <div class="priority-list">
+      <div class="priority-item"><div class="priority-num">01</div><div class="priority-text"><strong>Associer systématiquement avec Tala ou Sirona</strong> — Rage Lente = Eris inefficace sans support. Tala recharge directement, Sirona accélère +24% Rage/T. L'une des deux est obligatoire.</div></div>
+      <div class="priority-item"><div class="priority-num">02</div><div class="priority-text"><strong>Monter le talent de +2 à +4 minimum</strong> — Les compétences troupe à +2 (+12,8% passifs) sont très en dessous du potentiel. À +4 : objectif +25,6% passifs.</div></div>
+      <div class="priority-item"><div class="priority-num">03</div><div class="priority-text"><strong>Débloquer les 6 étoiles</strong> — Maîtrise de Combat (+30% Critique) sur AoE 220% = gain offensif important. Et l'étourdissement AoE devient plus fréquent avec le Critique.</div></div>
+      <div class="priority-item"><div class="priority-num">04</div><div class="priority-text"><strong>Obtenir l'Aile Ennemie</strong> via événements de fête — +106% légion au max + dégâts cavalerie vs infanterie +30% à +6. Priorité après avoir monté le talent.</div></div>
+    </div>
+  </div>
+
+  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche v2 — juin 2026</div>
+</div>
+</body>
+</html>
