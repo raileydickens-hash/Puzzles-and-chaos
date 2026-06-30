@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conquête des Seigneurs – Fiche Débutante</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+
+  :root {
+    --gold: #e8b84b;
+    --gold-dark: #a07720;
+    --red: #c0392b;
+    --green: #27ae60;
+    --blue: #2980b9;
+    --purple: #8e44ad;
+    --bg: #0d1117;
+    --panel: #161c26;
+    --panel2: #1e2635;
+    --border: #2e3d55;
+    --text: #cdd6e0;
+    --white: #f0f4f8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding: 16px;
+    background-image: radial-gradient(ellipse at top, #1a2540 0%, #0d1117 70%);
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    text-align: center;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(232,184,75,0.5);
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #7a8fa8;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .item {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 0.83rem;
+    line-height: 1.45;
+  }
+
+  .item .bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .highlight { color: var(--gold); font-weight: 700; }
+  .hl-red { color: #e74c3c; font-weight: 700; }
+  .hl-green { color: #2ecc71; font-weight: 700; }
+  .hl-blue { color: #5dade2; font-weight: 700; }
+
+  .warning-box {
+    background: rgba(192,57,43,0.12);
+    border: 1px solid rgba(192,57,43,0.35);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 10px;
+    font-size: 0.8rem;
+  }
+
+  .warning-box .warn-title {
+    color: #e74c3c;
+    font-weight: 700;
+    font-size: 0.82rem;
+    margin-bottom: 5px;
+  }
+
+  .tip-box {
+    background: rgba(39,174,96,0.1);
+    border: 1px solid rgba(39,174,96,0.3);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 10px;
+    font-size: 0.8rem;
+  }
+
+  .tip-box .tip-title {
+    color: #2ecc71;
+    font-weight: 700;
+    font-size: 0.82rem;
+    margin-bottom: 5px;
+  }
+
+  .pts-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin-top: 8px;
+  }
+
+  .pts-table th {
+    background: var(--panel2);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    padding: 6px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pts-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid rgba(46,61,85,0.5);
+    vertical-align: top;
+  }
+
+  .pts-table tr:last-child td { border-bottom: none; }
+
+  .mult-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .mult-item {
+    background: var(--panel2);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 0.78rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border);
+  }
+
+  .mult-item.goal {
+    border-color: rgba(232,184,75,0.5);
+    background: rgba(232,184,75,0.08);
+  }
+
+  .mult-val {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .steps { margin-top: 6px; }
+
+  .step {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: #0d1117;
+    font-weight: 900;
+    font-size: 0.72rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Cinzel', serif;
+  }
+
+  .plan-grid { display: grid; gap: 8px; margin-top: 6px; }
+
+  .plan-row {
+    background: var(--panel2);
+    border-radius: 7px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    border-left: 3px solid var(--gold);
+  }
+
+  .plan-row.rouge { border-left-color: #e74c3c; }
+  .plan-row.vert { border-left-color: #2ecc71; }
+  .plan-row.bleu { border-left-color: #5dade2; }
+  .plan-row.violet { border-left-color: #bb8fce; }
+
+  .plan-label {
+    font-weight: 700;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #455a75;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-style: italic;
+  }
+
+  .big-goal {
+    text-align: center;
+    padding: 10px;
+    background: linear-gradient(135deg, rgba(232,184,75,0.05), rgba(232,184,75,0.15));
+    border-radius: 8px;
+    border: 1px solid rgba(232,184,75,0.3);
+    margin: 10px 0;
+  }
+
+  .big-goal .num {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    color: var(--gold);
+    font-weight: 900;
+    text-shadow: 0 0 15px rgba(232,184,75,0.4);
+    line-height: 1;
+  }
+
+  .big-goal .label {
+    font-size: 0.75rem;
+    color: #7a8fa8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 3px;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 10px 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>⚔️ CONQUÊTE DES SEIGNEURS</h1>
+<p class="subtitle">Fiche simple — pour tout le monde</p>
+
+<!-- C'EST QUOI -->
+<div class="section">
+  <div class="section-title"><span>📖</span> C'est quoi cet événement ?</div>
+  <div class="item"><div class="bullet"></div><div>Une grande guerre entre royaumes, qui revient <span class="highlight">toutes les 2 semaines</span>.</div></div>
+  <div class="item"><div class="bullet"></div><div>Ton alliance attaque d'autres alliances pour <span class="highlight">capturer des Salles de Puissance</span>.</div></div>
+  <div class="item"><div class="bullet"></div><div>Tu gagnes des <span class="highlight">points personnels</span> selon ta participation, et à la fin tu reçois des récompenses.</div></div>
+  <div class="item"><div class="bullet"></div><div><span class="hl-green">Le but :</span> atteindre <span class="highlight">12 000 points</span> pour débloquer les grosses récompenses de fin d'événement.</div></div>
+</div>
+
+<!-- OBJECTIF PRINCIPAL -->
+<div class="section">
+  <div class="section-title"><span>🎯</span> Ton objectif principal</div>
+  <div class="big-goal">
+    <div class="num">12 000</div>
+    <div class="label">points personnels minimum</div>
+  </div>
+  <div class="tip-box">
+    <div class="tip-title">💡 Pourquoi c'est si important</div>
+    Si tu restes en dessous de 12 000 points, tu ne reçois pas les récompenses bonus. En les atteignant, tu te récompenses toi ET tu aides toute ton alliance à obtenir de meilleurs gains !
+  </div>
+</div>
+
+<!-- COMMENT GAGNER DES POINTS -->
+<div class="section">
+  <div class="section-title"><span>⭐</span> Comment gagner des points</div>
+
+  <table class="pts-table">
+    <tr>
+      <th>Ce que tu fais</th>
+      <th>Points gagnés</th>
+      <th>À savoir</th>
+    </tr>
+    <tr>
+      <td>Occuper une Salle ou une Tour</td>
+      <td><span class="hl-green">jusqu'à 2 000</span></td>
+      <td>Reste sur place tant que tu peux !</td>
+    </tr>
+    <tr>
+      <td>Envoyer des soldats se battre et les perdre volontairement</td>
+      <td><span class="hl-green">200 pts</span> pour 500k de puissance sacrifiée</td>
+      <td>La méthode la plus simple pour les débutants</td>
+    </tr>
+    <tr>
+      <td>Tuer des soldats ennemis</td>
+      <td><span class="hl-green">450 pts</span> pour 6 millions de puissance tuée</td>
+      <td>Très efficace si tu es puissante</td>
+    </tr>
+    <tr>
+      <td>Combat équitable avec un allié (on s'attaque mutuellement avec le même nombre)</td>
+      <td>Points doublés pour les deux</td>
+      <td>À organiser avec un camarade</td>
+    </tr>
+  </table>
+</div>
+
+<!-- INFIRMERIES -->
+<div class="section">
+  <div class="section-title"><span>🏥</span> Les infirmeries — comment ne pas perdre ses soldats définitivement</div>
+
+  <div class="item"><div class="bullet"></div><div>Tes <span class="highlight">infirmeries</span> (appelées "tentes médicales" dans le jeu) peuvent accueillir des soldats blessés.</div></div>
+  <div class="item"><div class="bullet"></div><div>Plus leur capacité est élevée, plus tu peux soigner de soldats — <span class="highlight">c'est ton filet de sécurité</span>.</div></div>
+
+  <div class="divider"></div>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div>Avant l'événement, <span class="highlight">remplis tes infirmeries</span> avec des soldats de rang 1 (les moins chers à former et à soigner).</div></div>
+    <div class="step"><div class="step-num">2</div><div>Quand tes infirmeries sont pleines, les soldats perdus au combat vont dans ton <span class="highlight">Sanctuaire</span> — ils comptent comme des points ET peuvent être soignés gratuitement.</div></div>
+    <div class="step"><div class="step-num">3</div><div>Soigne-les avec la <span class="highlight">Lumière Sacrée</span> (à récupérer dans les quêtes journalières) pour ne rien dépenser.</div></div>
+    <div class="step"><div class="step-num">4</div><div>Une fois soignés, recommence ! C'est la boucle parfaite pour accumuler des points sans ruiner ton armée.</div></div>
+  </div>
+
+  <div class="warning-box">
+    <div class="warn-title">⚠️ ATTENTION — Danger permanent</div>
+    <div class="item"><div class="bullet" style="background:#e74c3c"></div><div>Si ton Sanctuaire est plein, les nouveaux blessés vont à l'<span class="hl-red">hôpital de l'alliance</span> (limité à 100 000 soldats).</div></div>
+    <div class="item"><div class="bullet" style="background:#e74c3c"></div><div>Au-delà de cette limite : tes soldats sont <span class="hl-red">perdus pour toujours</span>, impossible de les récupérer.</div></div>
+    <div style="margin-top:6px; font-weight:700; color:#e74c3c;">→ Ne jamais dépasser la capacité de ton Sanctuaire !</div>
+  </div>
+</div>
+
+<!-- ROUTINE POUR ATTEINDRE 12K -->
+<div class="section">
+  <div class="section-title"><span>📋</span> La routine pour atteindre 12 000 points</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div>Forme un maximum de <span class="highlight">soldats de rang 1</span> jusqu'à remplir ta capacité d'infirmerie.</div></div>
+    <div class="step"><div class="step-num">2</div><div>Envoie-les se battre sur une <span class="highlight">case de ressources</span> sur la carte du monde — ils se font blesser facilement et rapidement.</div></div>
+    <div class="step"><div class="step-num">3</div><div>Vérifie que ton Sanctuaire n'est <span class="hl-red">pas plein</span> avant chaque envoi.</div></div>
+    <div class="step"><div class="step-num">4</div><div>Soigne tout le monde avec la Lumière Sacrée, puis <span class="highlight">recommence</span> jusqu'à 12 000 points.</div></div>
+  </div>
+</div>
+
+<!-- BONUS DE FIN -->
+<div class="section">
+  <div class="section-title"><span>✖️</span> Le bonus de récompenses (multiplicateur)</div>
+
+  <div class="item"><div class="bullet"></div><div>À la fin de l'événement, tout le monde reçoit des récompenses qui peuvent être <span class="highlight">multipliées selon les performances collectives</span> du royaume.</div></div>
+  <div class="item"><div class="bullet"></div><div>Ce multiplicateur <span class="hl-red">ne touche pas tes points de combat</span>, seulement les cadeaux finaux.</div></div>
+  <div class="item"><div class="bullet"></div><div>Plus le royaume entier marque de points, plus le multiplicateur est grand — c'est un effort collectif !</div></div>
+
+  <div class="mult-grid">
+    <div class="mult-item"><span>10K–24K pts</span><span class="mult-val" style="color:#7a8fa8">×3</span></div>
+    <div class="mult-item"><span>25K–29K pts</span><span class="mult-val" style="color:#7a8fa8">×4</span></div>
+    <div class="mult-item"><span>30K–34K pts</span><span class="mult-val" style="color:#5dade2">×5</span></div>
+    <div class="mult-item"><span>35K–39K pts</span><span class="mult-val" style="color:#5dade2">×6</span></div>
+    <div class="mult-item goal"><span>40K–59K pts 🎯</span><span class="mult-val" style="color:var(--gold)">×7</span></div>
+    <div class="mult-item"><span>60K–84K pts</span><span class="mult-val" style="color:#2ecc71">×8</span></div>
+    <div class="mult-item" style="grid-column:1/-1; border-color:rgba(39,174,96,0.4); background:rgba(39,174,96,0.08)"><span>85K+ pts — MAXIMUM</span><span class="mult-val" style="color:#2ecc71">×10</span></div>
+  </div>
+
+  <div class="tip-box" style="margin-top:10px">
+    <div class="tip-title">🎯 Objectif de l'alliance : atteindre ×7 ensemble</div>
+    Un joueur volontaire peut aussi sacrifier massivement ses soldats pour pousser le royaume vers le maximum ×10, et tout le monde en profite !
+  </div>
+</div>
+
+<!-- PLAN DE L'ALLIANCE -->
+<div class="section">
+  <div class="section-title"><span>🏰</span> Le plan de notre alliance pour cet événement</div>
+
+  <div class="plan-grid">
+    <div class="plan-row">
+      <div class="plan-label" style="color:var(--gold)">Point de rassemblement</div>
+      Alliance numéro 258
+    </div>
+    <div class="plan-row vert">
+      <div class="plan-label" style="color:#2ecc71">Ce qu'on capture</div>
+      Les Salles 282 et 322, selon les assignations données à chacun
+    </div>
+    <div class="plan-row rouge">
+      <div class="plan-label" style="color:#e74c3c">Règle absolue</div>
+      Reste dans ton bâtiment jusqu'à ce que la capture soit terminée à 100%
+    </div>
+    <div class="plan-row bleu">
+      <div class="plan-label" style="color:#5dade2">Rôle des capitaines</div>
+      Ils envoient des renforts dans les Salles dès que possible
+    </div>
+    <div class="plan-row rouge">
+      <div class="plan-label" style="color:#e74c3c">⛔ Zone interdite</div>
+      Ne pas attaquer les Tours de l'alliance 258 — accord passé avec eux lors des négociations
+    </div>
+    <div class="plan-row violet">
+      <div class="plan-label" style="color:#bb8fce">Pas encore assignée ?</div>
+      Renforce la Salle 258 avec uniquement des soldats de rang 1 (10 000 maximum)
+    </div>
+    <div class="plan-row rouge">
+      <div class="plan-label" style="color:#e74c3c">🚨 Alerte grande attaque</div>
+      Si une immense attaque ennemie arrive sur les capitaines : ils doivent quitter immédiatement si nécessaire
+    </div>
+    <div class="plan-row">
+      <div class="plan-label" style="color:var(--gold)">Places disponibles</div>
+      30 emplacements dans nos salles
+    </div>
+  </div>
+</div>
+
+<!-- CONSEILS -->
+<div class="section">
+  <div class="section-title"><span>💎</span> Conseils pour bien s'en sortir</div>
+
+  <div class="item"><div class="bullet"></div><div><span class="highlight">Avant l'événement :</span> forme beaucoup de soldats de rang 1, vérifie que tes infirmeries ne sont pas vides, et récupère de la Lumière Sacrée dans tes quêtes journalières.</div></div>
+  <div class="item"><div class="bullet"></div><div><span class="highlight">Pendant l'événement :</span> n'envoie jamais tes meilleurs soldats (rang 9 et plus) se faire tuer — c'est beaucoup trop long et coûteux à soigner. Réserve-les pour défendre.</div></div>
+  <div class="item"><div class="bullet"></div><div><span class="highlight">Tu n'as pas d'assignation ?</span> Renforce simplement la Salle de l'alliance 258 avec tes soldats de rang 1 (10 000 max).</div></div>
+  <div class="item"><div class="bullet"></div><div><span class="highlight">Combat à égalité avec un allié :</span> si tu vous attaquez mutuellement avec le même nombre de soldats, vous doublez vos points tous les deux — pratique à organiser en équipe !</div></div>
+  <div class="item"><div class="bullet"></div><div><span class="highlight">Soigne régulièrement</span> pour libérer de la place dans ton Sanctuaire et pouvoir recommencer à accumuler des points.</div></div>
+
+  <div class="warning-box">
+    <div class="warn-title">⚠️ Les erreurs à ne surtout pas faire</div>
+    <div class="item"><div class="bullet" style="background:#e74c3c"></div><div>Remplir le Sanctuaire à ras-bord → tes soldats en trop sont perdus pour toujours.</div></div>
+    <div class="item"><div class="bullet" style="background:#e74c3c"></div><div>Attaquer les Tours de l'alliance 258 — c'est un accord à respecter.</div></div>
+    <div class="item"><div class="bullet" style="background:#e74c3c"></div><div>Quitter son bâtiment avant que la capture soit complète.</div></div>
+    <div class="item"><div class="bullet" style="background:#e74c3c"></div><div>Sacrifier ses meilleurs soldats — beaucoup trop chers à récupérer ensuite.</div></div>
+  </div>
+</div>
+
+<div class="footer">Puzzles & Chaos : Frozen Castle — Conquête des Seigneurs</div>
+
+</body>
+</html>

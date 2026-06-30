@@ -5,280 +5,299 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tania — Fiche Héros</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
-  :root {
-    --void:#060d14;--panel:#0d1e2c;--border:#1a3a52;--ice-dim:#0e4d6b;--ice-mid:#0ea5c8;
-    --ice-bright:#38d1f0;--gold:#c9a84c;--gold-light:#f0d080;--red-star:#ff4444;
-    --green:#4ade80;--pink:#f472b6;--text:#a8cfe0;--text-dim:#4a7a9a;--white:#e8f6ff;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--void);color:var(--text);font-family:'Raleway',sans-serif;min-height:100vh;overflow-x:hidden;}
-  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(14,165,200,.15) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 20% 80%,rgba(56,209,240,.08) 0%,transparent 60%);pointer-events:none;z-index:0;}
-  .container{max-width:860px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
-  .header{text-align:center;padding:40px 20px 32px;}
-  .element-badge{display:inline-block;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--ice-bright);border:1px solid var(--border);padding:4px 16px;border-radius:2px;margin-bottom:16px;background:rgba(14,165,200,.08);}
-  h1{font-family:'Cinzel',serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:var(--white);letter-spacing:.08em;line-height:1;text-shadow:0 0 40px rgba(56,209,240,.6),0 0 80px rgba(56,209,240,.3);margin-bottom:8px;}
-  .subtitle{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;}
-  .divider{display:flex;align-items:center;gap:16px;margin:0 auto 32px;max-width:400px;}
-  .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--ice-mid),transparent);}
-  .divider-icon{color:var(--ice-bright);font-size:20px;}
-  .identity-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;}
-  .id-cell{background:var(--panel);padding:16px 12px;text-align:center;}
-  .id-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px;}
-  .id-value{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);font-weight:700;}
-  .red-star{color:var(--red-star);font-size:18px;text-shadow:0 0 12px rgba(255,68,68,.7);}
-  .ratings-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
-  .rating-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px 16px;text-align:center;position:relative;overflow:hidden;}
-  .rating-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-  .rating-card.pvp::before{background:linear-gradient(90deg,var(--ice-mid),var(--ice-bright));}
-  .rating-card.pve::before{background:linear-gradient(90deg,var(--ice-mid),var(--ice-bright));}
-  .rating-card.boss::before{background:linear-gradient(90deg,var(--ice-dim),var(--gold));}
-  .rating-mode{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block;}
-  .rating-grade{font-family:'Cinzel',serif;font-size:36px;font-weight:900;line-height:1;}
-  .rating-card.pvp .rating-grade,.rating-card.pve .rating-grade{color:var(--ice-bright);text-shadow:0 0 20px rgba(56,209,240,.5);}
-  .rating-card.boss .rating-grade{color:var(--gold);text-shadow:0 0 15px rgba(201,168,76,.4);}
-  .rating-label{font-size:10px;color:var(--text-dim);margin-top:4px;}
-  .section{margin-bottom:20px;}
-  .section-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ice-bright);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-  .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
-  .skills-grid{display:grid;gap:8px;}
-  .skill-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;}
-  .skill-dot{width:8px;height:8px;border-radius:50%;background:var(--ice-bright);box-shadow:0 0 8px var(--ice-bright);flex-shrink:0;}
-  .skill-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:2px;}
-  .skill-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
-  .skill-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--ice-bright);background:rgba(14,165,200,.12);border:1px solid var(--border);padding:3px 8px;border-radius:2px;white-space:nowrap;align-self:flex-start;}
-  .skill-tag.heal{color:var(--green);background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.2);}
-  .skill-tag.passive{color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2);}
-  .skill-tag.locked{color:var(--text-dim);background:transparent;}
-  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .troop-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;}
-  .troop-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
-  .troop-value{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);font-weight:700;}
-  .troop-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
-  .weapon-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;}
-  .weapon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .weapon-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold-light);}
-  .weapon-level{font-size:10px;color:var(--ice-bright);border:1px solid var(--border);padding:2px 10px;border-radius:2px;}
-  .weapon-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
-  .wstat{font-size:11px;color:var(--text-dim);}
-  .wstat span{color:var(--gold);font-weight:600;}
-  .weapon-exclusive{border-top:1px solid var(--border);padding-top:12px;}
-  .excl-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
-  .excl-row{font-size:11px;color:var(--gold);margin-bottom:4px;display:flex;gap:8px;}
-  .excl-row::before{content:'›';color:var(--ice-bright);}
-  .context-table{width:100%;border-collapse:collapse;}
-  .context-table tr{border-bottom:1px solid var(--border);}
-  .context-table tr:last-child{border-bottom:none;}
-  .context-table td{padding:10px 12px;font-size:12px;}
-  .context-table td:first-child{color:var(--text-dim);font-size:11px;letter-spacing:.1em;white-space:nowrap;width:160px;}
-  .ctx-best{color:#86efac;}.ctx-good{color:var(--ice-bright);}.ctx-avg{color:var(--gold);}.ctx-bad{color:#f87171;}
-  .synergy-grid{display:grid;gap:8px;}
-  .synergy-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-  .syn-left{flex:1;}
-  .syn-name{font-family:'Cinzel',serif;font-size:13px;color:var(--white);}
-  .syn-role{color:var(--text-dim);font-size:11px;margin-top:2px;}
-  .syn-reason{font-size:11px;color:var(--text-dim);margin-top:4px;line-height:1.4;font-style:italic;}
-  .syn-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
-  .syn-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ice-bright);background:rgba(14,165,200,.1);border:1px solid var(--border);padding:2px 6px;border-radius:2px;}
-  .syn-right{text-align:right;min-width:60px;}
-  .syn-tier{font-family:'Cinzel',serif;font-size:20px;font-weight:700;}
-  .tier-s{color:#f472b6;text-shadow:0 0 15px rgba(244,114,182,.5);}
-  .tier-a{color:var(--gold);}
-  .tier-b{color:var(--ice-bright);}
-  .syn-own{font-size:9px;margin-top:2px;}
-  .own-yes{color:var(--green);}
-  .own-no{color:#f87171;}
-  .formation-grid{display:grid;gap:10px;}
-  .formation-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 18px;}
-  .formation-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:8px;}
-  .formation-heroes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
-  .hero-pill{font-size:10px;letter-spacing:.1em;padding:3px 10px;border-radius:12px;border:1px solid var(--border);font-family:'Cinzel',serif;}
-  .pill-own{color:var(--ice-bright);background:rgba(14,165,200,.15);border-color:var(--ice-dim);}
-  .pill-need{color:#f87171;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
-  .formation-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
-  .priority-list{display:grid;gap:8px;}
-  .priority-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;}
-  .priority-num{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:var(--border);line-height:1;min-width:28px;}
-  .priority-text{font-size:12px;color:var(--text);line-height:1.6;}
-  .priority-text strong{color:var(--gold-light);font-weight:600;}
-  .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
-  .legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-dim);}
-  .legend-dot{width:10px;height:10px;border-radius:2px;}
-  .footer{text-align:center;padding-top:32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--border);}
-  @media(max-width:540px){.identity-strip{grid-template-columns:repeat(2,1fr);}.troop-grid{grid-template-columns:1fr;}h1{font-size:38px;}}
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#1a5276;--elem-light:#5dade2;--elem-bg:rgba(26,82,118,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a2a 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
+  .back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(26,82,118,.35);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(26,82,118,.5);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.b-plus{color:#85c1e9}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.util{border-left-color:#5dade2}.skill.ctrl{border-left-color:#bb8fce}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-util{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-ctrl{background:rgba(142,68,173,.15);color:#bb8fce;border:1px solid rgba(142,68,173,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .troop-highlight{grid-column:1/-1;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.3)}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .formation.sustain{border-left-color:#5dade2}.formation.boss{border-left-color:#e74c3c}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-title.blue{color:#5dade2}.form-title.red{color:#e07070}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}
+  .fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}
+  .fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}
+  .fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}
+  .fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="element-badge">❄ Élément Glace · 6★ Ascendée</div>
-    <h1>TANIA</h1>
-    <div class="subtitle">La Princesse des Abysses · Meilleure Soigneuse · Support Cavalerie</div>
-    <div class="divider"><div class="divider-line"></div><div class="divider-icon">♪</div><div class="divider-line"></div></div>
-  </div>
 
-  <div class="identity-strip">
-    <div class="id-cell"><span class="id-label">Élément</span><span class="id-value">Glace</span></div>
-    <div class="id-cell"><span class="id-label">Étoiles</span><span class="red-star">★</span><div style="font-size:9px;color:var(--red-star);margin-top:2px;">6★ Ascendée</div></div>
-    <div class="id-cell"><span class="id-label">Talent</span><span class="id-value">+6</span></div>
-    <div class="id-cell"><span class="id-label">Puissance</span><span class="id-value">3 618 487</span></div>
-  </div>
+<a class="back" href="heroes.html">← Retour aux héros</a>
 
-  <div class="ratings-row">
-    <div class="rating-card pvp"><span class="rating-mode">PvP · Arène</span><div class="rating-grade">A</div><div class="rating-label">Top support universelle</div></div>
-    <div class="rating-card pve"><span class="rating-mode">PvE · Campagne</span><div class="rating-grade">A</div><div class="rating-label">Sustain indispensable</div></div>
-    <div class="rating-card boss"><span class="rating-mode">Boss Alliance</span><div class="rating-grade">B+</div><div class="rating-label">Soutien utile</div></div>
+<div class="hero-header">
+  <div class="elem-badge">❄ Élément Glace · 6★ Ascendée</div>
+  <div class="hero-name">TANIA</div>
+  <div class="hero-subtitle">La Princesse des Abysses · Meilleure Soigneuse du Jeu · Support Cavalerie</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">6★ Ascendée</span><span class="lbl">Étoiles max</span></div>
+    <div class="stat-badge"><span class="val">❄ Glace</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">+500%</span><span class="lbl">ATQ troupe (T+6)</span></div>
+    <div class="stat-badge"><span class="val">Support</span><span class="lbl">Rôle</span></div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Compétences de Héros — Plein Potentiel</div>
-    <div class="skills-grid">
-      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Allégro de Vie <span style="font-size:10px;color:var(--text-dim);font-family:'Raleway',sans-serif;">(Régén. Rage : Moyenne)</span></div><div class="skill-desc">Restaure <strong style="color:var(--green)">44% de PV à TOUS les alliés</strong>. Meilleur soin de zone du jeu — supérieur à Patty (26%) et Fiona.</div></div><div class="skill-tag heal">Soin AoE</div></div>
-      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Bouclier Aquatique</div><div class="skill-desc">DEF de <strong style="color:var(--gold)">tous les alliés +63%</strong> pendant 5 tours. Buff défensif AoE le plus puissant du roster.</div></div><div class="skill-tag">Buff DEF</div></div>
-      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Moiteur</div><div class="skill-desc"><strong style="color:var(--ice-bright)">Dissipe tous les buffs des alliés</strong>. Utilitaire situationnel — réinitialise les états altérés négatifs déguisés en buffs.</div></div><div class="skill-tag passive">Utilitaire</div></div>
-      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Élégie</div><div class="skill-desc">Chance d'<strong style="color:var(--ice-bright)">étourdir l'ennemi 2 tours à sa mort</strong>. Contrôle post-mortem unique — ralentit l'ennemi même quand Tania tombe.</div></div><div class="skill-tag">Contrôle</div></div>
-      <div class="skill-row"><div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div><div><div class="skill-name" style="color:var(--text-dim)">Volonté d'Acier</div><div class="skill-desc" style="color:#2a4a6a">+30% Résistance Critique. Chance de dégâts normaux sur coup critique reçu.</div></div><div class="skill-tag locked">🔒 étoiles sup.</div></div>
-    </div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval a">A</div><div class="rdesc">Support universel</div></div>
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval a">A</div><div class="rdesc">Sustain indispensable</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval b-plus">B+</div><div class="rdesc">Soutien utile</div></div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Compétences de Troupe (toutes +6)</div>
-    <div class="troop-grid">
-      <div class="troop-card"><div class="troop-label">Compétence active</div><div class="troop-value">+500%</div><div class="troop-sub">ATQ de troupe — la plus haute du roster</div></div>
-      <div class="troop-card"><div class="troop-label">PV Cavalerie</div><div class="troop-value">+128%</div><div class="troop-sub">Points de vie cavalerie</div></div>
-      <div class="troop-card"><div class="troop-label">DEF Cavalerie</div><div class="troop-value">+128%</div><div class="troop-sub">Défense cavalerie</div></div>
-      <div class="troop-card"><div class="troop-label">ATQ Cavalerie</div><div class="troop-value">+128%</div><div class="troop-sub">Attaque cavalerie</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Arme Exclusive</div>
-    <div class="weapon-card">
-      <div class="weapon-header"><div class="weapon-name">♪ Harpe de l'Océan ★★★★★</div><div class="weapon-level">Niveau +9 — à améliorer</div></div>
-      <div class="weapon-stats">
-        <div class="wstat">ATQ/DEF/PV Troupe <span>+12% chacun</span></div>
-        <div class="wstat">ATQ Héros <span>+200</span></div>
-        <div class="wstat">DEF Héros <span>+200</span></div>
-        <div class="wstat">PV Héros <span>+400</span></div>
-      </div>
-      <div class="weapon-exclusive">
-        <div class="excl-title">Attributs Exclusifs (Tania uniquement)</div>
-        <div class="excl-row">Héros +0 : DEF Troupe <strong style="color:var(--gold)">+40%</strong></div>
-        <div class="excl-row">Héros +2 : PV Troupe <strong style="color:var(--gold)">+40%</strong></div>
-        <div class="excl-row">Héros +4 : ATQ Troupe <strong style="color:var(--gold)">+40%</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Contexte d'Utilisation</div>
-    <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
-      <table class="context-table">
-        <tr><td>Cavalerie pure</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">Triple bonus cav +128% — formation optimale</span></td></tr>
-        <tr><td>PvE · Campagne</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">Soin 44% + DEF +63% indispensables</span></td></tr>
-        <tr><td>PvP · Arène</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Anchor support de toutes les formations PvP</span></td></tr>
-        <tr><td>KvK · Expédition</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Combat long = sustain optimal</span></td></tr>
-        <tr><td>Boss Alliance</td><td><span class="ctx-avg">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Utile mais Guan Yu + Norris + Khaos prioritaires</span></td></tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Synergies Meta Complètes</div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(74,222,128,.4);border:1px solid #4ade80;"></div>Possédé</div>
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(239,68,68,.3);border:1px solid #f87171;"></div>À acquérir</div>
-    </div>
-    <div class="synergy-grid">
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Aerposia</div>
-          <div class="syn-role">Dark · S PvP · Carry DPS Cavalerie</div>
-          <div class="syn-reason">Duo de base du roster. Tania soigne et protège pendant qu'Aerposia explose. Le seul carry qui profite à 100% des +128% cavalerie de Tania.</div>
-          <div class="syn-tags"><span class="syn-tag">Cavalerie</span><span class="syn-tag">PvP</span><span class="syn-tag">KvK</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Khaos</div>
-          <div class="syn-role">Dark · S universel · Priorité absolue</div>
-          <div class="syn-reason">Tania + Khaos + Aerposia = formation complète pour PvP ET Boss. Khaos compense le C Boss d'Aerposia. Trio le plus puissant possible avec ce roster.</div>
-          <div class="syn-tags"><span class="syn-tag">PvP</span><span class="syn-tag">Boss</span><span class="syn-tag">Universel</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-no">À acquérir</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Guan Yu</div>
-          <div class="syn-role">Nature · S Boss · Meilleur Boss du jeu</div>
-          <div class="syn-reason">Tania maintient Guan Yu en vie lors des Boss prolongés. Tania Boss support + Guan Yu DPS Boss = duo efficace même sans Khaos.</div>
-          <div class="syn-tags"><span class="syn-tag">Boss Alliance</span><span class="syn-tag">Nature</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-no">À acquérir</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Violette</div>
-          <div class="syn-role">Dark · S PvP · Carry Arène</div>
-          <div class="syn-reason">Même rôle qu'Aerposia — le soin 44% AoE de Tania profite à tout carry Dark. Violette + Tania + Khaos = alternative au trio Aerposia.</div>
-          <div class="syn-tags"><span class="syn-tag">PvP</span><span class="syn-tag">Dark</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-no">À acquérir</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Tala</div>
-          <div class="syn-role">Nature · Support Rage · 6★ Ascendée</div>
-          <div class="syn-reason">Tala accélère la Rage de Tania → Tania soigne plus souvent → l'équipe survit plus longtemps. Trio Aerposia + Tania + Tala = meilleure formation actuelle.</div>
-          <div class="syn-tags"><span class="syn-tag">Rage → Soin</span><span class="syn-tag">Possédé</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Anastasia</div>
-          <div class="syn-role">Feu · S PvP · S PvE · Carry Feu</div>
-          <div class="syn-reason">Tania est universelle — elle supporte aussi bien Anastasia qu'Aerposia. Diversifier les éléments carry avec Anastasia rend la formation moins contre-rable.</div>
-          <div class="syn-tags"><span class="syn-tag">PvP</span><span class="syn-tag">PvE</span><span class="syn-tag">Feu</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-no">À acquérir</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Formations Recommandées</div>
-    <div class="formation-grid">
-      <div class="formation-card">
-        <div class="formation-title">✓ Formation PvP Actuelle (opérationnelle)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-own">Aerposia</span><span class="hero-pill pill-own">Tania</span><span class="hero-pill pill-own">Tala</span></div>
-        <div class="formation-desc">Meilleure formation disponible maintenant. Tala recharge la Rage, Tania soigne, Aerposia explose. Efficace en PvP et KvK.</div>
-      </div>
-      <div class="formation-card">
-        <div class="formation-title">⭐ Formation PvP Optimale (objectif)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-need">Khaos</span><span class="hero-pill pill-own">Aerposia</span><span class="hero-pill pill-own">Tania</span></div>
-        <div class="formation-desc">Avec Khaos, Tania devient le support universel d'une formation S partout. <strong style="color:var(--gold-light)">Acquérir Khaos en priorité absolue.</strong></div>
-      </div>
-      <div class="formation-card">
-        <div class="formation-title">🏆 Formation Boss (Tania en support)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-need">Guan Yu</span><span class="hero-pill pill-need">Norris</span><span class="hero-pill pill-need">Khaos</span></div>
-        <div class="formation-desc">Tania peut remplacer Khaos en Boss si nécessaire pour le sustain. Mais la formation idéale est Guan Yu + Norris + Khaos sans Tania.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Priorités d'Investissement</div>
-    <div class="priority-list">
-      <div class="priority-item"><div class="priority-num">01</div><div class="priority-text"><strong>Améliorer la Harpe de l'Océan au-delà de +9</strong> — Objectif +13 comme la Faux d'Aerposia. Les +12% légion actuels sont en dessous du potentiel (+17,5% objectif).</div></div>
-      <div class="priority-item"><div class="priority-num">02</div><div class="priority-text"><strong>Acquérir Khaos</strong> — Forme le trio Tania + Aerposia + Khaos, la formation la plus puissante accessible. Khaos complète ce que Tania et Aerposia ne peuvent pas couvrir seuls (Boss).</div></div>
-      <div class="priority-item"><div class="priority-num">03</div><div class="priority-text"><strong>Maintenir le duo Tania + Aerposia en cavalerie</strong> — Tania couvre PV/DEF/ATQ cav à +128%, Aerposia apporte le burst 1 088%. Formation cavalerie dominante du roster.</div></div>
-      <div class="priority-item"><div class="priority-num">04</div><div class="priority-text"><strong>Acquérir Guan Yu</strong> — Pour que Tania puisse se spécialiser PvP pendant que Guan Yu + Norris gèrent les Boss Alliance.</div></div>
-    </div>
-  </div>
-
-  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche v2 — juin 2026</div>
 </div>
+
+<div class="section">
+  <div class="section-title">❄ Compétences — Plein Potentiel</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Allégro de Vie</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
+      <span class="skill-tag tag-active">Soin AoE</span>
+    </div>
+    <p class="skill-desc">Restaure <em>44% des PV à tous les alliés</em>. Meilleur soin de zone du jeu — supérieur aux autres supports comme Patty (26%) ou Fiona. S'applique à toute la formation sans condition.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Bouclier Aquatique</span><span class="skill-tag tag-amelio">Buff DEF</span></div>
+    <p class="skill-desc">La Défense de <em>tous les alliés augmente de +63%</em> pendant 5 tours. Le buff défensif de zone le plus puissant disponible dans le jeu — rend la formation extrêmement difficile à éliminer.</p>
+  </div>
+
+  <div class="skill util">
+    <div class="skill-head"><span class="skill-name">Moiteur</span><span class="skill-tag tag-util">Utilitaire</span></div>
+    <p class="skill-desc">Dissipe tous les buffs actifs des alliés. Situationnel — permet de retirer des effets négatifs déguisés en buffs (malédictions, états altérés inversés) que d'autres héros ne peuvent pas cibler.</p>
+  </div>
+
+  <div class="skill ctrl">
+    <div class="skill-head"><span class="skill-name">Élégie</span><span class="skill-tag tag-ctrl">Contrôle</span></div>
+    <p class="skill-desc">À la mort de Tania, l'ennemi a une chance d'être <em>étourdi pendant 2 tours</em>. Contrôle post-mortem unique — Tania continue de ralentir l'ennemi même après avoir été vaincue.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head"><span class="skill-name">Volonté d'Acier</span><span class="skill-tag tag-locked">🔒 Étoiles sup.</span></div>
+    <p class="skill-desc">Résistance Critique <em>+30%</em>. Chance de recevoir des dégâts normaux en lieu d'un coup critique — renforce encore la survie de Tania dans les combats prolongés.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚔️ Compétences de Troupe — Talent +6</div>
+  <div class="troop-grid">
+    <div class="troop-item troop-highlight">
+      <div class="troop-val">+500%</div>
+      <div class="troop-lbl">ATQ de troupe (compétence active) — la plus haute du jeu à ce niveau</div>
+    </div>
+    <div class="troop-item"><div class="troop-val">+128%</div><div class="troop-lbl">PV Cavalerie</div></div>
+    <div class="troop-item"><div class="troop-val">+128%</div><div class="troop-lbl">DEF Cavalerie</div></div>
+    <div class="troop-item"><div class="troop-val">+128%</div><div class="troop-lbl">ATQ Cavalerie</div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px">
+    <strong>Note</strong> — Les valeurs ci-dessus correspondent au Talent +6 (niveau maximum). Tania est l'une des rares héros à offrir un triple bonus Cavalerie à +128% sur les trois stats simultanément — ce qui en fait le meilleur support pour les formations Cavalerie pure.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">♪ Arme Exclusive — Harpe de l'Océan</div>
+  <div class="weapon-box">
+    <div class="weapon-name">♪ Harpe de l'Océan ★★★★★ — Niveau maximum : +13</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus à +13 (niveau max)</div>
+    <div class="weapon-stats">
+      <span class="wstat">ATQ Troupe +17,5%</span>
+      <span class="wstat">DEF Troupe +17,5%</span>
+      <span class="wstat">PV Troupe +17,5%</span>
+      <span class="wstat">ATQ Héros +200</span>
+      <span class="wstat">DEF Héros +200</span>
+      <span class="wstat">PV Héros +400</span>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Tania uniquement)</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>DEF de Troupe <strong style="color:#2ecc71">+40%</strong> — actif dès l'équipement</div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV de Troupe <strong style="color:#2ecc71">+40%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>ATQ de Troupe <strong style="color:#2ecc71">+40%</strong></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Meilleur soin de zone du jeu — 44% PV à toute la formation</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Buff DEF +63% AoE — le plus élevé disponible</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Triple bonus Cavalerie +128% ATQ/DEF/PV — idéale pour les formations Cavalerie</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Universelle — compatible avec tous les carry, tous les éléments</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Contrôle post-mortem via Élégie — utile même en mourant</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Aucun dégât offensif — rôle purement défensif/support</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Boss Alliance : utile mais pas la première option — des héros DPS Boss restent prioritaires</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Compétence Moiteur situationnelle — inutile dans la majorité des combats standards</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Volonté d'Acier verrouillée — nécessite de monter les étoiles supplémentaires</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">Cavalerie pure</td><td><span class="dots">●●●●●</span><span class="ctx-note">Triple bonus +128% ATQ/DEF/PV Cavalerie — formation optimale absolue</span></td></tr>
+    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●●●</span><span class="ctx-note">Soin 44% + DEF +63% — sustain indispensable sur les niveaux difficiles</span></td></tr>
+    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Support universel compatible avec tous les carry PvP</span></td></tr>
+    <tr><td class="ctx-label">KvK · Expédition</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Combat prolongé = sustain optimal — excelle quand les combats s'étirent</span></td></tr>
+    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●●●</span><span class="dots-empty">●●</span><span class="ctx-note">Utile en soutien, mais Guan Yu, Norris et Khaos restent prioritaires en Boss</span></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Aerposia</div><div class="syn-role">Sombre · Carry DPS Burst · Cavalerie</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Duo fondamental. Tania soigne et protège pendant qu'Aerposia accumule de la Rage et déclenche son Spectre à 1 088%. Les bonus Cavalerie +128% de Tania profitent directement à Aerposia. Formation cavalerie la plus efficace sans héros rares.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Cavalerie</span><span class="stag stag-red">PvP</span><span class="stag stag-green">KvK</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Khaos</div><div class="syn-role">Sombre · S Universel · Carry & Support</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Avec Khaos, Tania devient le support d'une formation couvrant tous les modes de jeu. Khaos compense la lacune Boss d'Aerposia. Trio Tania + Aerposia + Khaos = formation complète PvP et Boss.</p>
+    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-gold">Boss</span><span class="stag stag-blue">Universel</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Guan Yu</div><div class="syn-role">Nature · S Boss Alliance · Meilleur DPS Boss</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Tania maintient Guan Yu en vie lors des Boss prolongés grâce à son soin 44% et son DEF +63%. Duo efficace pour les Boss Alliance — Tania assure le sustain, Guan Yu inflige les dégâts.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Boss Alliance</span><span class="stag stag-green">Sustain</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Tala</div><div class="syn-role">Nature · Génératrice de Rage · Support</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Tala accélère la Rage de Tania → Tania déclenche Allégro de Vie plus souvent → la formation reçoit des soins plus fréquents. Trio Tala + Tania + Carry = sustain maximum en PvP et KvK.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Rage → Soin</span><span class="stag stag-red">PvP</span><span class="stag stag-green">KvK</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Anastasia</div><div class="syn-role">Feu · Support Survie · Résurrection</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Double couverture de survie. Tania soigne en AoE, Anastasia ressuscite et régénère les PV en continu. Les deux supports ensemble rendent la formation quasi indestructible — efficace pour diversifier les éléments carry.</p>
+    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-green">PvE</span><span class="stag stag-blue">Double Support</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+
+  <div class="formation">
+    <div class="form-title">Formation Cavalerie Standard</div>
+    <div class="form-heroes">
+      <span class="fhero dark">Aerposia</span>
+      <span class="fhero glace">Tania</span>
+      <span class="fhero nature">Tala</span>
+    </div>
+    <p class="form-desc">Formation Cavalerie la plus accessible. Tala génère de la Rage, Tania soigne, Aerposia burst. Les trois héros s'enchaînent naturellement — formation recommandée pour démarrer en PvP et KvK.</p>
+  </div>
+
+  <div class="formation sustain">
+    <div class="form-title blue">Formation Double Support (survie maximale)</div>
+    <div class="form-heroes">
+      <span class="fhero dark">Carry Sombre</span>
+      <span class="fhero glace">Tania</span>
+      <span class="fhero feu">Anastasia</span>
+    </div>
+    <p class="form-desc">Deux supports encadrent un carry DPS. Tania soigne 44% AoE, Anastasia ressuscite et régénère +15% PV/tour. Formation idéale pour les combats longs où la survie est le facteur limitant.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation PvP Optimale (avec Khaos)</div>
+    <div class="form-heroes">
+      <span class="fhero dark">Khaos</span>
+      <span class="fhero dark">Aerposia</span>
+      <span class="fhero glace">Tania</span>
+    </div>
+    <p class="form-desc">Tania en support d'un duo Sombre S-Tier. Formation la plus compétitive disponible avec Tania — Khaos couvre le Boss qu'Aerposia ne couvre pas, Tania maintient les deux en vie.</p>
+  </div>
+
+  <div class="formation boss">
+    <div class="form-title red">Boss Alliance — Tania en remplacement</div>
+    <div class="form-heroes">
+      <span class="fhero nature">Guan Yu</span>
+      <span class="fhero glace">Tania</span>
+      <span class="fhero lumiere">Norris</span>
+    </div>
+    <p class="form-desc">Tania peut remplacer Khaos en Boss si nécessaire pour assurer le sustain. La formation idéale reste Guan Yu + Norris + Khaos, mais Tania est une alternative viable si Khaos n'est pas disponible.</p>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Tania v3 — Juin 2026</footer>
 </body>
 </html>

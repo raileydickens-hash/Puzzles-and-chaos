@@ -5,277 +5,169 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boyd — Fiche Héros</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
-  :root{--void:#04090a;--panel:#091418;--border:#0e2d20;--nat-dim:#0e4d28;--nat-mid:#059669;--nat-bright:#34d399;--teal:#2dd4bf;--gold:#c9a84c;--gold-light:#f0d080;--red:#ef4444;--green:#4ade80;--text:#86d4b0;--text-dim:#2e6a4a;--white:#e8fff5;}
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--void);color:var(--text);font-family:'Raleway',sans-serif;min-height:100vh;overflow-x:hidden;}
-  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(5,150,105,.18) 0%,transparent 70%),radial-gradient(ellipse 30% 20% at 80% 60%,rgba(45,212,191,.05) 0%,transparent 50%);pointer-events:none;z-index:0;}
-  .container{max-width:860px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
-  .header{text-align:center;padding:40px 20px 32px;}
-  .element-badge{display:inline-block;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--nat-bright);border:1px solid var(--border);padding:4px 16px;border-radius:2px;margin-bottom:16px;background:rgba(5,150,105,.08);}
-  h1{font-family:'Cinzel',serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:var(--white);letter-spacing:.08em;line-height:1;text-shadow:0 0 40px rgba(52,211,153,.6),0 0 80px rgba(52,211,153,.3);margin-bottom:8px;}
-  .subtitle{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;}
-  .divider{display:flex;align-items:center;gap:16px;margin:0 auto 32px;max-width:400px;}
-  .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--nat-mid),transparent);}
-  .divider-icon{color:var(--nat-bright);font-size:20px;}
-  .identity-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;}
-  .id-cell{background:var(--panel);padding:16px 12px;text-align:center;}
-  .id-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px;}
-  .id-value{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);font-weight:700;}
-  .counter-banner{background:linear-gradient(135deg,rgba(14,77,40,.4),rgba(239,68,68,.08));border:1px solid rgba(239,68,68,.3);border-radius:4px;padding:14px 18px;margin-bottom:24px;display:flex;align-items:center;gap:14px;}
-  .ratings-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
-  .rating-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px 16px;text-align:center;position:relative;overflow:hidden;}
-  .rating-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-  .rating-card.pvp::before{background:linear-gradient(90deg,var(--nat-mid),var(--teal));}
-  .rating-card.pve::before{background:linear-gradient(90deg,var(--nat-mid),var(--nat-bright));}
-  .rating-card.boss::before{background:linear-gradient(90deg,var(--nat-dim),var(--gold));}
-  .rating-mode{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;display:block;}
-  .rating-grade{font-family:'Cinzel',serif;font-size:36px;font-weight:900;line-height:1;}
-  .rating-card.pvp .rating-grade{color:var(--teal);text-shadow:0 0 20px rgba(45,212,191,.5);}
-  .rating-card.pve .rating-grade{color:var(--nat-bright);text-shadow:0 0 20px rgba(52,211,153,.5);}
-  .rating-card.boss .rating-grade{color:var(--gold);}
-  .rating-label{font-size:10px;color:var(--text-dim);margin-top:4px;}
-  .section{margin-bottom:20px;}
-  .section-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--nat-bright);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-  .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
-  .skills-grid{display:grid;gap:8px;}
-  .skill-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;}
-  .skill-dot{width:8px;height:8px;border-radius:50%;background:var(--nat-bright);box-shadow:0 0 8px var(--nat-bright);flex-shrink:0;}
-  .skill-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:2px;}
-  .skill-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
-  .skill-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--nat-bright);background:rgba(5,150,105,.12);border:1px solid var(--border);padding:3px 8px;border-radius:2px;white-space:nowrap;align-self:flex-start;}
-  .skill-tag.passive{color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2);}
-  .skill-tag.counter{color:#ef4444;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
-  .skill-tag.locked{color:var(--text-dim);background:transparent;}
-  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .troop-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;}
-  .troop-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
-  .troop-value{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);font-weight:700;}
-  .troop-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
-  .weapon-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;}
-  .weapon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .weapon-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold-light);}
-  .weapon-level{font-size:10px;color:var(--nat-bright);border:1px solid var(--border);padding:2px 10px;border-radius:2px;}
-  .weapon-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
-  .wstat{font-size:11px;color:var(--text-dim);}
-  .wstat span{color:var(--gold);font-weight:600;}
-  .weapon-exclusive{border-top:1px solid var(--border);padding-top:12px;}
-  .excl-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
-  .excl-row{font-size:11px;color:var(--gold);margin-bottom:4px;display:flex;gap:8px;}
-  .excl-row::before{content:'›';color:var(--nat-bright);}
-  .context-table{width:100%;border-collapse:collapse;}
-  .context-table tr{border-bottom:1px solid var(--border);}
-  .context-table tr:last-child{border-bottom:none;}
-  .context-table td{padding:10px 12px;font-size:12px;}
-  .context-table td:first-child{color:var(--text-dim);font-size:11px;letter-spacing:.1em;white-space:nowrap;width:160px;}
-  .ctx-best{color:#86efac;}.ctx-good{color:var(--nat-bright);}.ctx-avg{color:var(--gold);}.ctx-bad{color:#f87171;}
-  .synergy-grid{display:grid;gap:8px;}
-  .synergy-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-  .syn-left{flex:1;}
-  .syn-name{font-family:'Cinzel',serif;font-size:13px;color:var(--white);}
-  .syn-role{color:var(--text-dim);font-size:11px;margin-top:2px;}
-  .syn-reason{font-size:11px;color:var(--text-dim);margin-top:4px;line-height:1.4;font-style:italic;}
-  .syn-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
-  .syn-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--nat-bright);background:rgba(5,150,105,.1);border:1px solid var(--border);padding:2px 6px;border-radius:2px;}
-  .syn-right{text-align:right;min-width:60px;}
-  .syn-tier{font-family:'Cinzel',serif;font-size:20px;font-weight:700;}
-  .tier-s{color:#f472b6;text-shadow:0 0 15px rgba(244,114,182,.5);}
-  .tier-a{color:var(--gold);}
-  .tier-b{color:var(--nat-bright);}
-  .syn-own{font-size:9px;margin-top:2px;}
-  .own-yes{color:var(--green);}
-  .own-no{color:#f87171;}
-  .formation-grid{display:grid;gap:10px;}
-  .formation-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 18px;}
-  .formation-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:8px;}
-  .formation-heroes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
-  .hero-pill{font-size:10px;letter-spacing:.1em;padding:3px 10px;border-radius:12px;border:1px solid var(--border);font-family:'Cinzel',serif;}
-  .pill-own{color:var(--nat-bright);background:rgba(5,150,105,.15);border-color:var(--nat-dim);}
-  .pill-need{color:#f87171;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
-  .formation-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
-  .priority-list{display:grid;gap:8px;}
-  .priority-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;}
-  .priority-num{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:var(--border);line-height:1;min-width:28px;}
-  .priority-text{font-size:12px;color:var(--text);line-height:1.6;}
-  .priority-text strong{color:var(--gold-light);font-weight:600;}
-  .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
-  .legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-dim);}
-  .legend-dot{width:10px;height:10px;border-radius:2px;}
-  .footer{text-align:center;padding-top:32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--border);}
-  @media(max-width:540px){.identity-strip{grid-template-columns:repeat(2,1fr);}.troop-grid{grid-template-columns:1fr;}h1{font-size:38px;}}
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#1e8449;--elem-light:#58d68d;--elem-bg:rgba(30,132,73,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a0e 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(30,132,73,.3);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(30,132,73,.45);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.c{color:#455a75}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.passive{border-left-color:#5dade2}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-passive{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}.fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}.fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}.fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}.fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="element-badge">🌿 Élément Nature · 5★ · Counter Feu</div>
-    <h1>BOYD</h1>
-    <div class="subtitle">Le Loup de l'Abîme · Carry Nature · Sang Froid</div>
-    <div class="divider"><div class="divider-line"></div><div class="divider-icon">🐺</div><div class="divider-line"></div></div>
+<a class="back" href="heroes.html">← Retour aux héros</a>
+<div class="hero-header">
+  <div class="elem-badge">🌿 Élément Nature · Carry Cavalerie</div>
+  <div class="hero-name">BOYD</div>
+  <div class="hero-subtitle">Le Cavalier des Plaines · Carry Cavalerie · Sang Froid</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">5★ → 6★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">🌿 Nature</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">Cavalerie</span><span class="lbl">Type de troupe</span></div>
+    <div class="stat-badge"><span class="val">Carry</span><span class="lbl">Rôle</span></div>
   </div>
-
-  <div class="identity-strip">
-    <div class="id-cell"><span class="id-label">Élément</span><span class="id-value">Nature</span></div>
-    <div class="id-cell"><span class="id-label">Étoiles</span><span style="color:var(--gold);font-size:13px;">★★★★★</span></div>
-    <div class="id-cell"><span class="id-label">Talent</span><span class="id-value">+4</span></div>
-    <div class="id-cell"><span class="id-label">Puissance</span><span class="id-value">2 334 090</span></div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval a">A</div><div class="rdesc">Cavalerie efficace</div></div>
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval b">B</div><div class="rdesc">Surpassé par S-Tier</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval c">C</div><div class="rdesc">Kit inadapté</div></div>
   </div>
-
-  <div class="counter-banner">
-    <div style="font-size:24px;flex-shrink:0;">⚡</div>
-    <div>
-      <div style="font-family:'Cinzel',serif;font-size:12px;color:#ef4444;margin-bottom:4px;">Counter Feu Natif — Sang Froid Indissipable</div>
-      <div style="font-size:11px;color:var(--text-dim);line-height:1.5;">Tous les héros Feu (Tutanhet, Anastasia, Norris, Fiona) reçoivent <strong style="color:#ef4444">+40% de dégâts supplémentaires</strong> de Boyd. Effet permanent et indissipable — déployer systématiquement contre les compositions Feu adverses.</div>
-    </div>
-  </div>
-
-  <div class="ratings-row">
-    <div class="rating-card pvp"><span class="rating-mode">PvP vs Feu</span><div class="rating-grade">S</div><div class="rating-label">Counter absolu</div></div>
-    <div class="rating-card pve"><span class="rating-mode">PvE · Campagne</span><div class="rating-grade">A</div><div class="rating-label">530% + soin passif</div></div>
-    <div class="rating-card boss"><span class="rating-mode">Boss Alliance</span><div class="rating-grade">B+</div><div class="rating-label">Secondaire Nature</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Compétences de Héros — Plein Potentiel</div>
-    <div class="skills-grid">
-      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Griffe du Vide <span style="font-size:10px;color:var(--text-dim);font-family:'Raleway',sans-serif;">(Régén. Rage : Moyenne)</span></div><div class="skill-desc"><strong style="color:var(--gold)">530% de dégâts mono-cible</strong> — le plus gros multiplicateur single-target du roster. Si la cible meurt : <strong style="color:var(--nat-bright)">Résistance Critique +30% pendant 5 tours</strong>.</div></div><div class="skill-tag">Active</div></div>
-      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Absorption de Force</div><div class="skill-desc"><strong style="color:var(--teal)">Transfère les buffs de la cible</strong> à des alliés aléatoires. Vol de buff — prive l'ennemi de ses améliorations et les redistribue à l'équipe.</div></div><div class="skill-tag passive">Vol de buff</div></div>
-      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Instinct d'Auto-Guérison</div><div class="skill-desc">Au début du combat : <strong style="color:var(--nat-bright)">+5% PV/tour à tous les alliés Nature pendant 6 tours</strong>. Soin passif d'ouverture qui profite à Dimina, Guan Yu, Tala dans la même formation.</div></div><div class="skill-tag passive">Soin Nature</div></div>
-      <div class="skill-row"><div class="skill-dot"></div><div><div class="skill-name">Sang Froid</div><div class="skill-desc">Les héros Feu reçoivent <strong style="color:#ef4444">+40% de dégâts</strong>. <strong style="color:var(--gold)">Indissipable.</strong> S'applique à Tutanhet, Anastasia, Norris, Fiona — counter permanent sans condition.</div></div><div class="skill-tag counter">Counter Feu</div></div>
-      <div class="skill-row"><div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div><div><div class="skill-name" style="color:var(--text-dim)">Faiblesse de Cible</div><div class="skill-desc" style="color:#0e2d20">+30% Briser. Chance d'ignorer la Parade. Sur un multiplicateur de 530%, ce bonus est massif.</div></div><div class="skill-tag locked">🔒 6 étoiles</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Compétences de Troupe (toutes +4)</div>
-    <div class="troop-grid">
-      <div class="troop-card"><div class="troop-label">Compétence active</div><div class="troop-value">+300%</div><div class="troop-sub">ATQ de troupe</div></div>
-      <div class="troop-card"><div class="troop-label">PV Cavalerie</div><div class="troop-value">+64%</div><div class="troop-sub">Points de vie cavalerie</div></div>
-      <div class="troop-card"><div class="troop-label">DEF Cavalerie</div><div class="troop-value">+64%</div><div class="troop-sub">Défense cavalerie</div></div>
-      <div class="troop-card"><div class="troop-label">ATQ Cavalerie</div><div class="troop-value">+64%</div><div class="troop-sub">Attaque cavalerie</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Arme Exclusive</div>
-    <div class="weapon-card">
-      <div class="weapon-header"><div class="weapon-name">🐾 Griffe d'Acier ★★★★</div><div class="weapon-level">+5 — à améliorer</div></div>
-      <div style="font-size:10px;color:#f87171;margin-bottom:14px;">⚠ Arme 4★ +5 seulement — attributs légion +3% vs +17,5% objectif. Priorité critique.</div>
-      <div class="weapon-stats">
-        <div class="wstat">ATQ/DEF/PV Troupe <span>+3% chacun</span></div>
-        <div class="wstat">ATQ Héros <span>+120</span></div>
-        <div class="wstat">DEF Héros <span>+120</span></div>
-        <div class="wstat">PV Héros <span>+240</span></div>
-      </div>
-      <div class="weapon-exclusive">
-        <div class="excl-title">Attributs Exclusifs (Boyd uniquement)</div>
-        <div class="excl-row">Héros +0 : PV Cavalerie <strong style="color:var(--gold)">+20%</strong></div>
-        <div class="excl-row">Héros +2 : DEF Cavalerie <strong style="color:var(--gold)">+20%</strong></div>
-        <div class="excl-row">Héros +4 : ATQ Cavalerie <strong style="color:var(--gold)">+20%</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Contexte d'Utilisation</div>
-    <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
-      <table class="context-table">
-        <tr><td>PvP vs Feu</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">S Counter — Sang Froid +40% indissipable</span></td></tr>
-        <tr><td>PvE · Campagne</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">530% + soin passif Nature 6 tours</span></td></tr>
-        <tr><td>Formation Nature</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Instinct profite à Dimina, Guan Yu, Tala</span></td></tr>
-        <tr><td>Boss Alliance</td><td><span class="ctx-avg">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Secondaire Nature — Guan Yu prioritaire</span></td></tr>
-        <tr><td>PvP vs Dark/Glace</td><td><span class="ctx-avg">●●○○○</span> <span style="font-size:11px;color:var(--text-dim)">Sang Froid inactif — moins optimal</span></td></tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Synergies Meta Complètes</div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(74,222,128,.4);border:1px solid #4ade80;"></div>Possédé</div>
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(239,68,68,.3);border:1px solid #f87171;"></div>À acquérir</div>
-    </div>
-    <div class="synergy-grid">
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Guan Yu</div>
-          <div class="syn-role">Nature · S Boss · S PvP · Meilleur Boss</div>
-          <div class="syn-reason">Instinct d'auto-guérison (+5% PV/tour) de Boyd profite à Guan Yu dans la même formation. Duo Nature le plus efficace du jeu — Guan Yu apporte le DPS Boss que Boyd ne peut pas fournir.</div>
-          <div class="syn-tags"><span class="syn-tag">Boss</span><span class="syn-tag">Nature</span><span class="syn-tag">PvP</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-no">À acquérir</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Tala</div>
-          <div class="syn-role">Nature · Support Rage · 6★ Ascendée</div>
-          <div class="syn-reason">Tala recharge la Rage de Boyd → Boyd active Griffe du Vide 530% plus tôt → kill → Résistance Critique +30% → Absorption de Force vole les buffs ennemis. Cycle offensif complet.</div>
-          <div class="syn-tags"><span class="syn-tag">Rage → 530%</span><span class="syn-tag">Nature</span><span class="syn-tag">Possédé</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Dimina</div>
-          <div class="syn-role">Nature · S PvE · A Boss · S2</div>
-          <div class="syn-reason">Trio Nature complet. Boyd soigne 5% PV/tour à Dimina dès T1, Dimina bloque la Rage ennemie, Tala recharge tout le monde. Formation PvE Nature dominante et immédiatement disponible.</div>
-          <div class="syn-tags"><span class="syn-tag">Nature</span><span class="syn-tag">PvE</span><span class="syn-tag">Possédé</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Tania</div>
-          <div class="syn-role">Glace · Meilleure soigneuse · 6★</div>
-          <div class="syn-reason">En PvP vs non-Feu, Boyd perd son avantage Sang Froid. Tania le remplace avantageusement comme support — sustain 44% pour que Boyd atteigne sa première activation Griffe du Vide.</div>
-          <div class="syn-tags"><span class="syn-tag">Sustain</span><span class="syn-tag">PvP</span><span class="syn-tag">Possédé</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Khaos</div>
-          <div class="syn-role">Dark · S universel · Comp. toute formation</div>
-          <div class="syn-reason">Formation Boss Nature optimale : Guan Yu + Boyd/Dimina + Khaos. Khaos en Dark complète le trio Nature et amplifie les dégâts globaux.</div>
-          <div class="syn-tags"><span class="syn-tag">Boss</span><span class="syn-tag">Universel</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-no">À acquérir</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Formations Recommandées</div>
-    <div class="formation-grid">
-      <div class="formation-card">
-        <div class="formation-title">⚡ Formation Anti-Feu (déployer vs Feu)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-own">Boyd</span><span class="hero-pill pill-own">Tania</span><span class="hero-pill pill-own">Tala</span></div>
-        <div class="formation-desc">Boyd contre Feu avec Sang Froid. Tala recharge sa Rage, Tania le maintient en vie. Meilleure réponse aux formations Feu adverses — disponible maintenant.</div>
-      </div>
-      <div class="formation-card">
-        <div class="formation-title">✓ Trio Nature PvE (opérationnel)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-own">Boyd</span><span class="hero-pill pill-own">Dimina</span><span class="hero-pill pill-own">Tala</span></div>
-        <div class="formation-desc">Boyd soigne 5% PV/tour à Dimina, Dimina bloque la Rage ennemie, Tala recharge. Trio Nature complet disponible maintenant — excellent en PvE difficile.</div>
-      </div>
-      <div class="formation-card">
-        <div class="formation-title">⭐ Formation Nature Optimale (objectif)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-need">Guan Yu</span><span class="hero-pill pill-own">Boyd</span><span class="hero-pill pill-own">Tala</span></div>
-        <div class="formation-desc">Guan Yu porte le DPS Boss/PvP, Boyd soigne l'équipe en passif, Tala recharge. <strong style="color:var(--gold-light)">Acquérir Guan Yu — priorité Nature absolue.</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Priorités d'Investissement</div>
-    <div class="priority-list">
-      <div class="priority-item"><div class="priority-num">01</div><div class="priority-text"><strong>Monter la Griffe d'Acier en 5★ et améliorer</strong> — 4★ +5 = +3% légion seulement. Objectif 5★ minimum puis améliorer le niveau. Écart massif avec Aerposia (+17,5%).</div></div>
-      <div class="priority-item"><div class="priority-num">02</div><div class="priority-text"><strong>Acquérir Guan Yu</strong> — Forme le duo Nature définitif. Instinct d'auto-guérison de Boyd profite à Guan Yu. Formation Boss Nature Guan Yu + Boyd + Khaos est l'objectif.</div></div>
-      <div class="priority-item"><div class="priority-num">03</div><div class="priority-text"><strong>Débloquer les 6 étoiles</strong> — Faiblesse de Cible +30% Briser sur une Griffe du Vide à 530% = gain offensif massif. Priorité après l'arme.</div></div>
-      <div class="priority-item"><div class="priority-num">04</div><div class="priority-text"><strong>Déployer systématiquement vs Feu</strong> — Sang Froid indissipable s'active dès le début. Identifier les héros Feu adverses et placer Boyd en première position contre eux.</div></div>
-    </div>
-  </div>
-
-  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche v2 — juin 2026</div>
 </div>
+
+<div class="section">
+  <div class="section-title">🌿 Compétences — Plein Potentiel</div>
+  <div class="skill active">
+    <div class="skill-head"><div><span class="skill-name">Charge Sauvage</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div><span class="skill-tag tag-active">Active</span></div>
+    <p class="skill-desc">Inflige <em>480% de dégâts à la cible principale</em> et des dégâts de zone aux ennemis adjacents. Carry Cavalerie solide en ciblage unique avec débordement AoE.</p>
+  </div>
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Sang Froid</span><span class="skill-tag tag-passive">Passif</span></div>
+    <p class="skill-desc">Immunité aux effets de Peur et de Panique. <em>Aucune perte de contrôle</em> sur Boyd — résiste aux héros adverses spécialisés dans la déstabilisation psychologique.</p>
+  </div>
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Galop de Guerre</span><span class="skill-tag tag-amelio">Améliorée</span></div>
+    <p class="skill-desc">ATQ Cavalerie <em>+50%</em> pendant 5 tours. Buff offensif personnel qui amplifie directement les dégâts de Charge Sauvage.</p>
+  </div>
+  <div class="info-box">
+    <strong>💡 Positionnement de Boyd</strong><br>
+    Boyd est un carry de début/milieu de partie fiable, en attendant l'acquisition de carry S-tier (Aerposia, Khaos, Violette). Il reste compétitif en PvE et en formation Nature pure grâce à ses bonus Cavalerie.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚔️ Compétences de Troupe — Talent +0</div>
+  <div class="troop-grid">
+    <div class="troop-item"><div class="troop-val">Cavalerie</div><div class="troop-lbl">Type de troupe principal</div></div>
+    <div class="troop-item"><div class="troop-val">🌿 Nature</div><div class="troop-lbl">Affinité d'élément</div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px"><strong>Note</strong> — Les valeurs de compétence de troupe dépendent du niveau de Talent. Consulter la fiche de niveau de Talent pour les pourcentages à chaque pallier.</div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Immunité Peur/Panique — résiste aux effets de contrôle psychologique</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Carry Cavalerie accessible — performant sans investissement rare</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Bon en formation Nature pure avec Tala et Dimina</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Surpassé par Aerposia, Khaos, Violette en PvP haute compétition</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Kit Boss Alliance inexistant — à éviter sur les Boss</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>AoE secondaire — pas aussi impactant que Dimina (380% AoE primaire)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Dimina</div><div class="syn-role">Nature · Carry AoE · Blocage Rage</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Duo Nature Cavalerie. Dimina réduit la Rage et les défenses ennemies, Boyd capitalise sur les ennemis affaiblis. Formation Nature accessible et complémentaire.</p>
+    <div class="syn-tags"><span class="stag stag-green">Nature</span><span class="stag stag-red">PvP</span><span class="stag stag-blue">Cavalerie</span></div>
+  </div>
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Tala</div><div class="syn-role">Nature · Génératrice de Rage · Support</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Tala accélère la Rage de Boyd → Charge Sauvage se déclenche plus souvent. Duo Nature simple et efficace pour débuter.</p>
+    <div class="syn-tags"><span class="stag stag-green">Nature</span><span class="stag stag-gold">Rage Loop</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+  <div class="formation">
+    <div class="form-title">Formation Nature Cavalerie (début/milieu de partie)</div>
+    <div class="form-heroes"><span class="fhero nature">Boyd</span><span class="fhero nature">Dimina</span><span class="fhero nature">Tala</span></div>
+    <p class="form-desc">Trio Nature complet. Tala génère la Rage, Dimina contrôle et attaque en AoE, Boyd porte les dégâts Cavalerie. Formation accessible ne nécessitant pas de héros rare.</p>
+  </div>
+</div>
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Boyd v1 — Juin 2026</footer>
 </body>
 </html>

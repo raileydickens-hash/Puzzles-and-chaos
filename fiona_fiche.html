@@ -5,345 +5,231 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fiona — Fiche Héros</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Raleway:wght@300;400;500;600&display=swap');
-  :root{
-    --void:#0f0602;--panel:#1e0d06;--border:#3d1a08;
-    --fire-dim:#6b2a0e;--fire-mid:#c84a0e;--fire-bright:#f97316;
-    --gold:#c9a84c;--gold-light:#f0d080;--green:#4ade80;--purple:#a78bfa;
-    --text:#d4a87a;--text-dim:#7a4a2a;--white:#fff5eb;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--void);color:var(--text);font-family:'Raleway',sans-serif;min-height:100vh;overflow-x:hidden;}
-  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(200,74,14,.18) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 80% 60%,rgba(239,68,68,.06) 0%,transparent 50%);pointer-events:none;z-index:0;}
-  .container{max-width:860px;margin:0 auto;padding:32px 20px 60px;position:relative;z-index:1;}
-  .header{text-align:center;padding:40px 20px 32px;}
-  .element-badge{display:inline-block;font-family:'Raleway',sans-serif;font-weight:600;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--fire-bright);border:1px solid var(--border);padding:4px 16px;border-radius:2px;margin-bottom:16px;background:rgba(200,74,14,.1);}
-  h1{font-family:'Cinzel',serif;font-size:clamp(42px,8vw,72px);font-weight:900;color:var(--white);letter-spacing:.08em;line-height:1;text-shadow:0 0 40px rgba(249,115,22,.7),0 0 80px rgba(239,68,68,.3);margin-bottom:8px;}
-  .subtitle{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;}
-  .divider{display:flex;align-items:center;gap:16px;margin:0 auto 32px;max-width:400px;}
-  .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--fire-mid),transparent);}
-  .divider-icon{color:var(--fire-bright);font-size:20px;}
-  .identity-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;}
-  .id-cell{background:var(--panel);padding:16px 12px;text-align:center;}
-  .id-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px;}
-  .id-value{font-family:'Cinzel',serif;font-size:15px;color:var(--gold);font-weight:700;}
-  .ratings-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
-  .rating-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 10px;text-align:center;position:relative;overflow:hidden;}
-  .rating-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-  .rating-card.eco::before{background:linear-gradient(90deg,var(--fire-mid),var(--green));}
-  .rating-card.pvp::before{background:linear-gradient(90deg,var(--fire-mid),var(--fire-bright));}
-  .rating-card.pve::before{background:linear-gradient(90deg,var(--fire-dim),var(--fire-mid));}
-  .rating-card.boss::before{background:linear-gradient(90deg,var(--fire-dim),var(--fire-dim));}
-  .rating-mode{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;display:block;}
-  .rating-grade{font-family:'Cinzel',serif;font-size:28px;font-weight:900;line-height:1;}
-  .rating-card.eco .rating-grade{color:var(--green);text-shadow:0 0 15px rgba(74,222,128,.5);}
-  .rating-card.pvp .rating-grade{color:var(--fire-bright);text-shadow:0 0 15px rgba(249,115,22,.5);}
-  .rating-card.pve .rating-grade{color:var(--gold);text-shadow:0 0 15px rgba(201,168,76,.4);}
-  .rating-card.boss .rating-grade{color:var(--text-dim);}
-  .rating-label{font-size:9px;color:var(--text-dim);margin-top:4px;}
-  .section{margin-bottom:20px;}
-  .section-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--fire-bright);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-  .section-title::after{content:'';flex:1;height:1px;background:var(--border);}
-  .role-banner{background:linear-gradient(135deg,rgba(107,42,14,.4),rgba(200,74,14,.1));border:1px solid var(--fire-dim);border-radius:4px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;}
-  .role-icon{font-size:26px;flex-shrink:0;}
-  .role-title{font-family:'Cinzel',serif;font-size:13px;color:var(--fire-bright);margin-bottom:4px;}
-  .role-desc{font-size:12px;color:var(--text-dim);line-height:1.5;}
-  .skills-grid{display:grid;gap:8px;}
-  .skill-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;}
-  .skill-dot{width:8px;height:8px;border-radius:50%;background:var(--fire-bright);box-shadow:0 0 8px var(--fire-bright);flex-shrink:0;}
-  .skill-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:2px;}
-  .skill-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
-  .skill-tag{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--fire-bright);background:rgba(200,74,14,.12);border:1px solid var(--border);padding:3px 8px;border-radius:2px;white-space:nowrap;align-self:flex-start;}
-  .skill-tag.passive{color:var(--gold);background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2);}
-  .skill-tag.death{color:var(--purple);background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.2);}
-  .skill-tag.locked{color:var(--text-dim);background:transparent;}
-  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-  .troop-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px;}
-  .troop-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
-  .troop-value{font-family:'Cinzel',serif;font-size:18px;color:var(--gold);font-weight:700;}
-  .troop-sub{font-size:10px;color:var(--text-dim);margin-top:2px;}
-  .troop-card.eco .troop-value{color:var(--green);}
-  .weapon-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:20px;}
-  .weapon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-  .weapon-name{font-family:'Cinzel',serif;font-size:14px;color:var(--gold-light);}
-  .weapon-level{font-size:10px;color:var(--fire-bright);border:1px solid var(--border);padding:2px 10px;border-radius:2px;}
-  .weapon-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;}
-  .wstat{font-size:11px;color:var(--text-dim);}
-  .wstat span{color:var(--gold);font-weight:600;}
-  .weapon-exclusive{border-top:1px solid var(--border);padding-top:12px;}
-  .excl-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
-  .excl-row{font-size:11px;color:var(--gold);margin-bottom:4px;display:flex;gap:8px;}
-  .excl-row::before{content:'›';color:var(--fire-bright);}
-  /* combo box */
-  .combo-box{background:rgba(249,115,22,.05);border:1px solid var(--fire-dim);border-radius:4px;padding:16px 20px;margin-bottom:20px;}
-  .combo-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;color:var(--fire-bright);margin-bottom:12px;}
-  .combo-row{display:flex;gap:12px;align-items:flex-start;font-size:11px;margin-bottom:8px;}
-  .combo-num{color:var(--fire-bright);font-weight:700;min-width:20px;flex-shrink:0;}
-  .combo-desc{color:var(--text-dim);line-height:1.5;}
-  .context-table{width:100%;border-collapse:collapse;}
-  .context-table tr{border-bottom:1px solid var(--border);}
-  .context-table tr:last-child{border-bottom:none;}
-  .context-table td{padding:10px 12px;font-size:12px;}
-  .context-table td:first-child{color:var(--text-dim);font-size:11px;letter-spacing:.1em;white-space:nowrap;width:160px;}
-  .ctx-best{color:#86efac;}.ctx-good{color:var(--fire-bright);}.ctx-avg{color:var(--gold);}.ctx-bad{color:#f87171;}
-  .synergy-grid{display:grid;gap:8px;}
-  .synergy-row{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-  .syn-left{flex:1;}
-  .syn-name{font-family:'Cinzel',serif;font-size:13px;color:var(--white);}
-  .syn-role{color:var(--text-dim);font-size:11px;margin-top:2px;}
-  .syn-reason{font-size:11px;color:var(--text-dim);margin-top:4px;line-height:1.4;font-style:italic;}
-  .syn-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
-  .syn-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--fire-bright);background:rgba(200,74,14,.1);border:1px solid var(--border);padding:2px 6px;border-radius:2px;}
-  .syn-right{text-align:right;min-width:60px;}
-  .syn-tier{font-family:'Cinzel',serif;font-size:20px;font-weight:700;}
-  .tier-s{color:#f472b6;text-shadow:0 0 15px rgba(244,114,182,.5);}
-  .tier-a{color:var(--gold);}
-  .tier-b{color:var(--fire-bright);}
-  .syn-own{font-size:9px;margin-top:2px;}
-  .own-yes{color:var(--green);}
-  .own-no{color:#f87171;}
-  .formation-grid{display:grid;gap:10px;}
-  .formation-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:16px 18px;}
-  .formation-title{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);margin-bottom:8px;}
-  .formation-heroes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
-  .hero-pill{font-size:10px;letter-spacing:.1em;padding:3px 10px;border-radius:12px;border:1px solid var(--border);font-family:'Cinzel',serif;}
-  .pill-own{color:var(--fire-bright);background:rgba(200,74,14,.15);border-color:var(--fire-dim);}
-  .pill-need{color:#f87171;background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.2);}
-  .formation-desc{font-size:11px;color:var(--text-dim);line-height:1.5;}
-  .priority-list{display:grid;gap:8px;}
-  .priority-item{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:flex-start;gap:14px;}
-  .priority-num{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:var(--border);line-height:1;min-width:28px;}
-  .priority-text{font-size:12px;color:var(--text);line-height:1.6;}
-  .priority-text strong{color:var(--gold-light);font-weight:600;}
-  .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
-  .legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text-dim);}
-  .legend-dot{width:10px;height:10px;border-radius:2px;}
-  .footer{text-align:center;padding-top:32px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--border);}
-  @media(max-width:540px){.identity-strip{grid-template-columns:repeat(2,1fr);}.ratings-row{grid-template-columns:repeat(2,1fr);}.troop-grid{grid-template-columns:1fr;}h1{font-size:38px;}}
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#922b21;--elem-light:#ec7063;--elem-bg:rgba(146,43,33,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#2a0a00 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(146,43,33,.3);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(146,43,33,.45);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.c{color:#455a75}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.passive{border-left-color:#5dade2}.skill.eco{border-left-color:#bb8fce}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-passive{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-eco{background:rgba(142,68,173,.15);color:#bb8fce;border:1px solid rgba(142,68,173,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .eco-box{background:rgba(142,68,173,.08);border:1px solid rgba(142,68,173,.3);border-radius:8px;padding:12px 14px;margin-top:10px}
+  .eco-title{font-family:'Cinzel',serif;font-size:.82rem;color:#bb8fce;margin-bottom:8px}
+  .eco-item{display:flex;gap:8px;font-size:.8rem;margin-bottom:6px;line-height:1.4}
+  .eco-dot{width:5px;height:5px;border-radius:50%;background:#bb8fce;margin-top:5px;flex-shrink:0}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}.fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}.fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}.fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}.fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
-<div class="container">
-
-  <div class="header">
-    <div class="element-badge">🔥 Élément Feu · 5★ · Entraînement & AoE</div>
-    <h1>FIONA</h1>
-    <div class="subtitle">La Dresseuse de Dragons · AoE Poison · Support Économie</div>
-    <div class="divider"><div class="divider-line"></div><div class="divider-icon">🐉</div><div class="divider-line"></div></div>
+<a class="back" href="heroes.html">← Retour aux héros</a>
+<div class="hero-header">
+  <div class="elem-badge">🔥 Élément Feu · Carry AoE · Économie Entraînement</div>
+  <div class="hero-name">FIONA</div>
+  <div class="hero-subtitle">La Dresseuse de Drake · Poison AoE · ATQ +34% · Auto-Explosion · Économie</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">5★ → 6★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">🔥 Feu</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">Talent +1</span><span class="lbl">Niveau</span></div>
+    <div class="stat-badge"><span class="val">Carry + Éco</span><span class="lbl">Rôle</span></div>
   </div>
-
-  <div class="identity-strip">
-    <div class="id-cell"><span class="id-label">Élément</span><span class="id-value">Feu</span></div>
-    <div class="id-cell"><span class="id-label">Étoiles</span><span style="color:var(--gold);font-size:13px;">★★★★★</span></div>
-    <div class="id-cell"><span class="id-label">Talent</span><span class="id-value">+3</span></div>
-    <div class="id-cell"><span class="id-label">Puissance</span><span class="id-value">1 744 515</span></div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvP · Combat</div><div class="rval b">B</div><div class="rdesc">Kit intéressant</div></div>
+    <div class="rating-box"><div class="rtitle">Économie</div><div class="rval s">S</div><div class="rdesc">Entraînement −9%</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval c">C</div><div class="rdesc">Kit inadapté</div></div>
   </div>
-
-  <div class="ratings-row">
-    <div class="rating-card eco"><span class="rating-mode">Économie</span><div class="rating-grade">A</div><div class="rating-label">Entraînement</div></div>
-    <div class="rating-card pvp"><span class="rating-mode">PvP · Arène</span><div class="rating-grade">B</div><div class="rating-label">AoE + Buff ATQ</div></div>
-    <div class="rating-card pve"><span class="rating-mode">PvE · Campagne</span><div class="rating-grade">B+</div><div class="rating-label">Poison prolongé</div></div>
-    <div class="rating-card boss"><span class="rating-mode">Boss Alliance</span><div class="rating-grade">C</div><div class="rating-label">Rage Lente pénalise</div></div>
-  </div>
-
-  <div class="role-banner">
-    <div class="role-icon">🐉</div>
-    <div>
-      <div class="role-title">Double rôle — Économie Entraînement + AoE Poison</div>
-      <div class="role-desc">Fiona est unique dans le roster : ses compétences de troupe réduisent les coûts d'entraînement des troupes (−9% ×2) et accélèrent l'entraînement (+15%). En combat, son kit enchaîne AoE 193% + poison 6 tours + buff ATQ équipe +34% + auto-explosion à la mort. Sa principale limite : <strong style="color:#f87171">Rage Lente</strong> — elle a besoin de Tala pour être efficace.</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Compétences de Héros — Plein Potentiel</div>
-    <div class="skills-grid">
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Souffle Infernal <span style="font-size:10px;color:#f87171;font-family:'Raleway',sans-serif;">(Régén. Rage : Lente ⚠)</span></div>
-          <div class="skill-desc">Inflige <strong style="color:var(--gold)">193% de dégâts à TOUS les ennemis</strong>. AoE totale — moins puissante qu'Herukab (264% ×2) mais se cumule avec le poison.</div>
-        </div>
-        <div class="skill-tag">AoE Total</div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Flammes Draconiques</div>
-          <div class="skill-desc">Inflige des <strong style="color:var(--fire-bright)">dégâts de poison à tous les ennemis pendant 6 tours</strong>. DoT prolongé — le poison continue de rogner les PV adverses même sans nouvelle activation.</div>
-        </div>
-        <div class="skill-tag">Poison AoE</div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Compagnon Drake</div>
-          <div class="skill-desc">Augmente l'<strong style="color:var(--gold)">ATQ de tous les alliés de 34% pendant 6 tours</strong>. Le buff ATQ le plus long du roster — 6 tours vs Paysage de Tala (permanent mais 10% seulement).</div>
-        </div>
-        <div class="skill-tag passive">Buff ATQ</div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-dot"></div>
-        <div>
-          <div class="skill-name">Explosion Crépuscule</div>
-          <div class="skill-desc">Auto-explosion à la mort : <strong style="color:var(--fire-bright)">140% de dégâts à tous les ennemis</strong>. Troisième vague de dégâts AoE post-mortem — Fiona continue de nuire même après sa chute.</div>
-        </div>
-        <div class="skill-tag death">Post-mortem</div>
-      </div>
-      <div class="skill-row">
-        <div class="skill-dot" style="background:var(--text-dim);box-shadow:none"></div>
-        <div>
-          <div class="skill-name" style="color:var(--text-dim)">Maîtrise de Combat</div>
-          <div class="skill-desc" style="color:#3d1a08">+30% Critique. Chance d'infliger le double de dégâts sur toutes ses attaques AoE.</div>
-        </div>
-        <div class="skill-tag locked">🔒 6 étoiles</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- COMBO BOX -->
-  <div class="combo-box">
-    <div class="combo-title">🐉 Séquence de Combat Fiona — Triple Vague</div>
-    <div class="combo-row"><span class="combo-num">T0</span><span class="combo-desc"><strong style="color:var(--gold)">Compagnon Drake</strong> → ATQ équipe +34% pendant 6 tours (dès l'activation)</span></div>
-    <div class="combo-row"><span class="combo-num">T?</span><span class="combo-desc"><strong style="color:var(--fire-bright)">Souffle Infernal</strong> → 193% dégâts AoE sur tous les ennemis</span></div>
-    <div class="combo-row"><span class="combo-num">+6T</span><span class="combo-desc"><strong style="color:var(--fire-bright)">Flammes Draconiques</strong> → Poison continu sur tous pendant 6 tours</span></div>
-    <div class="combo-row"><span class="combo-num">Mort</span><span class="combo-desc"><strong style="color:var(--purple)">Explosion Crépuscule</strong> → 140% dégâts AoE supplémentaires à sa mort</span></div>
-    <div style="font-size:11px;color:var(--text-dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
-      ⚠ Rage Lente = activation tardive sans support. <strong style="color:var(--gold-light)">Associer Tala pour compenser.</strong>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Compétences de Troupe (+3 — Économie Entraînement)</div>
-    <div class="troop-grid">
-      <div class="troop-card"><div class="troop-label">Compétence active</div><div class="troop-value">+200%</div><div class="troop-sub">ATQ de troupe</div></div>
-      <div class="troop-card eco"><div class="troop-label">Vitesse d'Entraînement</div><div class="troop-value">+15%</div><div class="troop-sub">Troupes formées plus vite</div></div>
-      <div class="troop-card eco"><div class="troop-label">Coût d'Endurance ↘</div><div class="troop-value">−9%</div><div class="troop-sub">Moins cher à entraîner</div></div>
-      <div class="troop-card eco"><div class="troop-label">Coût d'Entraînement ↘</div><div class="troop-value">−9%</div><div class="troop-sub">Économie sur les troupes</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Arme Exclusive — Aperçu Maximal</div>
-    <div class="weapon-card">
-      <div class="weapon-header"><div class="weapon-name">🐉 Corne de Dragon (8★ +30 max)</div><div class="weapon-level">Non obtenu</div></div>
-      <div style="font-size:10px;color:#f87171;margin-bottom:14px;">⚠ Arme non encore obtenue — via événements de fête (Parchemins de Curiosité)</div>
-      <div class="weapon-stats">
-        <div class="wstat">ATQ/DEF/PV Troupe <span>+106% chacun</span></div>
-        <div class="wstat">ATQ Héros <span>+600</span></div>
-        <div class="wstat">DEF Héros <span>+600</span></div>
-        <div class="wstat">PV Héros <span>+1 200</span></div>
-      </div>
-      <div class="weapon-exclusive">
-        <div class="excl-title">Attributs Exclusifs Max (Fiona uniquement) — Économie Ville</div>
-        <div class="excl-row">Héros +0 : Vitesse de construction <strong style="color:var(--gold)">+50%</strong></div>
-        <div class="excl-row">Héros +2 : Vitesse de guérison tente médicale <strong style="color:var(--gold)">+50%</strong></div>
-        <div class="excl-row">Héros +4 : Vitesse de recherche <strong style="color:var(--gold)">+50%</strong></div>
-        <div class="excl-row">Héros +6 : Vitesse d'entraînement <strong style="color:var(--gold)">+100%</strong></div>
-        <div style="font-size:10px;color:var(--text-dim);margin-top:10px;font-style:italic;">Note : Exclusifs orientés économie ville — Fiona est l'héroïne de développement par excellence au max.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Contexte d'Utilisation</div>
-    <div style="background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;">
-      <table class="context-table">
-        <tr><td>Entraînement troupes</td><td><span class="ctx-best">●●●●●</span> <span style="font-size:11px;color:var(--text-dim)">−9%×2 coût + +15% vitesse — déployer en ville</span></td></tr>
-        <tr><td>PvE · Campagne</td><td><span class="ctx-good">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Poison 6 tours + buff ATQ +34% très utiles</span></td></tr>
-        <tr><td>PvP vs survivants</td><td><span class="ctx-good">●●●○○</span> <span style="font-size:11px;color:var(--text-dim)">Explosion Crépuscule nettoie les derniers PV</span></td></tr>
-        <tr><td>Formation Feu</td><td><span class="ctx-good">●●●●○</span> <span style="font-size:11px;color:var(--text-dim)">Compagnon Drake +34% profite à Anastasia</span></td></tr>
-        <tr><td>Boss Alliance</td><td><span class="ctx-bad">●○○○○</span> <span style="font-size:11px;color:var(--text-dim)">Rage Lente inadaptée — ne pas déployer</span></td></tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Synergies Meta Complètes</div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(74,222,128,.4);border:1px solid #4ade80;"></div>Possédé</div>
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(239,68,68,.3);border:1px solid #f87171;"></div>À acquérir</div>
-    </div>
-    <div class="synergy-grid">
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Tala</div>
-          <div class="syn-role">Nature · Généra. Rage · 6★ Ascendée</div>
-          <div class="syn-reason">Synergie critique. Tala recharge la Rage de Fiona pour compenser sa Rage Lente — sans Tala, Fiona active ses compétences trop rarement pour être efficace en combat.</div>
-          <div class="syn-tags"><span class="syn-tag">Rage → AoE</span><span class="syn-tag">Possédé</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-yes">✓ Possédé</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Anastasia</div>
-          <div class="syn-role">Feu · S PvP · S PvE · Carry Feu dominant</div>
-          <div class="syn-reason">Duo Feu naturel. Compagnon Drake (+34% ATQ / 6 tours) double les dégâts d'Anastasia. Anastasia porte le DPS, Fiona amplifie et empoisonne. Formation Feu complète.</div>
-          <div class="syn-tags"><span class="syn-tag">Feu</span><span class="syn-tag">PvP</span><span class="syn-tag">PvE</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-s">S</div><div class="syn-own own-no">À acquérir</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Tutanhet</div>
-          <div class="syn-role">Feu · Paralysie · Debuffeur</div>
-          <div class="syn-reason">Triple Feu avec Anastasia. Le poison de Fiona sur des cibles paralysées par Tutanhet amplifie les dégâts totaux. Le buff ATQ +34% profite aussi à Tutanhet.</div>
-          <div class="syn-tags"><span class="syn-tag">Feu</span><span class="syn-tag">Paralysie + Poison</span><span class="syn-tag">Possédé</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Norris</div>
-          <div class="syn-role">Feu · A Boss · Secondaire Feu</div>
-          <div class="syn-reason">Compagnon Feu standard. Norris en Boss, Fiona en ville (entraînement) ou en PvE — les deux couvrent des rôles différents et ne se concurrencent pas directement.</div>
-          <div class="syn-tags"><span class="syn-tag">Feu</span><span class="syn-tag">Boss</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-no">À acquérir</div></div>
-      </div>
-      <div class="synergy-row">
-        <div class="syn-left">
-          <div class="syn-name">Tania</div>
-          <div class="syn-role">Glace · Support universel · 6★ Ascendée</div>
-          <div class="syn-reason">Le soin AoE 44% de Tania compense les dégâts reçus pendant que Fiona attend d'activer ses compétences (Rage Lente). Tania + Fiona + Tala = formation AoE Poison viable.</div>
-          <div class="syn-tags"><span class="syn-tag">Sustain</span><span class="syn-tag">PvE</span><span class="syn-tag">Possédé</span></div>
-        </div>
-        <div class="syn-right"><div class="syn-tier tier-a">A</div><div class="syn-own own-yes">✓ Possédé</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Formations Recommandées</div>
-    <div class="formation-grid">
-      <div class="formation-card">
-        <div class="formation-title">🏭 Déploiement Économie (dès maintenant)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-own">Fiona</span><span class="hero-pill pill-own" style="color:#34d399;background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.2);">Tala</span><span class="hero-pill pill-own" style="color:#fbbf24;background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.2);">Patty</span></div>
-        <div class="formation-desc">Fiona réduit les coûts d'entraînement (−9%×2, +15% vitesse), Tala produit le Fer (+300%), Patty récolte les ressources (+9% vitesse). Trio économie complet et immédiatement actif.</div>
-      </div>
-      <div class="formation-card">
-        <div class="formation-title">✓ Formation Feu PvE (opérationnelle)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-own">Fiona</span><span class="hero-pill pill-own">Tutanhet</span><span class="hero-pill pill-own">Tala</span></div>
-        <div class="formation-desc">Tala recharge la Rage de Fiona, Tutanhet paralyse, Fiona empoisonne les cibles paralysées. Formation Feu disponible maintenant — efficace en PvE difficile.</div>
-      </div>
-      <div class="formation-card">
-        <div class="formation-title">⭐ Formation Feu Optimale (objectif)</div>
-        <div class="formation-heroes"><span class="hero-pill pill-need">Anastasia</span><span class="hero-pill pill-own">Fiona</span><span class="hero-pill pill-own">Tutanhet</span></div>
-        <div class="formation-desc">Anastasia porte le carry Feu, Fiona amplifie (+34% ATQ / poison), Tutanhet paralyse. <strong style="color:var(--gold-light)">Acquérir Anastasia pour compléter ce trio.</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Priorités d'Investissement</div>
-    <div class="priority-list">
-      <div class="priority-item"><div class="priority-num">01</div><div class="priority-text"><strong>Déployer Fiona pour l'entraînement des troupes dès maintenant</strong> — −9% coût d'endurance, −9% coût d'entraînement, +15% vitesse. S'applique sans investissement supplémentaire.</div></div>
-      <div class="priority-item"><div class="priority-num">02</div><div class="priority-text"><strong>Associer systématiquement avec Tala en combat</strong> — Tala compense la Rage Lente de Fiona. Sans ce duo, Fiona n'active ses compétences qu'une fois toutes les 3-4 actions.</div></div>
-      <div class="priority-item"><div class="priority-num">03</div><div class="priority-text"><strong>Acquérir Anastasia</strong> — Carry Feu S PvP et S PvE. Compagnon Drake (+34% ATQ) double ses dégâts. C'est la synergie qui fait passer Fiona de B à S en formation Feu.</div></div>
-      <div class="priority-item"><div class="priority-num">04</div><div class="priority-text"><strong>Débloquer les 6 étoiles</strong> — Maîtrise de Combat (+30% Critique) multiplie l'effet de triple vague AoE (193% + poison + 140% post-mortem) par le facteur critique.</div></div>
-    </div>
-  </div>
-
-  <div class="footer">Puzzles &amp; Chaos: Frozen Castle · Fiche v2 — juin 2026</div>
 </div>
+
+<div class="section">
+  <div class="section-title">🔥 Compétences — Plein Potentiel</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Souffle Infernal</span><span class="skill-regen"> — Régénération Rage : Lente</span></div>
+      <span class="skill-tag tag-active">AoE</span>
+    </div>
+    <p class="skill-desc">Inflige <em>193% de dégâts à tous les ennemis</em>. AoE complète — Régénération Rage lente compensée par le poison persistant et l'auto-explosion post-mortem.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Flammes Draconiques</span><span class="skill-tag tag-amelio">Poison AoE</span></div>
+    <p class="skill-desc">Inflige des <em>dégâts de poison à tous les ennemis pendant 6 tours</em>. Dégâts sur la durée qui s'accumulent après chaque déclenchement de Souffle Infernal — pression continue même entre les tours.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Compagnon Drake</span><span class="skill-tag tag-amelio">Buff ATQ</span></div>
+    <p class="skill-desc">Augmente l'ATQ de <em>tous les alliés de +34%</em> pendant 6 tours. Buff offensif global — profite à n'importe quel carry de la formation simultanément.</p>
+  </div>
+
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Explosion Crépuscule</span><span class="skill-tag tag-passive">Auto-Explosion</span></div>
+    <p class="skill-desc">À la mort de Fiona, <em>auto-explosion infligeant 140% de dégâts à tous les ennemis</em>. Fiona continue d'infliger des dégâts même après avoir été vaincue — utile dans les combats serrés.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head"><span class="skill-name">Maîtrise de Combat</span><span class="skill-tag tag-locked">🔒 6 étoiles</span></div>
+    <p class="skill-desc">Taux de Critique <em>+30%</em>. Chance d'infliger le double de dégâts — amplifie l'AoE de Souffle Infernal et l'explosion post-mortem.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚔️ Compétences de Troupe — Talent +1</div>
+  <div class="troop-grid">
+    <div class="troop-item"><div class="troop-val">+200%</div><div class="troop-lbl">ATQ de troupe (compétence active)</div></div>
+    <div class="troop-item"><div class="troop-val">+15%</div><div class="troop-lbl">Vitesse d'entraînement</div></div>
+    <div class="troop-item"><div class="troop-val">−9%</div><div class="troop-lbl">Coût d'endurance</div></div>
+    <div class="troop-item"><div class="troop-val">−9%</div><div class="troop-lbl">Coût d'entraînement</div></div>
+  </div>
+  <div class="eco-box">
+    <div class="eco-title">🏭 Rôle Économique — Entraînement de Troupes</div>
+    <div class="eco-item"><div class="eco-dot"></div><div>Vitesse d'entraînement <strong style="color:#bb8fce">+15%</strong> — les soldats sont formés plus rapidement</div></div>
+    <div class="eco-item"><div class="eco-dot"></div><div>Coût d'entraînement <strong style="color:#bb8fce">−9%</strong> — réduit la quantité de ressources dépensées pour former des troupes</div></div>
+    <div class="eco-item"><div class="eco-dot"></div><div>Coût d'endurance <strong style="color:#bb8fce">−9%</strong> — diminue le coût en endurance par action d'entraînement</div></div>
+    <div class="eco-item"><div class="eco-dot"></div><div>Recommandé de garder Fiona active pendant les phases d'entraînement intensif de troupes</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🐉 Curiosité Exclusive — Corne de Dragon</div>
+  <div class="weapon-box">
+    <div class="weapon-name">🐉 Corne de Dragon ★★★★★★★★ — Niveau maximum : +30</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus légion à +30 (niveau max)</div>
+    <div class="weapon-stats">
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1 200</span>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Fiona uniquement) — Spécialisés Économie</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>Vitesse de construction <strong style="color:#2ecc71">+50%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>Vitesse de guérison des infirmeries <strong style="color:#2ecc71">+50%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>Vitesse de recherche <strong style="color:#2ecc71">+50%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>Vitesse d'entraînement <strong style="color:#2ecc71">+100%</strong></div></div>
+  </div>
+  <div class="info-box">
+    <strong>💡 Curiosité exclusivement économique</strong><br>
+    La Corne de Dragon est entièrement dédiée à l'économie de château : construction, recherche, guérison et entraînement. À Héros +6, le bonus de +100% vitesse d'entraînement combiné aux −9% de coût en troupe fait de Fiona la meilleure héroïne pour former des armées rapidement.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Poison 6 tours + auto-explosion : dégâts continus même après sa mort</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Buff ATQ +34% pour toute la formation — profite à tous les carry</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Double économie entraînement : vitesse +15% ET coût −9%</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Curiosité dédiée économie château : construction, recherche, guérison, entraînement</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Régénération Rage lente — AoE peu fréquente sans support de Rage</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>AoE 193% — la plus faible du roster Feu face aux S-tier</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Boss Alliance — inadaptée, à ne pas utiliser</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Curiosité 100% économique — ne booste aucune stat de combat exclusive</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Anastasia</div><div class="syn-role">Feu · Support Survie · Résurrection</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Duo Feu naturel. Fiona empoisonne et buff l'ATQ, Anastasia ressuscite les alliés tombés et soigne en continu. L'auto-explosion de Fiona à sa mort inflige 140% supplémentaires juste avant qu'Anastasia ne ramène les alliés.</p>
+    <div class="syn-tags"><span class="stag stag-red">Feu</span><span class="stag stag-gold">Poison + Résurrection</span></div>
+  </div>
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">N'importe quel carry DPS</div><div class="syn-role">Tous éléments</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Le buff ATQ +34% de Compagnon Drake profite à n'importe quel carry — Aerposia, Dimina, Herukab ou autre. Fiona amplifie passivement les dégâts de toute la formation via ce buff universel.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Buff ATQ Universel</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+  <div class="formation">
+    <div class="form-title">Formation Feu (PvP middlegame)</div>
+    <div class="form-heroes"><span class="fhero feu">Fiona</span><span class="fhero feu">Anastasia</span><span class="fhero feu">Tutanhet</span></div>
+    <p class="form-desc">Trio Feu. Fiona empoisonne et buff l'ATQ, Anastasia soigne et ressuscite, Tutanhet paralyse et buff la DEF. Formation mono-élément Feu accessible et polyvalente.</p>
+  </div>
+  <div class="formation">
+    <div class="form-title">Formation Buff + Burst (multi-éléments)</div>
+    <div class="form-heroes"><span class="fhero feu">Fiona</span><span class="fhero dark">Aerposia</span><span class="fhero glace">Tania</span></div>
+    <p class="form-desc">Fiona buff l'ATQ d'Aerposia (+34%) avant que le Spectre ne se déclenche — dégâts amplifiés. Tania soigne. Formation accessible qui maximise le burst d'Aerposia via le buff de Fiona.</p>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Fiona v1 — Juin 2026</footer>
 </body>
 </html>
