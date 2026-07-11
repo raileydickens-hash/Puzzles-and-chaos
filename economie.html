@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&C — Guides Économie</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--res:#7d6608;--res-light:#f0c030}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a1400 0%,#0d1117 70%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  h1{font-family:'Cinzel',serif;color:var(--gold);text-align:center;font-size:1.55rem;letter-spacing:2px;text-shadow:0 0 20px rgba(232,184,75,.5);margin-bottom:4px}
+  .subtitle{text-align:center;font-size:.78rem;color:#7a8fa8;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+
+  .section-label{
+    font-family:'Cinzel',serif;font-size:.7rem;color:#455a75;
+    letter-spacing:2px;text-transform:uppercase;
+    padding:14px 0 8px;border-bottom:1px solid var(--border);
+    margin-bottom:12px;
+  }
+
+  /* ── CARTE GUIDE ── */
+  .guide-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;text-decoration:none;color:inherit;display:block;margin-bottom:12px;transition:transform .15s,box-shadow .15s}
+  .guide-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+  .guide-card::before{content:'';display:block;height:3px}
+  .guide-card.ressources::before{background:linear-gradient(90deg,#7d6608,#e8b84b)}
+  .guide-card.troupes::before  {background:linear-gradient(90deg,#1e8449,#e8b84b)}
+  .guide-card.chateau::before  {background:linear-gradient(90deg,#1a4a6b,#e8b84b)}
+
+  .guide-inner{padding:14px 16px 16px}
+  .guide-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .guide-icon{font-size:1.7rem;flex-shrink:0}
+  .guide-title{font-family:'Cinzel',serif;font-size:.95rem;color:var(--gold);letter-spacing:.5px}
+  .guide-type{font-size:.68rem;color:#5a7090;text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+  .guide-desc{font-size:.8rem;color:#8fa8c0;line-height:1.5;margin-bottom:10px}
+
+  .guide-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+  .chip{padding:2px 9px;border-radius:20px;font-size:.68rem;border:1px solid}
+  .chip-yellow{background:rgba(240,192,48,.12);color:#f0c030;border-color:rgba(240,192,48,.4)}
+  .chip-green {background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .chip-blue  {background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .chip-red   {background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .chip-gold  {background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+
+  .guide-arrow{display:flex;justify-content:flex-end;align-items:center;gap:5px;font-size:.73rem;color:var(--gold);font-weight:700}
+
+  /* ── CARTE "BIENTÔT" ── */
+  .soon-card{background:var(--panel);border:1px dashed var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;color:#3a4d63;margin-bottom:10px}
+  .soon-icon{font-size:1.3rem;flex-shrink:0}
+  .soon-title{font-family:'Cinzel',serif;font-size:.8rem;color:#3a4d63}
+  .soon-sub{font-size:.7rem;color:#2e3d55;margin-top:2px}
+
+  /* ── HÉROS ECO en aperçu ── */
+  .hero-eco-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+  .hero-eco-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:7px 10px;font-size:.74rem}
+  .hero-eco-name{font-weight:700;color:var(--gold);display:block;margin-bottom:2px}
+  .hero-eco-bonus{color:#8fa8c0;font-size:.7rem}
+
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Retour à l'accueil</a>
+
+<h1>⛏️ GUIDES ÉCONOMIE</h1>
+<p class="subtitle">Ressources · Production · Recherches · Optimisation</p>
+
+<!-- ══════════════════════════════
+     RESSOURCES & FARM
+════════════════════════════════ -->
+<div class="section-label">⛏ Ressources &amp; Farm</div>
+
+<a class="guide-card ressources" href="guide_ressources.html">
+  <div class="guide-inner">
+    <div class="guide-head">
+      <span class="guide-icon">⛏️</span>
+      <div>
+        <div class="guide-title">Farm de Ressources</div>
+        <div class="guide-type">Collecte · Production · Pillage · Optimisation</div>
+      </div>
+    </div>
+    <p class="guide-desc">Le guide complet pour ne jamais manquer de ressources : quels héros envoyer, quels types de troupes collecter, comment piller efficacement, recherches prioritaires et 7 erreurs classiques à éviter.</p>
+    <div class="guide-chips">
+      <span class="chip chip-yellow">⛏ 4 ressources</span>
+      <span class="chip chip-green">🌿 Héros éco détaillés</span>
+      <span class="chip chip-blue">🔬 Recherches prioritaires</span>
+      <span class="chip chip-red">⛔ 7 erreurs</span>
+    </div>
+
+    <!-- Aperçu héros éco -->
+    <div class="hero-eco-grid">
+      <div class="hero-eco-item">
+        <span class="hero-eco-name">☀ Patty</span>
+        <span class="hero-eco-bonus">Collecte +35% · Meilleur toutes ressources</span>
+      </div>
+      <div class="hero-eco-item">
+        <span class="hero-eco-name">🌿 Tala</span>
+        <span class="hero-eco-bonus">Fer +25% permanent · Production passive</span>
+      </div>
+      <div class="hero-eco-item">
+        <span class="hero-eco-name">⬡ Sirona</span>
+        <span class="hero-eco-bonus">Collecte +24% · Guérison +24%</span>
+      </div>
+      <div class="hero-eco-item">
+        <span class="hero-eco-name">🔥 Fiona</span>
+        <span class="hero-eco-bonus">Entraînement −9% · Vitesse +15%</span>
+      </div>
+    </div>
+
+    <div class="guide-arrow" style="margin-top:12px">Ouvrir le guide →</div>
+  </div>
+</a>
+
+<!-- ══════════════════════════════
+     ENTRAÎNEMENT DE TROUPES
+════════════════════════════════ -->
+<div class="section-label">⚔ Entraînement &amp; Troupes</div>
+
+<div class="soon-card">
+  <span class="soon-icon">🛡️</span>
+  <div><div class="soon-title">Guide Entraînement de Troupes</div><div class="soon-sub">Quoi former, en quelle quantité, dans quel ordre — Guide à venir</div></div>
+</div>
+
+<div class="soon-card">
+  <span class="soon-icon">⚙️</span>
+  <div><div class="soon-title">Optimiser le Fer — Stratégie avancée</div><div class="soon-sub">Tala + Fiona + recherches combinées — Guide à venir</div></div>
+</div>
+
+<!-- ══════════════════════════════
+     CHÂTEAU & RECHERCHES
+════════════════════════════════ -->
+<div class="section-label">🏰 Château &amp; Recherches</div>
+
+<div class="soon-card">
+  <span class="soon-icon">🏰</span>
+  <div><div class="soon-title">Ordre de construction du Château</div><div class="soon-sub">Quels bâtiments upgrader en premier — Guide à venir</div></div>
+</div>
+
+<div class="soon-card">
+  <span class="soon-icon">🔬</span>
+  <div><div class="soon-title">Arbre de Recherche — Guide complet</div><div class="soon-sub">Économique vs Militaire, ordre des nœuds — Guide à venir</div></div>
+</div>
+
+<div class="soon-card">
+  <span class="soon-icon">🤝</span>
+  <div><div class="soon-title">Maximiser les aides d'alliance</div><div class="soon-sub">Temps de construction réduits, coordination — Guide à venir</div></div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Guides Économie · Juillet 2026</footer>
+
+</body>
+</html>
