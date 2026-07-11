@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cité des Dragons — Guide Complet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+
+  :root {
+    --gold:#e8b84b; --gold-dark:#a07720;
+    --red:#c0392b; --green:#27ae60; --blue:#2980b9; --purple:#8e44ad;
+    --bg:#0d1117; --panel:#161c26; --panel2:#1e2635; --border:#2e3d55; --text:#cdd6e0;
+    --dragon:#b85c00; --dragon-light:#f0944d; --dragon-bg:rgba(184,92,0,.12);
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; }
+
+  body {
+    background:var(--bg); color:var(--text);
+    font-family:'Nunito',sans-serif; min-height:100vh;
+    padding:16px;
+    background-image:radial-gradient(ellipse at top,#1f1000 0%,#0d1117 60%);
+  }
+
+  .back {
+    display:inline-flex; align-items:center; gap:6px;
+    color:#5a7090; font-size:.78rem; text-decoration:none;
+    margin-bottom:16px; letter-spacing:.5px;
+  }
+  .back:hover { color:var(--gold); }
+
+  /* ── EN-TÊTE ── */
+  .event-header {
+    text-align:center; padding:22px 16px 24px;
+    background:linear-gradient(180deg,var(--dragon-bg) 0%,transparent 100%);
+    border:1px solid rgba(184,92,0,.35); border-radius:14px; margin-bottom:18px;
+  }
+
+  .event-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--dragon-bg); border:1px solid rgba(184,92,0,.5);
+    border-radius:20px; padding:3px 14px;
+    font-size:.73rem; color:var(--dragon-light); letter-spacing:.5px; margin-bottom:10px;
+  }
+
+  h1 {
+    font-family:'Cinzel',serif; font-size:1.9rem; letter-spacing:3px;
+    color:var(--gold); text-shadow:0 0 28px rgba(232,184,75,.4); margin-bottom:4px;
+  }
+
+  .event-sub {
+    font-size:.8rem; color:#7a8fa8; letter-spacing:1px;
+    text-transform:uppercase; margin-bottom:14px;
+  }
+
+  .quick-facts {
+    display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px;
+  }
+
+  .fact {
+    background:var(--panel2); border:1px solid var(--border);
+    border-radius:8px; padding:8px 12px; text-align:center;
+  }
+  .fact .val { font-family:'Cinzel',serif; font-size:.9rem; color:var(--gold); display:block; }
+  .fact .lbl { font-size:.63rem; color:#5a7090; text-transform:uppercase; letter-spacing:.5px; }
+
+  /* ── SECTIONS ── */
+  .section {
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:14px 16px; margin-bottom:14px;
+    position:relative; overflow:hidden;
+  }
+
+  .section::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent,var(--dragon-light),transparent);
+  }
+
+  .section-title {
+    font-family:'Cinzel',serif; font-size:.85rem; color:var(--gold);
+    letter-spacing:1px; margin-bottom:12px;
+    display:flex; align-items:center; gap:8px;
+  }
+
+  /* ── ÉTAPES ── */
+  .steps { margin-top:4px; }
+
+  .step {
+    display:flex; gap:10px; margin-bottom:10px;
+    font-size:.82rem; line-height:1.5;
+  }
+
+  .step-num {
+    width:24px; height:24px; border-radius:50%;
+    background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+    color:#0d1117; font-weight:900; font-size:.72rem;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; font-family:'Cinzel',serif;
+  }
+
+  /* ── ITEMS / BULLETS ── */
+  .item {
+    display:flex; gap:8px; margin-bottom:8px;
+    font-size:.82rem; line-height:1.45;
+  }
+
+  .bullet {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold); margin-top:5px; flex-shrink:0;
+  }
+
+  .bullet.red { background:#e74c3c; }
+  .bullet.green { background:#2ecc71; }
+  .bullet.blue { background:#5dade2; }
+
+  /* ── TROUPES ── */
+  .troop-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px;
+  }
+
+  .troop-card {
+    background:var(--panel2); border-radius:8px; padding:10px 12px;
+    border-left:3px solid var(--gold); font-size:.8rem;
+  }
+
+  .troop-card.best { border-left-color:#2ecc71; }
+  .troop-card.ok   { border-left-color:#5dade2; }
+  .troop-card.bad  { border-left-color:#e74c3c; }
+
+  .troop-title { font-weight:700; font-size:.82rem; margin-bottom:4px; }
+  .troop-title.green { color:#2ecc71; }
+  .troop-title.blue  { color:#5dade2; }
+  .troop-title.red   { color:#e07070; }
+  .troop-title.gold  { color:var(--gold); }
+
+  /* ── TABLEAU CHOIX DE COMPÉTENCES ── */
+  .skills-table { width:100%; border-collapse:collapse; margin-top:8px; font-size:.78rem; }
+
+  .skills-table th {
+    background:var(--panel2); color:var(--gold);
+    font-family:'Cinzel',serif; font-size:.7rem;
+    padding:7px 10px; text-align:left;
+    border-bottom:1px solid var(--border);
+  }
+
+  .skills-table td {
+    padding:6px 10px; border-bottom:1px solid rgba(46,61,85,.4); vertical-align:top;
+  }
+
+  .skills-table tr:last-child td { border-bottom:none; }
+
+  .tag-atk  { background:rgba(192,57,43,.2);  color:#e07070; padding:1px 7px; border-radius:4px; font-size:.68rem; font-weight:700; }
+  .tag-def  { background:rgba(41,128,185,.2); color:#5dade2; padding:1px 7px; border-radius:4px; font-size:.68rem; font-weight:700; }
+  .tag-util { background:rgba(39,174,96,.15); color:#6ecf96; padding:1px 7px; border-radius:4px; font-size:.68rem; font-weight:700; }
+  .tag-mob  { background:rgba(142,68,173,.15);color:#bb8fce; padding:1px 7px; border-radius:4px; font-size:.68rem; font-weight:700; }
+
+  /* ── CONSEIL vs ERREUR ── */
+  .tip-box {
+    background:rgba(39,174,96,.1); border:1px solid rgba(39,174,96,.3);
+    border-radius:8px; padding:10px 12px; margin-top:10px; font-size:.8rem;
+    line-height:1.5;
+  }
+  .tip-box .tip-title { color:#2ecc71; font-weight:700; margin-bottom:5px; }
+
+  .warn-box {
+    background:rgba(192,57,43,.1); border:1px solid rgba(192,57,43,.3);
+    border-radius:8px; padding:10px 12px; margin-top:10px; font-size:.8rem;
+    line-height:1.5; color:#e07070;
+  }
+  .warn-box .warn-title { color:#e74c3c; font-weight:700; margin-bottom:5px; }
+
+  .info-box {
+    background:rgba(232,184,75,.07); border:1px solid rgba(232,184,75,.25);
+    border-radius:8px; padding:10px 12px; margin-top:10px; font-size:.78rem;
+    color:#c8a84b; line-height:1.5;
+  }
+  .info-box strong { color:var(--gold); }
+
+  /* ── DEUX PHASES ── */
+  .phase {
+    background:var(--panel2); border-radius:8px; padding:12px 14px;
+    margin-bottom:8px; border-left:3px solid;
+  }
+  .phase.p1 { border-left-color:var(--dragon-light); }
+  .phase.p2 { border-left-color:#e8b84b; }
+  .phase-title { font-weight:700; font-size:.85rem; margin-bottom:6px; }
+  .phase-title.orange { color:var(--dragon-light); }
+  .phase-title.gold   { color:var(--gold); }
+
+  /* ── CHOIX compétences ── */
+  .choice-pair {
+    display:grid; grid-template-columns:1fr auto 1fr;
+    gap:8px; align-items:center; margin-bottom:10px;
+  }
+
+  .choice-opt {
+    background:var(--panel2); border-radius:8px;
+    padding:9px 11px; font-size:.78rem; line-height:1.4;
+    border:1px solid var(--border);
+  }
+
+  .choice-opt.win { border-color:rgba(39,174,96,.5); background:rgba(39,174,96,.07); }
+  .choice-opt.lose { opacity:.65; }
+
+  .choice-opt .opt-tag {
+    font-size:.65rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:.4px; margin-bottom:4px;
+  }
+  .choice-opt.win .opt-tag { color:#2ecc71; }
+  .choice-opt.lose .opt-tag { color:#5a7090; }
+
+  .vs {
+    font-family:'Cinzel',serif; font-size:.7rem; color:#455a75;
+    text-align:center; flex-shrink:0;
+  }
+
+  .choice-reason {
+    font-size:.72rem; color:#5a7090; margin-top:4px; font-style:italic;
+  }
+
+  /* ── COMPTEUR ── */
+  .counter-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:6px;
+  }
+  .counter-item {
+    background:var(--panel2); border-radius:7px; padding:8px; text-align:center;
+    font-size:.75rem;
+  }
+  .counter-icon { font-size:1.3rem; margin-bottom:3px; }
+  .counter-beats { font-size:.65rem; color:#5a7090; margin-top:2px; }
+
+  footer {
+    text-align:center; font-size:.68rem; color:#2e3d55;
+    margin-top:24px; padding-top:10px; border-top:1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="evenements.html">← Retour aux événements</a>
+
+<div class="event-header">
+  <div class="event-badge">🐉 Événement permanent · Portail Mesdi</div>
+  <h1>CITÉ DES DRAGONS</h1>
+  <div class="event-sub">Match-3 · Pierres de Dragon · Amélioration du Dragon</div>
+  <div class="quick-facts">
+    <div class="fact"><span class="val">🐉 Pierres</span><span class="lbl">Récompense principale</span></div>
+    <div class="fact"><span class="val">2 phases</span><span class="lbl">Structure</span></div>
+    <div class="fact"><span class="val">Match-3</span><span class="lbl">Mode de jeu</span></div>
+    <div class="fact"><span class="val">Portail Mesdi</span><span class="lbl">Accès</span></div>
+  </div>
+</div>
+
+<!-- C'EST QUOI -->
+<div class="section">
+  <div class="section-title">📖 C'est quoi la Cité des Dragons ?</div>
+
+  <div class="item"><div class="bullet"></div><div>Un mode de jeu accessible via le bâtiment <strong>Portail Mesdi</strong> (même icône que les chapitres de campagne).</div></div>
+  <div class="item"><div class="bullet"></div><div>Le principe : enchaîner des combats en <strong>match-3</strong> contre des héros et des créatures (mobs) ennemis.</div></div>
+  <div class="item"><div class="bullet"></div><div>Chaque victoire fait avancer une <strong>jauge de portail</strong> en haut de l'écran. Quand elle est pleine, le portail s'ouvre et la deuxième phase commence.</div></div>
+  <div class="item"><div class="bullet"></div><div>Les <strong>Pierres de Dragon</strong> gagnées servent à améliorer le dragon de l'alliance — l'une des sources les plus régulières de cet item.</div></div>
+
+  <div class="info-box">
+    <strong>💡 Pourquoi c'est important</strong><br>
+    Le dragon de l'alliance est une source de puissance collective. Plus il est amélioré, plus il donne des bonus à tous les membres. Faire la Cité des Dragons régulièrement contribue directement à la force de tout le groupe.
+  </div>
+</div>
+
+<!-- LES DEUX PHASES -->
+<div class="section">
+  <div class="section-title">⚔️ Les deux phases de jeu</div>
+
+  <div class="phase p1">
+    <div class="phase-title orange">Phase 1 — Combats normaux (remplir le portail)</div>
+    <div class="item"><div class="bullet"></div><div>On enchaîne des vagues de combat match-3 contre des ennemis de plus en plus coriaces.</div></div>
+    <div class="item"><div class="bullet"></div><div>Entre certains combats, un <strong>choix de compétence temporaire</strong> est proposé — voir la section dédiée plus bas.</div></div>
+    <div class="item"><div class="bullet"></div><div>Chaque victoire remplit la jauge du portail en haut de l'écran.</div></div>
+    <div class="item"><div class="bullet"></div><div>Les ennemis ont des types de troupes variés — adapte ta formation selon ce que tu affrontes.</div></div>
+  </div>
+
+  <div class="phase p2">
+    <div class="phase-title gold">Phase 2 — Le portail ouvert (boss et récompenses)</div>
+    <div class="item"><div class="bullet"></div><div>Quand la jauge est pleine, le portail s'ouvre et lance une deuxième série de combats plus difficiles.</div></div>
+    <div class="item"><div class="bullet"></div><div>Les ennemis sont plus résistants — c'est là que les bonnes décisions de compétences de la phase 1 font la différence.</div></div>
+    <div class="item"><div class="bullet"></div><div>Les <strong>Pierres de Dragon les plus nombreuses</strong> se trouvent ici — aller le plus loin possible est la priorité.</div></div>
+    <div class="item"><div class="bullet"></div><div>Si la formation est affaiblie depuis la phase 1, les héros gardent leurs PV actuels — il n'y a pas de remise à zéro entre les deux phases.</div></div>
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-title">⚠️ Point critique entre les deux phases</div>
+    Les PV de tes héros ne se régénèrent pas automatiquement entre la phase 1 et la phase 2. Si un héros est presque mort en fin de phase 1, il arrive dans le même état en phase 2. Préserve tes soigneurs pour cette transition.
+  </div>
+</div>
+
+<!-- TROUPES RECOMMANDÉES -->
+<div class="section">
+  <div class="section-title">⚔️ Troupes et héros recommandés</div>
+
+  <div style="font-size:.78rem;color:#5a7090;margin-bottom:10px">Le système de contre-type s'applique en Cité des Dragons — toujours vérifier le type de l'ennemi avant de choisir sa formation.</div>
+
+  <div class="counter-grid">
+    <div class="counter-item">
+      <div class="counter-icon">🐴</div>
+      <strong style="color:#6ecf96">Cavalerie</strong>
+      <div class="counter-beats">Bat : Infanterie</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-icon">🏹</div>
+      <strong style="color:#e07070">Archer</strong>
+      <div class="counter-beats">Bat : Cavalerie</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-icon">🛡️</div>
+      <strong style="color:#5dade2">Infanterie</strong>
+      <div class="counter-beats">Bat : Archer</div>
+    </div>
+  </div>
+
+  <div class="troop-grid" style="margin-top:12px">
+    <div class="troop-card best">
+      <div class="troop-title green">✓ Formation idéale</div>
+      <div style="font-size:.78rem;line-height:1.5">Composition <strong>mixte ou orientée vers le type qui contre l'ennemi dominant</strong>. En Cité des Dragons, les ennemis alternent souvent les types — une formation mixte (cavalerie + support) tient mieux sur la durée.</div>
+    </div>
+    <div class="troop-card ok">
+      <div class="troop-title blue">✓ Héros recommandés</div>
+      <div style="font-size:.78rem;line-height:1.5">
+        <strong style="color:#2ecc71">Soigneurs en priorité</strong> : Tania, Sirona, Anastasia<br>
+        <strong style="color:#e8b84b">DPS solides</strong> : Aerposia, Dimina, Herukab<br>
+        <strong style="color:#5dade2">Contrôle</strong> : Dimina (blocage Rage), Eris (étourdissement)
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Conseil clé : toujours inclure un soigneur</div>
+    Contrairement aux combats normaux de campagne, la Cité des Dragons enchaîne les vagues sans pause. Un soigneur comme Tania (soin 44% AoE) ou Anastasia (résurrection + soin continu) permet de tenir sur la durée sans épuiser les PV entre les combats.
+  </div>
+
+  <div class="tip-box" style="margin-top:8px">
+    <div class="tip-title">💡 Profite du contre-type</div>
+    Si les ennemis ont beaucoup d'Infanterie → envoie de la Cavalerie. Si beaucoup d'Archers → envoie de l'Infanterie. Une formation qui contre le type dominant de l'ennemi gagne souvent même avec des héros moins puissants.
+  </div>
+</div>
+
+<!-- CHOIX DE COMPÉTENCES -->
+<div class="section">
+  <div class="section-title">⚡ Choix de compétences — Que choisir ?</div>
+
+  <div style="font-size:.8rem;color:#8fa8c0;line-height:1.5;margin-bottom:12px">
+    Entre certains combats, le jeu propose de choisir entre deux compétences temporaires actives pour le reste de la session. Ces bonus durent jusqu'à la fin de la Cité des Dragons. Voici les scénarios les plus courants et la logique de choix.
+  </div>
+
+  <!-- CHOIX 1 -->
+  <div style="font-size:.72rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Scénario 1 — Attaque vs Défense</div>
+  <div class="choice-pair">
+    <div class="choice-opt win">
+      <div class="opt-tag">✓ Recommandé</div>
+      <strong>Augmentation des dégâts</strong><br>
+      <span style="color:#6ecf96;font-size:.72rem">ATQ +X%</span>
+      <div class="choice-reason">La meilleure façon de survivre est de tuer vite. Les ennemis qui tombent avant d'attaquer ne font pas de dégâts.</div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="choice-opt lose">
+      <div class="opt-tag">Situationnel</div>
+      <strong>Augmentation de la défense</strong><br>
+      <span style="color:#5dade2;font-size:.72rem">DEF +X%</span>
+      <div class="choice-reason">Utile si tu manques déjà de PV ou si les ennemis sont des bursts très rapides.</div>
+    </div>
+  </div>
+
+  <!-- CHOIX 2 -->
+  <div style="font-size:.72rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;margin-top:12px">Scénario 2 — Dégâts match-3 vs Résistance</div>
+  <div class="choice-pair">
+    <div class="choice-opt win">
+      <div class="opt-tag">✓ Recommandé</div>
+      <strong>Dégâts des combinaisons match-3 augmentés</strong><br>
+      <span style="color:#6ecf96;font-size:.72rem">Dégâts tuiles +X%</span>
+      <div class="choice-reason">Les tuiles sont ta principale source de dégâts bruts. Ce bonus s'applique à chaque coup, donc il s'accumule massivement sur toute la session.</div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="choice-opt lose">
+      <div class="opt-tag">Moins prioritaire</div>
+      <strong>Augmentation de la résistance</strong><br>
+      <span style="color:#5dade2;font-size:.72rem">Résistance +X%</span>
+      <div class="choice-reason">Réduit les dégâts reçus. Utile uniquement si tu es en difficulté défensive — à préférer si tes héros meurent trop vite.</div>
+    </div>
+  </div>
+
+  <!-- CHOIX 3 -->
+  <div style="font-size:.72rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;margin-top:12px">Scénario 3 — Résistance vs Défense</div>
+  <div class="choice-pair">
+    <div class="choice-opt win">
+      <div class="opt-tag">✓ En général</div>
+      <strong>Résistance</strong><br>
+      <span style="color:#5dade2;font-size:.72rem">Résistance = réduit les dégâts de compétences ennemies</span>
+      <div class="choice-reason">La résistance couvre les dégâts des compétences héros adverses, souvent plus dangereux que les attaques de base.</div>
+    </div>
+    <div class="vs">VS</div>
+    <div class="choice-opt lose">
+      <div class="opt-tag">Plus situationnel</div>
+      <strong>Défense</strong><br>
+      <span style="color:#5dade2;font-size:.72rem">DEF = réduit les dégâts des attaques normales</span>
+      <div class="choice-reason">Meilleur contre des ennemis qui attaquent beaucoup avec des coups normaux plutôt que des compétences.</div>
+    </div>
+  </div>
+
+  <!-- LOGIQUE GÉNÉRALE -->
+  <div class="info-box">
+    <strong>💡 La règle universelle pour les choix</strong><br>
+    <strong>Offensif si tu tiens bien → défensif si tu galères.</strong><br>
+    Si tes héros sont à plus de 50% de PV, prends toujours le bonus offensif (ATQ ou dégâts match-3). Si tu perds des héros régulièrement, passe en mode défensif (résistance ou DEF) pour tenir jusqu'à la phase 2.
+  </div>
+
+  <div class="warn-box" style="margin-top:10px">
+    <div class="warn-title">⚠️ À compléter selon ton expérience en jeu</div>
+    D'autres combinaisons de choix peuvent apparaître (vitesse de Rage, PV max, effets de brûlure/poison…). Note-les au fil de tes sessions pour enrichir ce guide avec les cas réels de ton serveur.
+  </div>
+</div>
+
+<!-- ASTUCES COMMUNAUTÉ -->
+<div class="section">
+  <div class="section-title">💎 Astuces et bonnes pratiques</div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Toujours vérifier le type de troupe adverse avant le combat</strong> — le contre-type peut faire passer une victoire difficile en victoire facile même avec moins de puissance brute.</div></div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Priorise les combos de 4 tuiles et plus</strong> — ils génèrent des tuiles spéciales (explosion, ligne) qui frappent plusieurs ennemis simultanément. En Cité des Dragons, une tuile explosive bien placée peut éliminer plusieurs ennemis en un tour.</div></div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Déclenche les compétences héros au bon moment</strong> — ne lance pas une compétence de soin quand tes héros sont à 100% de PV. Garde-la pour quand tu en as vraiment besoin, surtout avant la phase 2.</div></div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Surveille la jauge du portail</strong> — elle indique à quelle distance tu es de la phase 2. Si elle est presque pleine, préserve les PV de tes héros pour arriver en forme dans la phase difficile.</div></div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Concentre tes tuiles sur les ennemis les plus dangereux</strong> — identifie les héros adverses à forte compétence (soigneurs, bursters) et élimines-les en premier pour déséquilibrer leur formation.</div></div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Utilise les tuiles de la même couleur que tes héros DPS</strong> — chaque tuile d'une couleur recharge la jauge de Rage du héros de cette couleur. Concentre les combos sur les couleurs de tes carry pour déclencher leurs compétences plus vite.</div></div>
+</div>
+
+<!-- CE QU'IL NE FAUT PAS FAIRE -->
+<div class="section">
+  <div class="section-title">⛔ Erreurs à éviter</div>
+
+  <div class="item"><div class="bullet red"></div><div><strong>Ne jamais utiliser toutes ses compétences en phase 1</strong> si la jauge du portail est presque pleine — gardes-en pour la phase 2 qui est plus difficile.</div></div>
+
+  <div class="item"><div class="bullet red"></div><div><strong>Ne pas ignorer le type de troupe ennemi</strong> — envoyer de la Cavalerie contre des Archers (qui la contre) est la principale cause d'échec évitable.</div></div>
+
+  <div class="item"><div class="bullet red"></div><div><strong>Ne pas négliger les soigneurs</strong> — les jouer uniquement pour leurs dégâts sans déclencher leurs compétences de soin est une erreur fréquente chez les débutants.</div></div>
+
+  <div class="item"><div class="bullet red"></div><div><strong>Ne pas choisir le bonus défensif par défaut</strong> — si tu t'en sors bien, le bonus offensif raccourcit les combats, ce qui réduit mécaniquement les dégâts reçus sur la durée.</div></div>
+
+  <div class="item"><div class="bullet red"></div><div><strong>Ne pas oublier de faire des combos</strong> — aligner exactement 3 tuiles à chaque coup sans chercher les 4+ est la façon la moins efficace de jouer. Prends 2 secondes pour chercher un meilleur coup avant de jouer.</div></div>
+
+  <div class="item"><div class="bullet red"></div><div><strong>Ne pas entrer en phase 2 avec des héros presque morts</strong> — si plusieurs héros sont sous 30% de PV à la fin de la phase 1, c'est difficile de finir la phase 2. Utilise tes soins avant la transition, pas après.</div></div>
+</div>
+
+<!-- RÉCOMPENSES -->
+<div class="section">
+  <div class="section-title">🏆 Récompenses</div>
+
+  <div class="item"><div class="bullet"></div><div><strong>Pierres de Dragon</strong> — la récompense principale, obtenue à chaque combat réussi, avec un bonus important en phase 2. Servent à améliorer le dragon de l'alliance.</div></div>
+  <div class="item"><div class="bullet"></div><div><strong>Boutique du Marchand de la Cité des Dragons</strong> — les Pierres de Dragon peuvent être échangées contre des objets dans cette boutique spéciale. Vérifie les rotations d'offres régulièrement.</div></div>
+  <div class="item"><div class="bullet"></div><div><strong>Récompenses de progression du Dragon</strong> — l'amélioration du dragon de l'alliance donne des bonus collectifs à tous les membres, y compris des bonus de troupes et de ressources.</div></div>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Stratégie de dépense en boutique</div>
+    Priorise d'abord les objets rares ou à durée limitée dans la boutique. Les ressources basiques sont disponibles ailleurs — les items exclusifs à la Cité des Dragons doivent passer en premier.
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Guide Cité des Dragons v1 — Juillet 2026</footer>
+
+</body>
+</html>
