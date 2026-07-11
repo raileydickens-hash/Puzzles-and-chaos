@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#6c3483;--elem-light:#a569bd;--elem-bg:rgba(108,52,131,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a1030 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(108,52,131,.3);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(108,52,131,.45);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.c{color:#455a75}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.passive{border-left-color:#5dade2}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-passive{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .skill-desc .warn{color:#e74c3c;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}.fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}.fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}.fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}.fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  .warn-box{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#e07070;line-height:1.45;margin-top:10px}
+  .warn-box strong{color:#e74c3c}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="heroes.html">← Retour aux héros</a>
+
+<div class="hero-header">
+  <div class="elem-badge">⬡ Élément Sombre · Carry Exécution · Ralliement</div>
+  <div class="hero-name">AURORA</div>
+  <div class="hero-subtitle">La Reine Serpent · Exécution 99% PV · Blocage Rage · Immunité Poison</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">5★ → 6★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">⬡ Sombre</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">Talent +1</span><span class="lbl">Niveau</span></div>
+    <div class="stat-badge"><span class="val">Carry</span><span class="lbl">Rôle</span></div>
+  </div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval s">S</div><div class="rdesc">Exécution unique</div></div>
+    <div class="rating-box"><div class="rtitle">Ralliement</div><div class="rval s">S</div><div class="rdesc">Curiosité dédiée</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval b">B</div><div class="rdesc">Kit peu adapté</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⬡ Compétences — Plein Potentiel</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Appel de la Mort</span><span class="skill-regen"> — Régénération Rage : Lente</span></div>
+      <span class="skill-tag tag-active">Exécution</span>
+    </div>
+    <p class="skill-desc">Marque la cible pendant 4 tours. À l'expiration, inflige des <em>dégâts bruts équivalents à 99% des PV restants de la cible — ignorant totalement la Défense</em>.<br><span class="warn">⚠ Contrepartie :</span> Aurora ne récupère pas de Rage pendant ces 4 tours. Cet effet ne peut pas être dissipé.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Regard Pétrifiant</span><span class="skill-tag tag-amelio">Blocage Rage</span></div>
+    <p class="skill-desc">Réduit la régénération de Rage de la cible de <em>−50% pendant 6 tours</em>. Debuff de contrôle majeur — la cible marquée par Appel de la Mort ne peut quasiment pas déclencher de compétences pendant les 4 tours d'attente.</p>
+  </div>
+
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Domaine Sombre</span><span class="skill-tag tag-passive">Buff Rage Feu</span></div>
+    <p class="skill-desc">Donne <em>10% de régénération de Rage à tous les alliés de Nuit</em> au début du combat. Effet indissipable — avantage de démarrage pour les formations mono-élément Sombre.</p>
+  </div>
+
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Lignée du Serpent</span><span class="skill-tag tag-passive">Immunité</span></div>
+    <p class="skill-desc"><em>Immunité au poison et à la brûlure</em>. Contrecarre directement Fiona (poison 6 tours) et Norris (brûlure 5 tours) — Aurora est imperméable à leurs dégâts sur la durée.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head"><span class="skill-name">Inflexible</span><span class="skill-tag tag-locked">🔒 6 étoiles</span></div>
+    <p class="skill-desc">Parade <em>+30%</em>. Chance de réduire les dégâts reçus lors d'une attaque — renforce la survie d'Aurora pendant les 4 tours où elle ne récupère pas de Rage après le déclenchement d'Appel de la Mort.</p>
+  </div>
+
+  <div class="warn-box">
+    <strong>⚠️ Mécanique à bien comprendre</strong><br>
+    Appel de la Mort est une compétence à double tranchant. Aurora marque une cible et renonce à toute récupération de Rage pendant 4 tours — pendant cette fenêtre, elle ne peut pas relancer de compétence. Il faut donc sécuriser Aurora avec un support solide pendant cette phase d'attente.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚔️ Compétences de Troupe — Talent +1</div>
+  <div class="troop-grid">
+    <div class="troop-item"><div class="troop-val">+120%</div><div class="troop-lbl">ATQ de troupe (compétence active)</div></div>
+    <div class="troop-item"><div class="troop-val">+9%</div><div class="troop-lbl">Vitesse de marche de collecte</div></div>
+    <div class="troop-item"><div class="troop-val">−6%</div><div class="troop-lbl">Guérison — Coût en pierre</div></div>
+    <div class="troop-item"><div class="troop-val">+60 000</div><div class="troop-lbl">Taille de ralliement</div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px"><strong>Note</strong> — Valeurs à Talent +1. Aurora offre dès ce niveau un bonus de +60 000 à la taille de Ralliement — déjà significatif pour les attaques groupées. Ce bonus augmente encore avec les niveaux de Talent suivants.</div>
+</div>
+
+<div class="section">
+  <div class="section-title">🐍 Curiosité Exclusive — Serpent Ésotérique</div>
+  <div class="weapon-box">
+    <div class="weapon-name">🐍 Serpent Ésotérique ★★★★★★★★ — Niveau maximum : +30</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus légion à +30 (niveau max)</div>
+    <div class="weapon-stats">
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1 200</span>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Aurora uniquement) — Spécialisés Ralliement</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>Taille de Ralliement <strong style="color:#2ecc71">+50 000</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV de Ralliement <strong style="color:#2ecc71">+150%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>DEF de Ralliement <strong style="color:#2ecc71">+150%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>ATQ de Ralliement <strong style="color:#2ecc71">+200%</strong></div></div>
+  </div>
+  <div class="info-box">
+    <strong>💡 Aurora et Sirona : deux curiosités Ralliement complémentaires</strong><br>
+    Le Serpent Ésotérique et le Sceptre Croissant de Sirona partagent le même profil Ralliement, mais avec un ordre différent (+Taille d'abord pour Aurora, puis PV/DEF/ATQ). Aurora est une alternative ou un complément à Sirona pour les alliances axées sur les grandes offensives de Ralliement.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Exécution 99% PV ignorant la DEF — supprime n'importe quelle cible quelle que soit sa résistance</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Blocage Rage −50% sur 6 tours — cible neutralisée avant et pendant l'exécution</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Immunité poison et brûlure — contre directement Fiona et Norris</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Curiosité Ralliement S-tier + bonus de taille dès Talent +1</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Zéro récupération de Rage pendant 4 tours après le déclenchement — fenêtre de vulnérabilité</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Régénération Rage lente — premier déclenchement tardif</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Boss Alliance — exécution basée sur les PV restants peu efficace sur un Boss à très haute santé</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Inflexible (Parade +30%) verrouillé derrière les 6 étoiles — elle est fragile pendant sa phase d'attente sans ce passif</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●●</span><span class="ctx-note">Exécution 99% PV ignorant la DEF — supprime n'importe quel carry adverse quelle que soit sa résistance</span></td></tr>
+    <tr><td class="ctx-label">Ralliement</td><td><span class="dots">●●●●●</span><span class="ctx-note">+50K taille de Ralliement dès Héros +0, jusqu'à +200% ATQ de Ralliement à Héros +6 — chef de Ralliement S-tier</span></td></tr>
+    <tr><td class="ctx-label">KvK · Contre-meta</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Immunité poison/brûlure + exécution DEF ignore = contre naturel des formations Feu et des tanks blindés</span></td></tr>
+    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●●</span><span class="dots-empty">●●●</span><span class="ctx-note">L'exécution basée sur les PV restants perd en efficacité sur des Boss à très forte régénération ou haute santé</span></td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Tania</div><div class="syn-role">Glace · Soigneuse · DEF +63% AoE</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Tania compense directement la vulnérabilité d'Aurora pendant ses 4 tours sans Rage. Le soin 44% AoE + DEF +63% permet à Aurora de survivre pendant cette fenêtre critique et de déclencher l'exécution dans de bonnes conditions.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Sustain</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Sécurisation Exécution</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Sirona</div><div class="syn-role">Sombre · Soigneuse · +Rage alliés</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Duo Sombre optimal. Sirona accélère la Rage d'Aurora via Bénédiction Lunaire (+24%) — Aurora déclenche Appel de la Mort plus tôt. Ensuite, Sirona soigne et maintient Aurora en vie pendant la phase d'attente de 4 tours. Formation Sombre auto-suffisante.</p>
+    <div class="syn-tags"><span class="stag stag-purple">Duo Sombre</span><span class="stag stag-gold">Rage → Exécution</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Aerposia</div><div class="syn-role">Sombre · Carry Burst · Cavalerie</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Duo Sombre offensif. Aurora marque et neutralise une cible (−50% Rage + 99% PV à l'expiration), Aerposia burst une autre cible simultanément. Pression offensive double sur deux cibles différentes en même temps.</p>
+    <div class="syn-tags"><span class="stag stag-purple">Duo Sombre</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Double Menace</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Anastasia</div><div class="syn-role">Feu · Support Survie · Résurrection</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Anastasia ressuscite Aurora si elle tombe pendant sa fenêtre de vulnérabilité (4 tours sans Rage). La résurrection permet à Aurora de compléter son exécution même après avoir été vaincue une première fois.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Sécurité Exécution</span><span class="stag stag-red">PvP</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+
+  <div class="formation">
+    <div class="form-title">Formation Exécution Sécurisée (PvP)</div>
+    <div class="form-heroes"><span class="fhero dark">Aurora</span><span class="fhero dark">Sirona</span><span class="fhero glace">Tania</span></div>
+    <p class="form-desc">Sirona accélère la Rage d'Aurora et soigne, Tania double le soutien défensif. Aurora peut déclencher et compléter son exécution en toute sécurité pendant les 4 tours d'attente. Formation la plus solide pour exploiter Appel de la Mort.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation Double Pression Sombre (PvP avancé)</div>
+    <div class="form-heroes"><span class="fhero dark">Aurora</span><span class="fhero dark">Aerposia</span><span class="fhero dark">Sirona</span></div>
+    <p class="form-desc">Trio Sombre. Sirona soigne les deux, Aurora exécute une cible, Aerposia burst une autre simultanément. Deux menaces offensives indépendantes sur deux cibles différentes — la formation adverse doit gérer deux problèmes en même temps.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Ralliement — Chef recommandé</div>
+    <div class="form-heroes"><span class="fhero dark">Aurora (chef)</span><span class="fhero dark">Carry Sombre</span><span class="fhero glace">Support</span></div>
+    <p class="form-desc">Aurora en chef de Ralliement grâce au Serpent Ésotérique (+50K taille + PV/DEF/ATQ Ralliement progressifs). Alternative à Sirona ou formation complémentaire pour les grandes offensives d'alliance.</p>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Aurora v1 — Juillet 2026</footer>
+</body>
+</html>
