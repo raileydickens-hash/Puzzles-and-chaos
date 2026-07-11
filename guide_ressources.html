@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Ressources — Farm & Optimisation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--res:#7d6608;--res-light:#f0c030;--res-bg:rgba(125,102,8,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a1400 0%,#0d1117 60%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+
+  .page-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--res-bg) 0%,transparent 100%);border:1px solid rgba(125,102,8,.35);border-radius:14px;margin-bottom:18px}
+  .page-badge{display:inline-flex;align-items:center;gap:6px;background:var(--res-bg);border:1px solid rgba(240,192,48,.35);border-radius:20px;padding:3px 14px;font-size:.73rem;color:var(--res-light);letter-spacing:.5px;margin-bottom:10px}
+  h1{font-family:'Cinzel',serif;font-size:1.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .page-sub{font-size:.78rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--res-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+  .item{display:flex;gap:8px;margin-bottom:9px;font-size:.82rem;line-height:1.5}
+  .bullet{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:6px;flex-shrink:0}
+  .bullet.green{background:#2ecc71}.bullet.red{background:#e74c3c}.bullet.blue{background:#5dade2}
+
+  /* ── RESSOURCES GRID ── */
+  .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+  .res-card{background:var(--panel2);border-radius:8px;padding:10px 12px;border-left:3px solid var(--gold)}
+  .res-card.bois{border-left-color:#8b5e3c}
+  .res-card.pierre{border-left-color:#7a8fa8}
+  .res-card.fer{border-left-color:#aab7c4}
+  .res-card.nourriture{border-left-color:#6ecf96}
+  .res-title{font-weight:700;font-size:.82rem;margin-bottom:4px}
+  .res-title.bois{color:#c4875a}
+  .res-title.pierre{color:#aab7c4}
+  .res-title.fer{color:#d0dde8}
+  .res-title.nourriture{color:#6ecf96}
+  .res-desc{font-size:.75rem;color:#8fa8c0;line-height:1.4}
+
+  /* ── HÉROS TABLE ── */
+  .hero-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:8px}
+  .hero-table th{background:var(--panel2);color:var(--gold);font-family:'Cinzel',serif;font-size:.7rem;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
+  .hero-table td{padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4);vertical-align:top}
+  .hero-table tr:last-child td{border-bottom:none}
+  .tag-s{background:rgba(232,184,75,.15);color:var(--gold);padding:1px 6px;border-radius:4px;font-size:.68rem;font-weight:700}
+  .tag-a{background:rgba(41,128,185,.15);color:#5dade2;padding:1px 6px;border-radius:4px;font-size:.68rem;font-weight:700}
+  .tag-b{background:rgba(46,61,85,.4);color:#7a8fa8;padding:1px 6px;border-radius:4px;font-size:.68rem;font-weight:700}
+
+  /* ── FORMATION VISUELLE ── */
+  .march-formation{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:8px 0}
+  .march-slot{background:var(--panel2);border-radius:7px;padding:7px 4px;text-align:center;font-size:.68rem;border:1px solid var(--border)}
+  .march-slot.key{border-color:rgba(232,184,75,.5)}
+  .march-slot .melem{font-size:.9rem;margin-bottom:2px;display:block}
+  .march-slot .mname{font-weight:700;font-size:.68rem;color:var(--gold);display:block}
+  .march-slot .mbonux{font-size:.6rem;color:#5a7090;display:block;margin-top:2px}
+
+  /* ── RECHERCHES ── */
+  .research-list{margin-top:4px}
+  .research-item{display:flex;gap:10px;margin-bottom:8px;padding:8px 12px;background:var(--panel2);border-radius:7px;border-left:3px solid}
+  .research-item.eco{border-left-color:var(--res-light)}
+  .research-item.mil{border-left-color:#e07070}
+  .research-item.prio1{border-left-color:#2ecc71}
+  .research-num{font-family:'Cinzel',serif;font-size:.85rem;font-weight:900;color:var(--gold);flex-shrink:0;min-width:20px}
+  .research-name{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:2px}
+  .research-why{font-size:.75rem;color:#8fa8c0;line-height:1.4}
+
+  /* ── SOURCES ── */
+  .source-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+  .source-item{background:var(--panel2);border-radius:8px;padding:10px 12px;font-size:.78rem;border:1px solid var(--border)}
+  .source-title{font-weight:700;font-size:.8rem;color:var(--gold);margin-bottom:5px}
+  .source-note{font-size:.7rem;color:#5a7090;margin-top:3px}
+
+  /* ── MARCHE COLLECTE ── */
+  .march-type{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .march-type.cavalry{border-left-color:#e07070}
+  .march-type.infantry{border-left-color:#5dade2}
+  .march-type.archer{border-left-color:#6ecf96}
+  .march-type-title{font-weight:700;font-size:.82rem;margin-bottom:4px}
+  .march-type-title.red{color:#e07070}
+  .march-type-title.blue{color:#5dade2}
+  .march-type-title.green{color:#6ecf96}
+  .march-type-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+
+  /* ── ATTAQUE SEIGNEUR ── */
+  .attack-steps{margin-top:6px}
+  .astep{display:flex;gap:10px;margin-bottom:8px;font-size:.82rem;line-height:1.45}
+  .astep-num{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#0d1117;font-weight:900;font-size:.72rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Cinzel',serif}
+
+  /* ── BOXES ── */
+  .tip-box{background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5}
+  .tip-box .tip-title{color:#2ecc71;font-weight:700;margin-bottom:5px}
+  .warn-box{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5;color:#e07070}
+  .warn-box .warn-title{color:#e74c3c;font-weight:700;margin-bottom:5px}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.78rem;color:#c8a84b;line-height:1.5}
+  .info-box strong{color:var(--gold)}
+
+  .error-item{display:flex;gap:10px;margin-bottom:10px;background:rgba(192,57,43,.08);border-radius:8px;padding:9px 12px;font-size:.8rem;line-height:1.45;border-left:3px solid #e74c3c}
+  .error-num{font-family:'Cinzel',serif;font-size:.9rem;color:#e74c3c;font-weight:900;flex-shrink:0}
+
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← Retour à l'accueil</a>
+
+<div class="page-header">
+  <div class="page-badge">⛏️ Guide permanent · Économie · Stratégie</div>
+  <h1>FARM DE RESSOURCES</h1>
+  <div class="page-sub">Collecte · Production · Pillage · Optimisation</div>
+</div>
+
+<!-- LES 4 RESSOURCES -->
+<div class="section">
+  <div class="section-title">📦 Les 4 ressources et à quoi elles servent</div>
+  <div class="res-grid">
+    <div class="res-card bois">
+      <div class="res-title bois">🪵 Bois</div>
+      <div class="res-desc">Construction et amélioration des bâtiments. Ressource la plus consommée en début et milieu de partie. Se collecte facilement sur la carte.</div>
+    </div>
+    <div class="res-card pierre">
+      <div class="res-title pierre">🪨 Pierre</div>
+      <div class="res-desc">Bâtiments de niveau avancé. Devient la ressource limitante à partir du milieu de partie. Plus rare sur la carte.</div>
+    </div>
+    <div class="res-card fer">
+      <div class="res-title fer">⚙️ Fer</div>
+      <div class="res-desc">Entraînement de troupes. Ressource critique en fin de partie — former des armées consomme énormément de fer. Priorité absolue à farm.</div>
+    </div>
+    <div class="res-card nourriture">
+      <div class="res-title nourriture">🌾 Nourriture</div>
+      <div class="res-desc">Entretien des troupes et certaines constructions. Se régénère passivement via les fermes. Moins critique que le fer pour les joueurs avancés.</div>
+    </div>
+  </div>
+  <div class="info-box">
+    <strong>💡 Priorité de farm selon le stade de jeu</strong><br>
+    Début : Bois + Nourriture → Milieu : Pierre + Bois → Avancé : <strong>Fer en priorité absolue</strong> — l'entraînement de troupes haut rang est extrêmement gourmand en fer.
+  </div>
+</div>
+
+<!-- HÉROS PAR RESSOURCE -->
+<div class="section">
+  <div class="section-title">⚔️ Quels héros pour quelles ressources</div>
+  <table class="hero-table">
+    <tr>
+      <th>Héros</th>
+      <th>Bonus principal</th>
+      <th>Ressource cible</th>
+      <th>Tier</th>
+    </tr>
+    <tr>
+      <td><strong>Patty</strong></td>
+      <td>Vitesse de collecte +35%<br><span style="font-size:.7rem;color:#5a7090">+ Capacité Ralliement +20%</span></td>
+      <td>Toutes ressources</td>
+      <td><span class="tag-s">S</span></td>
+    </tr>
+    <tr>
+      <td><strong>Tala</strong></td>
+      <td>Production de Fer +25% (permanent)<br><span style="font-size:.7rem;color:#5a7090">+ Vitesse collecte (compétence troupe)</span></td>
+      <td>🎯 Fer en priorité</td>
+      <td><span class="tag-s">S</span></td>
+    </tr>
+    <tr>
+      <td><strong>Sirona</strong></td>
+      <td>Vitesse de collecte +24%<br><span style="font-size:.7rem;color:#5a7090">+ Vitesse guérison infirmeries +24%</span></td>
+      <td>Toutes ressources</td>
+      <td><span class="tag-a">A</span></td>
+    </tr>
+    <tr>
+      <td><strong>Fiona</strong></td>
+      <td>Vitesse entraînement +15%<br><span style="font-size:.7rem;color:#5a7090">Coût entraînement −9% · Coût endurance −9%</span></td>
+      <td>⚙️ Réduit consommation de fer</td>
+      <td><span class="tag-a">A</span></td>
+    </tr>
+    <tr>
+      <td><strong>Aurora</strong></td>
+      <td>Vitesse marche collecte +9%<br><span style="font-size:.7rem;color:#5a7090">Taille Ralliement +60 000</span></td>
+      <td>Toutes ressources</td>
+      <td><span class="tag-a">A</span></td>
+    </tr>
+    <tr>
+      <td><strong>Patty (troupe)</strong></td>
+      <td>Capacité collecte de troupe +X%</td>
+      <td>Augmente la quantité ramenée par marche</td>
+      <td><span class="tag-s">S</span></td>
+    </tr>
+  </table>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Règle d'or : deux marches distinctes</div>
+    <strong>Marche de combat</strong> : Tania · Dimina · Herukab · Aerposia · Anastasia<br>
+    <strong>Marche de collecte</strong> : Patty (chef) · Tala · Sirona · + 2 héros quelconques<br><br>
+    Ne jamais mélanger les deux. Bloquer Tania dans une marche de collecte prive la formation de combat de sa soigneuse pendant des heures.
+  </div>
+</div>
+
+<!-- FORMATION DE COLLECTE -->
+<div class="section">
+  <div class="section-title">🏃 Formation optimale de collecte</div>
+
+  <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Marche de collecte de fer (priorité)</div>
+  <div class="march-formation">
+    <div class="march-slot key">
+      <span class="melem">☀</span>
+      <span class="mname">PATTY</span>
+      <span class="mbonux">Chef · Collecte +35%</span>
+    </div>
+    <div class="march-slot key">
+      <span class="melem">🌿</span>
+      <span class="mname">TALA</span>
+      <span class="mbonux">Fer +25% permanent</span>
+    </div>
+    <div class="march-slot key">
+      <span class="melem">⬡</span>
+      <span class="mname">SIRONA</span>
+      <span class="mbonux">Collecte +24%</span>
+    </div>
+    <div class="march-slot">
+      <span class="melem">🔥</span>
+      <span class="mname">FIONA</span>
+      <span class="mbonux">Entraîn. −9%</span>
+    </div>
+    <div class="march-slot">
+      <span class="melem">⬡</span>
+      <span class="mname">AURORA</span>
+      <span class="mbonux">Marche +9%</span>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Si tu ne possèdes pas tous ces héros</strong> — les 3 premiers slots sont les importants. Remplis les 2 derniers avec n'importe quel héros plutôt que de laisser les slots vides. Un slot vide ne rapporte rien.
+  </div>
+</div>
+
+<!-- TYPES DE TROUPES POUR COLLECTER -->
+<div class="section">
+  <div class="section-title">🛡️ Quel type de troupes envoyer collecter</div>
+
+  <div class="march-type cavalry">
+    <div class="march-type-title red">🐴 Cavalerie — Vitesse maximale, taxation élevée</div>
+    <div class="march-type-desc">La Cavalerie marche vite → elle arrive sur la case de ressources plus rapidement. Mais elle est <strong>taxée plus fortement</strong> sur les ressources pillées (environ 30% de taxe confirmée). Idéale pour les marches courtes ou quand la vitesse prime.</div>
+  </div>
+
+  <div class="march-type infantry">
+    <div class="march-type-title blue">🛡️ Infanterie — Équilibre collecte/taxation</div>
+    <div class="march-type-desc">Bon compromis entre vitesse et taux de collecte. Moins taxée que la Cavalerie sur le pillage. Recommandée pour les marches de collecte standard sur la carte du monde.</div>
+  </div>
+
+  <div class="march-type archer">
+    <div class="march-type-title green">🏹 Archer — Meilleur taux de collecte, plus lent</div>
+    <div class="march-type-desc">Les Archers ont généralement le meilleur taux de collecte brut mais la vitesse de marche la plus basse. À privilégier pour les cases de ressources proches du château ou quand le temps n'est pas le facteur limitant.</div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Recommandation pratique</div>
+    Pour le fer : <strong>Infanterie ou Archer</strong> en priorité — leur taux de collecte compense leur lenteur sur des cases riches. Garde la Cavalerie pour les collectes rapides ou les situations d'urgence.
+  </div>
+</div>
+
+<!-- SOURCES DE RESSOURCES -->
+<div class="section">
+  <div class="section-title">💰 Toutes les sources de ressources</div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Sources passives (sans action)</div>
+  <div class="source-grid">
+    <div class="source-item">
+      <div class="source-title">🏭 Bâtiments de production</div>
+      Fermes, Scieries, Carrières, Fonderies — génèrent en continu mais quantités limitées.
+      <div class="source-note">Améliore-les régulièrement pour augmenter le débit passif.</div>
+    </div>
+    <div class="source-item">
+      <div class="source-title">🌿 Tala — Fer +25%</div>
+      Son passif s'applique à la production de Fer de tes Fonderies en permanence.
+      <div class="source-note">Fonctionne même quand Tala n'est pas en marche.</div>
+    </div>
+  </div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">Sources actives (nécessitent une action)</div>
+  <div class="source-grid">
+    <div class="source-item">
+      <div class="source-title">🗺️ Cases de ressources (carte)</div>
+      La principale source de volume. Envoie des marches en permanence, même quand tu dors.
+      <div class="source-note">Priorité : ne jamais laisser de slot de marche vide.</div>
+    </div>
+    <div class="source-item">
+      <div class="source-title">⚔️ Portail Mesdi (balayage)</div>
+      Ressources quotidiennes gratuites. Balayage automatique des stages déjà battus.
+      <div class="source-note">À faire chaque jour sans exception.</div>
+    </div>
+    <div class="source-item">
+      <div class="source-title">🏰 Pillage de seigneurs</div>
+      Ressources des coffres d'autres joueurs. Taxe de 30% à prévoir.
+      <div class="source-note">Voir section dédiée ci-dessous.</div>
+    </div>
+    <div class="source-item">
+      <div class="source-title">📦 Boutiques & événements</div>
+      Boutique de l'alliance, événements quotidiens, quêtes. Sources complémentaires.
+      <div class="source-note">Vérifie les offres de la boutique alliance chaque semaine.</div>
+    </div>
+    <div class="source-item">
+      <div class="source-title">🧟 Repaires de monstres</div>
+      Loot de ressources en bonus après un combat de repaire réussi.
+      <div class="source-note">Le niveau du repaire influence la quantité lootée.</div>
+    </div>
+    <div class="source-item">
+      <div class="source-title">🤝 Aides de l'alliance</div>
+      Chaque aide reçue de tes membres réduit les temps de construction et débloque des ressources bonus.
+      <div class="source-note">Aide tes membres pour être aidé en retour.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ATTAQUE DE SEIGNEURS -->
+<div class="section">
+  <div class="section-title">⚔️ Attaque de seigneurs — Comment bien piller</div>
+
+  <div class="item"><div class="bullet red"></div><div><strong>Taxe de 30% confirmée</strong> sur tout ce qu'on pille — tu ne récupères que 70% des ressources que tu voles. C'est une mécanique fixe du jeu, rien ne l'annule.</div></div>
+  <div class="item"><div class="bullet blue"></div><div>Les ressources au-dessus du <strong>seuil de protection du coffre</strong> (Entrepôt) sont pillables. Celles en dessous sont protégées — impossible de les voler.</div></div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:10px 0 8px">Étapes pour un pillage efficace</div>
+
+  <div class="attack-steps">
+    <div class="astep"><div class="astep-num">1</div><div><strong>Reconnaître la cible avant d'attaquer</strong> — utilise la fonction d'éclaireur pour voir les ressources disponibles et si elles dépassent le plafond de protection de l'Entrepôt adverse.</div></div>
+    <div class="astep"><div class="astep-num">2</div><div><strong>Vérifie le type de troupes défensives</strong> — envoie le type qui contre ce que tu as vu lors de la reconnaissance (Cavalerie → contre Infanterie, etc.).</div></div>
+    <div class="astep"><div class="astep-num">3</div><div><strong>Envoie ta marche de combat</strong> (pas de collecte) — Tania, Aerposia, Dimina, etc. Le pillage nécessite de gagner le combat, pas de collecter.</div></div>
+    <div class="astep"><div class="astep-num">4</div><div><strong>Calcule la rentabilité</strong> avant de lancer — si tu vas perdre beaucoup de troupes pour peu de ressources, le coût en fer pour réentraîner peut dépasser le gain.</div></div>
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-title">⚠️ Pièges du pillage</div>
+    <div class="item"><div class="bullet red"></div><div>La Cavalerie marche vite mais est taxée plus durement que les autres types sur le pillage — vérifie tes taux avant de l'utiliser.</div></div>
+    <div class="item"><div class="bullet red"></div><div>Ne jamais piller un membre de ton alliance ou un allié diplomatique — les conséquences sur les relations d'alliance sont durables.</div></div>
+    <div class="item"><div class="bullet red"></div><div>Attention à la contre-attaque — si la cible est en ligne, elle peut te contre-attaquer ou appeler ses alliés pendant que ta marche rentre.</div></div>
+  </div>
+</div>
+
+<!-- PRODUCTION OPTIMISÉE -->
+<div class="section">
+  <div class="section-title">🏭 Optimiser la production du château</div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Monte tous tes bâtiments de production au même niveau que ton Citadel</strong> — chaque niveau augmente le débit de production horaire.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Construis plusieurs bâtiments du même type</strong> si le Citadel le permet — deux Fonderies produisent deux fois plus de Fer qu'une seule.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Tala en chef de marche de collecte de Fer</strong> — son passif +25% de production s'ajoute à tout ce que tes Fonderies produisent nativement.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Fiona pour réduire les coûts d'entraînement</strong> — ses −9% sur le coût et l'endurance réduisent la consommation de Fer à chaque session d'entraînement de troupes.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Protège tes ressources dans l'Entrepôt</strong> — améliore l'Entrepôt régulièrement pour augmenter le plafond de protection. Les ressources non protégées sont pillables par n'importe qui.</div></div>
+</div>
+
+<!-- RECHERCHES PRIORITAIRES -->
+<div class="section">
+  <div class="section-title">🔬 Recherches à faire absolument</div>
+
+  <div style="font-size:.78rem;color:#8fa8c0;margin-bottom:10px;line-height:1.5">Dans l'Institut de Recherche, commence par l'arbre <strong>Économique</strong> avant l'arbre Militaire. C'est lui qui multiplie toutes tes sources de ressources en permanence.</div>
+
+  <div class="research-list">
+    <div class="research-item prio1">
+      <div class="research-num">1</div>
+      <div>
+        <div class="research-name">Vitesse de Collecte</div>
+        <div class="research-why">Réduit le temps de collecte sur chaque case de ressources. S'applique à toutes les marches, toutes les ressources. Le meilleur retour sur investissement de tout l'arbre économique.</div>
+      </div>
+    </div>
+    <div class="research-item prio1">
+      <div class="research-num">2</div>
+      <div>
+        <div class="research-name">Files de Marche supplémentaires</div>
+        <div class="research-why">Chaque file supplémentaire = une marche de collecte de plus en simultané = revenus multipliés. Débloquer la 2ème puis la 3ème file est une priorité absolue en début de partie.</div>
+      </div>
+    </div>
+    <div class="research-item eco">
+      <div class="research-num">3</div>
+      <div>
+        <div class="research-name">Vitesse de Construction</div>
+        <div class="research-why">Accélère tous les chantiers. En construisant plus vite, on peut upgrader les bâtiments de production plus vite, ce qui augmente le débit de ressources plus rapidement.</div>
+      </div>
+    </div>
+    <div class="research-item eco">
+      <div class="research-num">4</div>
+      <div>
+        <div class="research-name">Production de Fer (nœuds dédiés)</div>
+        <div class="research-why">Augmente le débit de tes Fonderies en permanence. Prioritaire dès que le Fer devient le goulot d'étranglement de l'entraînement de troupes.</div>
+      </div>
+    </div>
+    <div class="research-item eco">
+      <div class="research-num">5</div>
+      <div>
+        <div class="research-name">Capacité de l'Entrepôt</div>
+        <div class="research-why">Augmente le plafond de protection de tes ressources. Moins tu peux te faire piller, moins tu perds entre deux sessions de jeu.</div>
+      </div>
+    </div>
+    <div class="research-item eco">
+      <div class="research-num">6</div>
+      <div>
+        <div class="research-name">Vitesse de Marche (économique)</div>
+        <div class="research-why">Tes troupes arrivent plus vite sur les cases de ressources et reviennent plus vite. Augmente le nombre de voyages effectués dans une même période.</div>
+      </div>
+    </div>
+    <div class="research-item mil">
+      <div class="research-num">7</div>
+      <div>
+        <div class="research-name">Réduction du coût d'entraînement</div>
+        <div class="research-why">Arbre Militaire. Réduit la quantité de ressources consommées par chaque session d'entraînement — indirectement, économise du Fer à chaque lot de troupes formées.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-title">⚠️ Erreur classique de recherche</div>
+    Ne pas aller trop vite dans l'arbre Militaire si l'arbre Économique n'est pas solide. Des troupes plus puissantes qui ne peuvent pas être remplacées faute de ressources ne servent à rien.
+  </div>
+</div>
+
+<!-- ASTUCES -->
+<div class="section">
+  <div class="section-title">💎 Astuces clés</div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Ne jamais laisser de slot de marche vide</strong> — c'est la règle numéro un. Envoie des marches de collecte avant de te coucher, au réveil, pendant tes pauses. Chaque heure sans marche = ressources perdues.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Rejoins une alliance active et bien placée</strong> — une alliance proche du centre de la carte a accès à de meilleures cases de ressources. Rester dans une alliance inactive ralentit massivement la progression.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Utilise le Seer's Hut (Cabane de la Voyante)</strong> avant de partir collecter — elle donne des indications sur les meilleures cases disponibles à proximité pour optimiser ta marche.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Farm les ressources pendant les événements qui récompensent la collecte</strong> — certains événements donnent des points bonus pour chaque ressource collectée. Double-bénéfice.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Garde Fiona active en dehors des combats</strong> — ses −9% sur le coût d'entraînement s'appliquent à chaque session. Sur des centaines de sessions, c'est une économie significative de Fer.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Protège tes ressources avant de te déconnecter</strong> — mets les ressources en dessous du plafond de ton Entrepôt ou utilise un bouclier si tu sais que tu vas être absent longtemps.</div></div>
+</div>
+
+<!-- ERREURS À ÉVITER -->
+<div class="section">
+  <div class="section-title">⛔ Erreurs classiques à éviter</div>
+
+  <div class="error-item">
+    <span class="error-num">1</span>
+    <div><strong>Mettre ses héros de combat dans la marche de collecte</strong> — Tania ou Aerposia dans une marche de fer pendant 3 heures, c'est 3 heures sans soigneur pour les combats. Deux marches séparées, toujours.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">2</span>
+    <div><strong>Laisser des slots de marche vides</strong> — un slot vide ne rapporte rien. Même un héros secondaire dans une marche lente génère plus que rien.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">3</span>
+    <div><strong>Piller sans reconnaître d'abord</strong> — attaquer un seigneur sans savoir ce qu'il a dans ses coffres peut mener à perdre des troupes pour un gain minuscule (ressources sous le seuil de protection).</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">4</span>
+    <div><strong>Ignorer l'Entrepôt</strong> — laisser des ressources non protégées quand on se déconnecte revient à offrir des ressources à n'importe quel pillard actif de nuit.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">5</span>
+    <div><strong>Négliger la recherche Économique au profit du Militaire</strong> — des troupes plus fortes ne servent à rien si on ne peut pas en entraîner faute de Fer. L'économie d'abord, le militaire ensuite.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">6</span>
+    <div><strong>Disperser les ressources sur trop de constructions à la fois</strong> — mieux vaut finir un bâtiment prioritaire rapidement que d'en avoir 5 en cours lentement. Concentre les ressources sur une priorité à la fois.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">7</span>
+    <div><strong>Oublier de balayer le Portail Mesdi</strong> — le balayage automatique quotidien des stages déjà battus donne des ressources gratuites sans jouer. L'oublier pendant une semaine = perte permanente impossible à rattraper.</div>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Guide Ressources v1 — Juillet 2026</footer>
+</body>
+</html>
