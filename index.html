@@ -8,191 +8,128 @@
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
 
   :root {
-    --gold: #e8b84b;
-    --gold-dark: #a07720;
-    --bg: #0d1117;
-    --panel: #161c26;
-    --panel2: #1e2635;
-    --border: #2e3d55;
-    --text: #cdd6e0;
+    --gold:#e8b84b; --gold-dark:#a07720;
+    --bg:#0d1117; --panel:#161c26; --panel2:#1e2635;
+    --border:#2e3d55; --text:#cdd6e0;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing:border-box; margin:0; padding:0; }
 
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Nunito', sans-serif;
-    min-height: 100vh;
-    padding: 24px 16px 40px;
-    background-image: radial-gradient(ellipse at top, #1a2540 0%, #0d1117 70%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background:var(--bg); color:var(--text);
+    font-family:'Nunito',sans-serif; min-height:100vh;
+    padding:24px 16px 40px;
+    background-image:radial-gradient(ellipse at top,#1a2540 0%,#0d1117 70%);
+    display:flex; flex-direction:column; align-items:center;
   }
 
-  /* ── EN-TÊTE ── */
   header {
-    text-align: center;
-    margin-bottom: 36px;
-    max-width: 600px;
-    width: 100%;
+    text-align:center; margin-bottom:32px;
+    max-width:600px; width:100%;
   }
 
   .logo-line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 8px;
+    display:flex; align-items:center; justify-content:center;
+    gap:12px; margin-bottom:8px;
   }
 
-  .logo-icon { font-size: 2rem; }
+  .logo-icon { font-size:2rem; }
 
   h1 {
-    font-family: 'Cinzel', serif;
-    color: var(--gold);
-    font-size: 1.7rem;
-    letter-spacing: 3px;
-    text-shadow: 0 0 24px rgba(232,184,75,0.45);
-    line-height: 1.1;
+    font-family:'Cinzel',serif; color:var(--gold);
+    font-size:1.7rem; letter-spacing:3px;
+    text-shadow:0 0 24px rgba(232,184,75,.45); line-height:1.1;
   }
 
   .tagline {
-    font-size: 0.78rem;
-    color: #5a7090;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-top: 6px;
+    font-size:.78rem; color:#5a7090;
+    letter-spacing:1.5px; text-transform:uppercase; margin-top:6px;
   }
 
   .sep {
-    width: 120px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
-    margin: 16px auto 0;
+    width:120px; height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold-dark),transparent);
+    margin:16px auto 0;
   }
 
-  /* ── GRILLE PRINCIPALE ── */
+  /* ── HUB ── */
   .hub {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%;
-    max-width: 540px;
+    display:flex; flex-direction:column; gap:16px;
+    width:100%; max-width:540px;
   }
 
-  /* ── CARTE DE SECTION ── */
+  /* ── LABEL DE SECTION ── */
+  .section-label {
+    font-family:'Cinzel',serif; font-size:.68rem; color:#2e3d55;
+    letter-spacing:2px; text-transform:uppercase;
+    text-align:center; padding:8px 0 2px;
+  }
+
+  /* ── CARTE ── */
   .card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    position: relative;
-    transition: transform 0.18s, box-shadow 0.18s;
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:14px; overflow:hidden;
+    text-decoration:none; color:inherit;
+    display:block; position:relative;
+    transition:transform .18s, box-shadow .18s;
   }
 
   .card:hover, .card:active {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    transform:translateY(-2px);
+    box-shadow:0 8px 32px rgba(0,0,0,.45);
   }
 
-  /* barre colorée en haut de chaque carte */
-  .card::before {
-    content: '';
-    display: block;
-    height: 3px;
-  }
+  .card::before { content:''; display:block; height:3px; }
 
-  .card.heros::before  { background: linear-gradient(90deg, #8e44ad, #e8b84b); }
-  .card.events::before { background: linear-gradient(90deg, #c0392b, #e8b84b); }
+  .card.heros::before   { background:linear-gradient(90deg,#8e44ad,#e8b84b); }
+  .card.combats::before { background:linear-gradient(90deg,#c0392b,#e8b84b); }
+  .card.eco::before     { background:linear-gradient(90deg,#7d6608,#e8b84b); }
 
-  .card-inner {
-    padding: 18px 20px 20px;
-  }
+  .card-inner { padding:18px 20px 20px; }
 
   .card-head {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 12px;
+    display:flex; align-items:center; gap:14px; margin-bottom:12px;
   }
 
-  .card-emoji {
-    font-size: 2.2rem;
-    line-height: 1;
-    flex-shrink: 0;
-  }
+  .card-emoji { font-size:2.2rem; line-height:1; flex-shrink:0; }
 
   .card-title {
-    font-family: 'Cinzel', serif;
-    font-size: 1.1rem;
-    color: var(--gold);
-    letter-spacing: 1px;
-    line-height: 1.2;
+    font-family:'Cinzel',serif; font-size:1.1rem;
+    color:var(--gold); letter-spacing:1px; line-height:1.2;
   }
 
   .card-sub {
-    font-size: 0.72rem;
-    color: #5a7090;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 3px;
+    font-size:.72rem; color:#5a7090;
+    text-transform:uppercase; letter-spacing:1px; margin-top:3px;
   }
 
   .card-desc {
-    font-size: 0.83rem;
-    color: #8fa8c0;
-    line-height: 1.5;
-    margin-bottom: 14px;
+    font-size:.83rem; color:#8fa8c0; line-height:1.5; margin-bottom:14px;
   }
 
-  /* mini liste d'aperçu dans la carte */
-  .card-preview {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+  .card-preview { display:flex; flex-wrap:wrap; gap:6px; }
 
   .chip {
-    background: var(--panel2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 0.72rem;
-    color: #7a9ab8;
+    background:var(--panel2); border:1px solid var(--border);
+    border-radius:20px; padding:3px 10px;
+    font-size:.72rem; color:#7a9ab8;
   }
 
-  .chip.gold { border-color: rgba(232,184,75,0.35); color: var(--gold); }
-  .chip.red  { border-color: rgba(192,57,43,0.4);  color: #e07070; }
-  .chip.purple { border-color: rgba(142,68,173,0.4); color: #bb8fce; }
-  .chip.green  { border-color: rgba(39,174,96,0.4);  color: #6ecf96; }
+  .chip.gold   { border-color:rgba(232,184,75,.35); color:var(--gold); }
+  .chip.red    { border-color:rgba(192,57,43,.4);   color:#e07070; }
+  .chip.purple { border-color:rgba(142,68,173,.4);  color:#bb8fce; }
+  .chip.green  { border-color:rgba(39,174,96,.4);   color:#6ecf96; }
+  .chip.yellow { border-color:rgba(240,192,48,.4);  color:#f0c030; }
 
-  /* flèche "entrer" */
   .card-arrow {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 6px;
-    margin-top: 16px;
-    font-size: 0.75rem;
-    color: var(--gold);
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    display:flex; justify-content:flex-end; align-items:center;
+    gap:6px; margin-top:16px; font-size:.75rem;
+    color:var(--gold); font-weight:700; letter-spacing:.5px;
   }
 
-  .arrow-icon { font-size: 1rem; }
-
-  /* ── FOOTER ── */
   footer {
-    margin-top: 40px;
-    text-align: center;
-    font-size: 0.68rem;
-    color: #2e3d55;
-    letter-spacing: 0.5px;
+    margin-top:40px; text-align:center;
+    font-size:.68rem; color:#2e3d55; letter-spacing:.5px;
   }
 </style>
 </head>
@@ -210,55 +147,86 @@
 
 <div class="hub">
 
-  <!-- CARTE HÉROS -->
+  <!-- ══ HÉROS ══ -->
+  <div class="section-label">⚔ Roster & Héros</div>
+
   <a class="card heros" href="heroes.html">
     <div class="card-inner">
       <div class="card-head">
         <span class="card-emoji">⚔️</span>
         <div>
           <div class="card-title">Fiches Héros</div>
-          <div class="card-sub">Roster · Synergies · Potentiel</div>
+          <div class="card-sub">Roster · Synergies · Potentiel · Curiosités</div>
         </div>
       </div>
       <p class="card-desc">
-        Toutes les fiches détaillées de nos héros : statistiques, compétences, rang, armes et conseils d'utilisation. Filtrables par élément et par rôle.
+        Toutes les fiches détaillées de nos héros : statistiques, compétences, curiosités exclusives, formations recommandées et synergies meta. Filtrables par élément.
       </p>
       <div class="card-preview">
         <span class="chip purple">⬡ Aerposia</span>
         <span class="chip">❄ Tania</span>
         <span class="chip green">🌿 Dimina</span>
         <span class="chip">🔥 Anastasia</span>
-        <span class="chip">☀ Herukab</span>
-        <span class="chip gold">+ 7 héros</span>
+        <span class="chip purple">⬡ Aurora</span>
+        <span class="chip gold">16 fiches complètes</span>
       </div>
-      <div class="card-arrow">Voir les fiches <span class="arrow-icon">→</span></div>
+      <div class="card-arrow">Voir les fiches <span>→</span></div>
     </div>
   </a>
 
-  <!-- CARTE ÉVÉNEMENTS -->
-  <a class="card events" href="evenements.html">
+  <!-- ══ ÉVÉNEMENTS DE COMBAT ══ -->
+  <div class="section-label">⚔ Événements & Combat</div>
+
+  <a class="card combats" href="evenements.html">
     <div class="card-inner">
       <div class="card-head">
         <span class="card-emoji">📋</span>
         <div>
-          <div class="card-title">Fiches Événements</div>
-          <div class="card-sub">Guides · Stratégies · Plans</div>
+          <div class="card-title">Guides Événements</div>
+          <div class="card-sub">Guerre · Aventure · Stratégies · Plans</div>
         </div>
       </div>
       <p class="card-desc">
-        Les guides pas-à-pas pour chaque grand événement : objectifs, comment gagner des points, pièges à éviter, et le plan de l'alliance pour cette session.
+        Guides pas-à-pas pour chaque grand événement de combat : Conquête des Seigneurs, Portail Mesdi, Cité des Dragons. Objectifs, formations, astuces et erreurs à éviter.
       </p>
       <div class="card-preview">
         <span class="chip red">⚔ Conquête des Seigneurs</span>
-        <span class="chip gold">Bientôt : autres events</span>
+        <span class="chip">🌀 Portail Mesdi</span>
+        <span class="chip">🐉 Cité des Dragons</span>
+        <span class="chip gold">+ à venir</span>
       </div>
-      <div class="card-arrow">Voir les guides <span class="arrow-icon">→</span></div>
+      <div class="card-arrow">Voir les guides <span>→</span></div>
+    </div>
+  </a>
+
+  <!-- ══ ÉCONOMIE ══ -->
+  <div class="section-label">⛏ Économie & Progression</div>
+
+  <a class="card eco" href="economie.html">
+    <div class="card-inner">
+      <div class="card-head">
+        <span class="card-emoji">⛏️</span>
+        <div>
+          <div class="card-title">Guides Économie</div>
+          <div class="card-sub">Ressources · Production · Recherches · Farm</div>
+        </div>
+      </div>
+      <p class="card-desc">
+        Tout ce qu'il faut savoir pour progresser vite sans gaspiller : farm de ressources, héros économiques, recherches prioritaires, pillage de seigneurs et optimisation de château.
+      </p>
+      <div class="card-preview">
+        <span class="chip yellow">⛏ Farm de ressources</span>
+        <span class="chip green">🌿 Héros économiques</span>
+        <span class="chip">🔬 Recherches prioritaires</span>
+        <span class="chip gold">+ à venir</span>
+      </div>
+      <div class="card-arrow">Voir les guides <span>→</span></div>
     </div>
   </a>
 
 </div>
 
-<footer>Puzzles &amp; Chaos : Frozen Castle · Base de connaissances · Juin 2026</footer>
+<footer>Puzzles &amp; Chaos : Frozen Castle · Base de connaissances · Juillet 2026</footer>
 
 </body>
 </html>
