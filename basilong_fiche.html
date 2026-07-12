@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basilong — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#1a5276;--elem-light:#5dade2;--elem-bg:rgba(26,82,118,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#001a2e 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(26,82,118,.35);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(26,82,118,.5);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.passive{border-left-color:#5dade2}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-passive{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-highlight{grid-column:1/-1;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.3)}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .potential-box{background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.78rem;color:#6ecf96;line-height:1.45}
+  .potential-box strong{color:#2ecc71}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}.fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}.fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}.fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}.fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="heroes.html">← Retour aux héros</a>
+
+<div class="hero-header">
+  <div class="elem-badge">❄ Élément Glace · Carry AoE Partielle · Snowball</div>
+  <div class="hero-name">BASILONG</div>
+  <div class="hero-subtitle">Le Colosse de Givre · AoE Partielle 290% · Rage par Kill · Immunité Alliés</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">1★</span><span class="lbl">Étoiles actuelles</span></div>
+    <div class="stat-badge"><span class="val">❄ Glace</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">Talent +8</span><span class="lbl">Niveau arme</span></div>
+    <div class="stat-badge"><span class="val">Carry</span><span class="lbl">Rôle</span></div>
+  </div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval s">S</div><div class="rdesc">Snowball + immunité</div></div>
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval a">A</div><div class="rdesc">Très solide sur vagues</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval b">B</div><div class="rdesc">Kit peu adapté Boss</div></div>
+  </div>
+</div>
+
+<!-- COMPÉTENCES -->
+<div class="section">
+  <div class="section-title">❄ Compétences — Plein Potentiel</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Explosion d'Âme</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
+      <span class="skill-tag tag-active">AoE Partielle</span>
+    </div>
+    <p class="skill-desc">Inflige <em>290% de dégâts à la cible et aux ennemis adjacents</em>. AoE concentrée plus puissante que la plupart des AoE complètes — frappe 2 à 3 cibles simultanément avec un multiplicateur élevé.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Dévore-Âme</span><span class="skill-tag tag-amelio">Snowball Rage</span></div>
+    <p class="skill-desc">Gagne <em>+30% de Rage à chaque mort d'un ennemi</em>. Mécanique de snowball unique — plus Basilong tue, plus il déclenche ses compétences rapidement. Dévastateur en combat prolongé avec plusieurs ennemis.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Royaume du Vide</span><span class="skill-tag tag-amelio">Immunité Alliés</span></div>
+    <p class="skill-desc">Immunise <em>tous les alliés contre la brûlure et le poison pendant 3 tours</em>. Contre direct aux formations Feu (Norris, Fiona, Oichi) et aux héros à poison. Rare et précieux en méta compétitive.</p>
+  </div>
+
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Souffle Glaçant</span><span class="skill-tag tag-passive">Buff Rage Glace</span></div>
+    <p class="skill-desc">Offre <em>+20% de Rage à tous les alliés de Glace</em> au début du combat. Avantage de démarrage indissipable — les héros Glace déclenchent leurs compétences plus tôt dès le tour 1.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head"><span class="skill-name">Inflexible</span><span class="skill-tag tag-locked">🔒 Niveau avancé</span></div>
+    <p class="skill-desc">Parade <em>+30%</em>. Chance de réduire les dégâts reçus lors d'une attaque — renforce la survie de Basilong pendant ses cycles de snowball.</p>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 Le kit le plus complet de l'élément Glace</strong><br>
+    Basilong combine ce qu'aucun autre héros Glace ne fait seul : dégâts AoE élevés + snowball Rage sur kill + immunité de zone brûlure/poison + avantage Rage Glace au départ. C'est un carry Glace qui s'accélère en cours de combat plutôt que de ralentir.
+  </div>
+</div>
+
+<!-- TROUPES -->
+<div class="section">
+  <div class="section-title">⚔️ Compétences de Troupe — Talent +8</div>
+  <div class="troop-grid">
+    <div class="troop-item troop-highlight">
+      <div class="troop-val">+500%</div>
+      <div class="troop-lbl">ATQ de troupe (compétence active)</div>
+    </div>
+    <div class="troop-item troop-highlight" style="margin-top:0">
+      <div class="troop-val">+150%</div>
+      <div class="troop-lbl">DEF de troupe (passif permanent)</div>
+    </div>
+    <div class="troop-item"><div class="troop-val">+35%</div><div class="troop-lbl">Capacité d'infirmerie</div></div>
+    <div class="troop-item"><div class="troop-val">−36%</div><div class="troop-lbl">Coût de guérison (pierre)</div></div>
+  </div>
+
+  <div class="potential-box">
+    <strong>📈 Compétences de troupe S3 parmi les plus élevées</strong><br>
+    +500% ATQ active et +150% DEF passive à Talent +8 sont des valeurs exceptionnelles. Le bonus de Capacité d'infirmerie +35% et la réduction du coût de guérison −36% font de Basilong un héros doublement utile : offensif en combat et économique pour la récupération des troupes après bataille.
+  </div>
+</div>
+
+<!-- CURIOSITÉ -->
+<div class="section">
+  <div class="section-title">🔮 Curiosité Exclusive — Bracelets Fantômes</div>
+  <div class="weapon-box">
+    <div class="weapon-name">🔮 Bracelets Fantômes ★★★★★★★★ — Niveau maximum : +30</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus légion à +30 (niveau max)</div>
+    <div class="weapon-stats">
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1 200</span>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Basilong uniquement)</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>DEF de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>ATQ de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>ATQ de Troupe <strong style="color:#2ecc71">+150%</strong> supplémentaires</div></div>
+  </div>
+  <div class="info-box">
+    <strong>💡 Double bonus ATQ à Héros +6</strong><br>
+    Comme Oichi, Basilong obtient +100% ATQ à Héros +4 puis +150% supplémentaires à Héros +6, soit +250% ATQ exclusifs cumulés. Combiné aux +500% ATQ de la compétence active et +150% DEF passive, la légion de Basilong devient redoutable numériquement à haut niveau d'investissement.
+  </div>
+</div>
+
+<!-- POINTS FORTS / LIMITES -->
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Snowball Rage +30% par kill — s'accélère mécaniquement à mesure que les ennemis tombent</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Immunité brûlure/poison pour tous les alliés — contre direct aux formations Feu dominantes</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>+20% Rage Glace au départ — avantage immédiat pour toute la formation Glace</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>+150% DEF troupe en passif permanent — légion très résistante</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Capacité infirmerie +35% — récupération des troupes plus efficace</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>1★ actuellement — potentiel limité tant que les étoiles ne sont pas montées</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>AoE partielle — moins efficace contre des formations très dispersées</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Boss Alliance — snowball peu utile sur cible unique, kit inadapté</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Inflexible verrouillé — la Parade +30% n'est pas encore disponible</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTE -->
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">PvP · Contre Feu</td><td><span class="dots">●●●●●</span><span class="ctx-note">Immunité brûlure/poison + snowball = contre naturel des formations Norris, Fiona, Oichi</span></td></tr>
+    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">AoE partielle 290% sur des vagues d'ennemis — snowball s'emballe rapidement sur vagues multiples</span></td></tr>
+    <tr><td class="ctx-label">KvK · Guerre</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Excellent en combat prolongé — chaque kill accélère le cycle, DEF +150% améliore la survie</span></td></tr>
+    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●●</span><span class="dots-empty">●●●</span><span class="ctx-note">Le snowball par kill est inutile sur Boss unique — préférer des héros DPS dédiés Boss</span></td></tr>
+  </table>
+</div>
+
+<!-- SYNERGIES -->
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Tania</div><div class="syn-role">Glace · Soigneuse · Support Cavalerie</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Duo Glace fondamental. Souffle Glaçant de Basilong donne +20% Rage à Tania dès le départ → Tania déclenche son soin 44% plus tôt. Tania maintient Basilong en vie pendant les premières vagues, Basilong prend de la vitesse à chaque kill et contre les formations Feu qui menacent Tania.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Duo Glace</span><span class="stag stag-red">PvP</span><span class="stag stag-green">Sustain</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Edith</div><div class="syn-role">Glace · Archer · Double Debuff AoE</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Trio Glace redoutable. Edith réduit DEF −44% et ATQ −34% sur tous les ennemis, Basilong attaque des cibles à DEF réduite avec son AoE 290% et accumule de la Rage à chaque kill. Souffle Glaçant bénéficie aussi à Edith — toute la formation Glace démarre avec +20% Rage.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Trio Glace</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Debuff → Snowball</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Aerposia</div><div class="syn-role">Sombre · Carry Burst · Cavalerie</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Basilong élimine les ennemis adjacents avec son AoE et récupère +30% Rage par kill → il peut relancer rapidement. Pendant ce temps, Aerposia charge son Spectre. L'immunité brûlure/poison de Basilong protège Aerposia contre les formations Feu adverses.</p>
+    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-gold">Immunité + Burst</span></div>
+  </div>
+</div>
+
+<!-- FORMATIONS -->
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+
+  <div class="formation">
+    <div class="form-title">Formation Trio Glace (PvP optimal)</div>
+    <div class="form-heroes">
+      <span class="fhero glace">Tania</span>
+      <span class="fhero glace">Edith</span>
+      <span class="fhero glace">Basilong</span>
+    </div>
+    <p class="form-desc">Trio Glace pur. Souffle Glaçant donne +20% Rage à tous dès le départ. Edith debuff (DEF −44%, ATQ −34%), Basilong attaque des cibles fragilisées et s'accélère à chaque kill, Tania maintient tout le monde en vie. Formation Glace la plus complète disponible.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation Contre-Feu (meta défensive)</div>
+    <div class="form-heroes">
+      <span class="fhero glace">Basilong</span>
+      <span class="fhero glace">Tania</span>
+      <span class="fhero dark">Aerposia</span>
+    </div>
+    <p class="form-desc">Basilong immunise toute la formation contre brûlure et poison — Norris, Fiona et Oichi adverses perdent leur principale source de dégâts sur la durée. Tania soigne, Aerposia burst. Excellent contre les méta Feu dominantes.</p>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Basilong v1 — Juillet 2026</footer>
+</body>
+</html>
