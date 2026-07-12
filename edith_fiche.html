@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edith — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#1a5276;--elem-light:#5dade2;--elem-bg:rgba(26,82,118,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#001a2e 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(26,82,118,.35);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(26,82,118,.5);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.c{color:#455a75}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-highlight{grid-column:1/-1;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.3)}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}.fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}.fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}.fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}.fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="heroes.html">← Retour aux héros</a>
+
+<div class="hero-header">
+  <div class="elem-badge">❄ Élément Glace · Carry AoE · Double Debuff</div>
+  <div class="hero-name">EDITH</div>
+  <div class="hero-subtitle">La Lame de Givre · AoE Glace · DEF −44% · ATQ −34% · Archer</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">5★ → 6★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">❄ Glace</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">Talent +4</span><span class="lbl">Niveau</span></div>
+    <div class="stat-badge"><span class="val">Archer</span><span class="lbl">Type de troupe</span></div>
+  </div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval s">S</div><div class="rdesc">Double debuff unique</div></div>
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval a">A</div><div class="rdesc">AoE + contrôle solide</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval a">A</div><div class="rdesc">DEF −44% AoE très utile</div></div>
+  </div>
+</div>
+
+<!-- COMPÉTENCES -->
+<div class="section">
+  <div class="section-title">❄ Compétences — Plein Potentiel</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Pointe Désespérée</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
+      <span class="skill-tag tag-active">AoE Complète</span>
+    </div>
+    <p class="skill-desc">Inflige <em>220% de dégâts à tous les ennemis</em>. AoE complète déclenchée à cadence moyenne — synergise directement avec les deux debuffs qui amplifient les dégâts reçus par les ennemis.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Spectre Intérieur</span><span class="skill-tag tag-amelio">Debuff DEF AoE</span></div>
+    <p class="skill-desc">Réduit la DEF de <em>tous les ennemis de −44% pendant 4 tours</em>. L'un des debuffs de Défense de zone les plus puissants du jeu — profite à toute la formation alliée, pas seulement à Edith.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Murmures Lugubres</span><span class="skill-tag tag-amelio">Debuff ATQ AoE</span></div>
+    <p class="skill-desc">Réduit l'ATQ de <em>tous les ennemis de −34% pendant 4 tours</em>. Débuff offensif de zone qui réduit directement les dégâts infligés par la formation adverse — excellent pour la survie de l'alliance.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Cri Spirituel</span><span class="skill-tag tag-amelio">Contrôle</span></div>
+    <p class="skill-desc">Chance d'<em>étourdir tous les ennemis pendant 2 tours</em>. Contrôle de zone aléatoire qui s'ajoute aux deux debuffs — les ennemis étourdis ne peuvent ni attaquer ni utiliser de compétences.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head"><span class="skill-name">Maîtrise de Combat</span><span class="skill-tag tag-locked">🔒 6 étoiles</span></div>
+    <p class="skill-desc">Taux de Critique <em>+30%</em>. Chance d'infliger le double de dégâts — amplifie l'AoE de 220% sur une formation déjà à DEF −44%.</p>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 Combinaison debuff unique dans l'élément Glace</strong><br>
+    Edith est la seule héroïne Glace à cumuler un debuff DEF AoE (−44%) ET un debuff ATQ AoE (−34%) sur la même activation. Cette double réduction profite simultanément à tous les alliés DPS et réduit les dégâts reçus — deux problèmes résolus en une compétence.
+  </div>
+</div>
+
+<!-- TROUPES -->
+<div class="section">
+  <div class="section-title">⚔️ Compétences de Troupe — Talent +4</div>
+  <div class="troop-grid">
+    <div class="troop-item troop-highlight">
+      <div class="troop-val">+300%</div>
+      <div class="troop-lbl">ATQ de troupe (compétence active)</div>
+    </div>
+    <div class="troop-item"><div class="troop-val">+64%</div><div class="troop-lbl">PV Archer</div></div>
+    <div class="troop-item"><div class="troop-val">+64%</div><div class="troop-lbl">DEF Archer</div></div>
+    <div class="troop-item"><div class="troop-val">+64%</div><div class="troop-lbl">ATQ Archer</div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px">
+    <strong>Note</strong> — Valeurs à Talent +4. Edith est spécialisée Archer avec un triple bonus ATQ/DEF/PV à +64% chacun. Ces valeurs continuent d'augmenter avec les niveaux de Talent suivants.
+  </div>
+</div>
+
+<!-- CURIOSITÉ -->
+<div class="section">
+  <div class="section-title">❄ Curiosité Exclusive — Lance Gelée</div>
+  <div class="weapon-box">
+    <div class="weapon-name">❄ Lance Gelée ★★★★★★★★ — Niveau maximum : +30</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus légion à +30 (niveau max)</div>
+    <div class="weapon-stats">
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1 200</span>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Edith uniquement)</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>DEF de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>ATQ de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>Dégâts d'Archer infligés par une Infanterie <strong style="color:#2ecc71">↓ −30%</strong> — Edith subit moins de dégâts de contre-type</div></div>
+  </div>
+  <div class="info-box">
+    <strong>💡 L'attribut Héros +6 est défensif</strong><br>
+    Le bonus à Héros +6 réduit les dégâts que les Infanteries ennemies infligent aux Archers de −30%. C'est un contre direct au désavantage de type naturel de l'Archer — la Lance Gelée compense mécaniquement la faiblesse principale des formations Archer.
+  </div>
+</div>
+
+<!-- POINTS FORTS / LIMITES -->
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Double debuff AoE unique : DEF −44% ET ATQ −34% sur toute la formation ennemie simultanément</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Étourdissement de zone en bonus — triple pression en une compétence</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Triple bonus Archer +64% ATQ/DEF/PV — formation Archer très solide</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Curiosité qui réduit de −30% les dégâts de contre-type subis — compense la faiblesse Archer vs Infanterie</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Utile en Boss Alliance : DEF −44% profite à tous les DPS de l'alliance</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>AoE 220% — dégâts directs modestes sans le multiplicateur des debuffs</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Étourdissement aléatoire — non garanti à chaque déclenchement</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Maîtrise de Combat (+30% Critique) verrouillée derrière les 6 étoiles</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Debuffs limités à 4 tours — nécessite de déclencher souvent pour maintenir la pression</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTE -->
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●●</span><span class="ctx-note">Double debuff AoE dès le premier déclenchement — la formation adverse perd 44% DEF et 34% ATQ simultanément</span></td></tr>
+    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">DEF −44% sur le Boss profite à tous les DPS de l'alliance — meilleure amplificatrice de dégâts Glace sur Boss</span></td></tr>
+    <tr><td class="ctx-label">KvK · Guerre</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">ATQ −34% ennemie réduit les dégâts reçus — survie de l'alliance améliorée en combat prolongé</span></td></tr>
+    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●</span><span class="dots-empty">●●</span><span class="ctx-note">AoE + étourdissement utiles mais moins dominant que les carry AoE purs sur les vagues longues</span></td></tr>
+  </table>
+</div>
+
+<!-- SYNERGIES -->
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Tania</div><div class="syn-role">Glace · Soigneuse · Support Cavalerie</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Duo Glace naturel et puissant. Edith pose DEF −44% + ATQ −34% sur tous les ennemis, Tania soigne 44% AoE et buff la DEF alliée +63%. Edith affaiblit la formation adverse, Tania renforce la formation alliée — double pression dans les deux sens simultanément.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Duo Glace</span><span class="stag stag-red">PvP</span><span class="stag stag-green">Boss</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Aerposia</div><div class="syn-role">Sombre · Carry Burst 1 088%</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Edith pose DEF −44% AoE → le Spectre d'Aerposia à 1 088% arrive sur des cibles à DEF réduite → dégâts amplifiés. La combinaison debuff + burst est l'une des plus redoutables disponibles. Edith crée la fenêtre, Aerposia l'exploite.</p>
+    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-gold">Debuff → Burst</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Herukab</div><div class="syn-role">Lumière · Double Debuff AoE</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Duo debuff absolu. Edith réduit DEF −44% et ATQ −34%, Herukab réduit ATQ −40% et DEF −35%. Ensemble, la formation ennemie est sous quatre debuffs de zone simultanés — pression maximale sans aucun carry supplémentaire.</p>
+    <div class="syn-tags"><span class="stag stag-gold">4 Debuffs AoE</span><span class="stag stag-red">PvP</span><span class="stag stag-green">Boss</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Norris</div><div class="syn-role">Feu · Archer · DPS montée progressive</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Duo Archer. Edith pose DEF −44% ennemie, Norris en profite pour infliger des dégâts amplifiés pendant sa montée en puissance (ATQ +80% sur la durée). Edith compense la faiblesse de Norris à court terme en fragilisant les ennemis dès le début.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Duo Archer</span><span class="stag stag-green">Boss</span><span class="stag stag-gold">Debuff → DPS</span></div>
+  </div>
+</div>
+
+<!-- FORMATIONS -->
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+
+  <div class="formation">
+    <div class="form-title">Formation Double Debuff + Burst (PvP optimal)</div>
+    <div class="form-heroes">
+      <span class="fhero glace">Edith</span>
+      <span class="fhero glace">Tania</span>
+      <span class="fhero dark">Aerposia</span>
+    </div>
+    <p class="form-desc">Edith affaiblit (DEF −44% + ATQ −34%), Tania soigne et renforce, Aerposia burst sur des cibles fragilisées. Trio complet avec les trois rôles essentiels — carry, support et debuffeur.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation Quadruple Debuff AoE</div>
+    <div class="form-heroes">
+      <span class="fhero glace">Edith</span>
+      <span class="fhero lumiere">Herukab</span>
+      <span class="fhero dark">Carry DPS</span>
+    </div>
+    <p class="form-desc">Edith + Herukab cumulent 4 debuffs de zone. La formation ennemie est sous DEF −44%/−35% et ATQ −34%/−40% simultanément. N'importe quel carry DPS en profite massivement — formation redoutable en PvP et en Boss.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation Boss Alliance Glace</div>
+    <div class="form-heroes">
+      <span class="fhero glace">Edith</span>
+      <span class="fhero glace">Tania</span>
+      <span class="fhero lumiere">Norris</span>
+    </div>
+    <p class="form-desc">Edith debuff le Boss (DEF −44%), Norris monte en puissance et inflige des dégâts amplifiés, Tania maintient la survie. Formation Boss Glace efficace si Guan Yu n'est pas disponible.</p>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Edith v1 — Juillet 2026</footer>
+</body>
+</html>
