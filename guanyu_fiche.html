@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guan Yu — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#1e8449;--elem-light:#58d68d;--elem-bg:rgba(30,132,73,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a0e 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(30,132,73,.35);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(30,132,73,.5);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.passive{border-left-color:#5dade2}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-passive{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-highlight{grid-column:1/-1;background:rgba(30,132,73,.1);border:1px solid rgba(30,132,73,.3)}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .formation.boss{border-left-color:#e74c3c}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-title.red{color:#e07070}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}.fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}.fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}.fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}.fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  .potential-box{background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.78rem;color:#6ecf96;line-height:1.45}
+  .potential-box strong{color:#2ecc71}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="heroes.html">← Retour aux héros</a>
+
+<div class="hero-header">
+  <div class="elem-badge">🌿 Élément Nature · Saison 2 · S Boss · S PvP</div>
+  <div class="hero-name">GUAN YU</div>
+  <div class="hero-subtitle">Le Dieu de la Guerre · Meilleur DPS Boss du Jeu · Burst 530% · Montée en Puissance</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">1★ → 6★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">🌿 Nature · S2</span><span class="lbl">Élément · Saison</span></div>
+    <div class="stat-badge"><span class="val">Talent +8</span><span class="lbl">Niveau arme</span></div>
+    <div class="stat-badge"><span class="val">Carry</span><span class="lbl">Rôle</span></div>
+  </div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval s">S</div><div class="rdesc">Meilleur DPS Boss</div></div>
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval s">S</div><div class="rdesc">Burst + Critique garanti</div></div>
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval a">A</div><div class="rdesc">Très solide</div></div>
+  </div>
+</div>
+
+<!-- COMPÉTENCES -->
+<div class="section">
+  <div class="section-title">🌿 Compétences — Plein Potentiel</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Entaille Levante</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
+      <span class="skill-tag tag-active">Burst Single-Target</span>
+    </div>
+    <p class="skill-desc">Inflige <em>530% de dégâts à la cible ennemie</em>. L'un des multiplicateurs single-target les plus élevés du jeu — optimisé pour les cibles à haute santé comme les Boss Alliance.</p>
+  </div>
+
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Tambours d'Encouragement</span><span class="skill-tag tag-passive">Buff Rage Nature</span></div>
+    <p class="skill-desc">Donne <em>+10% de Régénération de Rage à tous les alliés de Nature</em> au début du combat. Effet indissipable — toute la formation Nature déclenche ses compétences plus tôt dès le tour 1.</p>
+  </div>
+
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Saint Martial</span><span class="skill-tag tag-passive">Montée en Puissance</span></div>
+    <p class="skill-desc">L'ATQ de Guan Yu augmente de <em>+5% par tour après le début du combat, jusqu'à +80%</em>. Effet indissipable — Guan Yu devient de plus en plus dévastateur à mesure que le combat se prolonge. Idéal pour les Boss qui durent plusieurs tours.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Puissance de l'Âme-Dragon</span><span class="skill-tag tag-amelio">Critique Garanti</span></div>
+    <p class="skill-desc">Garantit un Critique <em>lorsque les PV de la cible sont inférieurs à 50%</em>. Critique assuré sur chaque frappe dès que la cible est à demi-vie — double les dégâts de l'Entaille Levante à 530% sur les Boss et les cibles affaiblies.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head"><span class="skill-name">Faiblesse de Cible</span><span class="skill-tag tag-locked">🔒 Niveau avancé</span></div>
+    <p class="skill-desc">Briser <em>+30%</em>. Chance d'ignorer la Parade et d'infliger des dégâts normaux — amplifie directement le burst de 530% en ignorant les défenses adverses.</p>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 Pourquoi Guan Yu est le roi du Boss Alliance</strong><br>
+    Saint Martial (+80% ATQ sur la durée) + Puissance de l'Âme-Dragon (Critique garanti sous 50% PV) + Entaille Levante (530%) = un DPS single-target qui s'emballe exactement au moment où le Boss est le plus vulnérable. Plus le combat dure, plus Guan Yu est dangereux — le profil parfait pour les Boss à haute santé.<br><br>
+    <strong>Donnée confirmée par la communauté :</strong> Guan Yu à 3★ inflige plus de dégâts Boss que Dimina à 5★. Monter ses étoiles est la priorité absolue parmi les héros Nature.
+  </div>
+</div>
+
+<!-- TROUPES -->
+<div class="section">
+  <div class="section-title">⚔️ Compétences de Troupe — Talent +8</div>
+  <div class="troop-grid">
+    <div class="troop-item troop-highlight">
+      <div class="troop-val">+500%</div>
+      <div class="troop-lbl">ATQ de troupe (compétence active)</div>
+    </div>
+    <div class="troop-item"><div class="troop-val">+250%</div><div class="troop-lbl">PV Infanterie (passif)</div></div>
+    <div class="troop-item"><div class="troop-val">+250%</div><div class="troop-lbl">DEF Archer (passif)</div></div>
+    <div class="troop-item"><div class="troop-val">+250%</div><div class="troop-lbl">ATQ Cavalerie (passif)</div></div>
+  </div>
+  <div class="potential-box">
+    <strong>📈 Triple bonus toutes troupes à +250%</strong><br>
+    Guan Yu booste simultanément l'Infanterie (PV), l'Archer (DEF) et la Cavalerie (ATQ) — chacun à +250%. C'est l'une des rares curiosités à couvrir les trois types de troupes en même temps, ce qui le rend compatible avec n'importe quelle composition de légion.
+  </div>
+</div>
+
+<!-- CURIOSITÉ -->
+<div class="section">
+  <div class="section-title">🐉 Curiosité Exclusive — Lame-Dragon Azur</div>
+  <div class="weapon-box">
+    <div class="weapon-name">🐉 Lame-Dragon Azur ★★★★★★★★ — Niveau maximum : +30</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus légion à +30 (niveau max)</div>
+    <div class="weapon-stats">
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1 200</span>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Guan Yu uniquement)</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>DEF de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>ATQ de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>ATQ de Troupe <strong style="color:#2ecc71">+150%</strong> supplémentaires</div></div>
+  </div>
+  <div class="info-box">
+    <strong>💡 Double ATQ à Héros +6</strong><br>
+    Comme Oichi et Basilong, Guan Yu cumule +100% ATQ à Héros +4 puis +150% supplémentaires à Héros +6, soit +250% ATQ exclusifs cumulés. Combiné au +500% ATQ de la compétence active et aux +250% passifs toutes troupes, la légion de Guan Yu atteint des valeurs offensives exceptionnelles.
+  </div>
+</div>
+
+<!-- POINTS FORTS / LIMITES -->
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Meilleur DPS Boss Alliance du jeu — kit entièrement optimisé pour les cibles à haute santé</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Critique garanti sous 50% PV — double les dégâts de 530% au moment clé</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Montée en puissance ATQ +80% — s'emballe sur les combats prolongés</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Triple bonus toutes troupes +250% — compatible avec toutes les légions</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>+10% Rage Nature pour toute la formation au départ</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Single-target pur — moins efficace sur les vagues d'ennemis multiples en campagne</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Critique garanti conditionnel — nécessite que la cible soit sous 50% PV</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Faiblesse de Cible (+30% Briser) verrouillée — plein potentiel limité sans ce passif</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Moins dominant en PvP contre des formations à mort rapide qui ne laissent pas le temps à Saint Martial de monter</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTE -->
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●●●●●</span><span class="ctx-note">Contexte idéal — montée ATQ + Critique garanti sous 50% PV = DPS Boss qui explose exactement au bon moment</span></td></tr>
+    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">530% burst + Critique garanti très efficace — moins dominant si le combat se termine avant que Saint Martial atteigne +80%</span></td></tr>
+    <tr><td class="ctx-label">KvK · Guerre</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Combat prolongé = plein potentiel de Saint Martial — s'emballe au fil des tours</span></td></tr>
+    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●</span><span class="dots-empty">●●</span><span class="ctx-note">Solide mais kit single-target moins adapté aux vagues multiples — préférer des carry AoE pour la campagne pure</span></td></tr>
+  </table>
+</div>
+
+<!-- SYNERGIES -->
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Khaos</div><div class="syn-role">Sombre · S Universel · Boss S</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Le duo Boss le plus puissant du jeu. Guan Yu et Khaos sont tous les deux S Boss — ils infligent des dégâts single-target massifs en parallèle sur le même Boss. Tambours d'Encouragement donne +10% Rage à Khaos si dans une formation mixte — avantage de démarrage pour les deux.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Boss S + S</span><span class="stag stag-red">PvP</span><span class="stag stag-green">Duo DPS</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Norris</div><div class="syn-role">Feu · Archer · DPS Boss A · Brûlure</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Trio Boss classique. Guan Yu porte les dégâts principaux, Norris monte en puissance en parallèle (Saint Martial identique à +80% ATQ), et les deux s'accumulent sur la durée. Norris ajoute la brûlure persistante comme dégâts supplémentaires entre les tours.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Boss</span><span class="stag stag-green">Double Montée</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Tania</div><div class="syn-role">Glace · Soigneuse · DEF +63% AoE</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Tania maintient Guan Yu en vie pendant sa montée en puissance. Le soin 44% AoE + DEF +63% permettent à Guan Yu d'atteindre les tours avancés où Saint Martial est au maximum et où Puissance de l'Âme-Dragon garantit les Critiques.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Sustain</span><span class="stag stag-gold">Boss</span><span class="stag stag-red">PvP</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Herukab</div><div class="syn-role">Lumière · DEF −44% · ATQ −34% AoE</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Herukab réduit la DEF du Boss de −44% — l'Entaille Levante de Guan Yu à 530% arrive sur une cible affaiblie. En Boss, le debuff DEF profite directement au DPS de Guan Yu et de tous les alliés attaquant simultanément.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Boss</span><span class="stag stag-green">Debuff → DPS</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Dimina</div><div class="syn-role">Nature · Carry AoE · Blocage Rage</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Duo Nature. Tambours d'Encouragement donne +10% Rage à Dimina — elle bloque la Rage ennemie plus tôt. En PvP, Guan Yu et Dimina se combinent : Dimina contrôle la formation adverse, Guan Yu élimine la cible principale.</p>
+    <div class="syn-tags"><span class="stag stag-green">Nature</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Contrôle + Burst</span></div>
+  </div>
+</div>
+
+<!-- FORMATIONS -->
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+
+  <div class="formation boss">
+    <div class="form-title red">Formation Boss Alliance (optimale — confirmée meta)</div>
+    <div class="form-heroes">
+      <span class="fhero nature">Guan Yu</span>
+      <span class="fhero dark">Khaos</span>
+      <span class="fhero feu">Norris</span>
+    </div>
+    <p class="form-desc">La formation Boss la plus efficace du jeu selon la communauté. Trois carry single-target S/A Boss en simultané. Priorité tuiles : Vert (Guan Yu) → Rouge foncé (Norris) → Violet (Khaos). Guan Yu en premier pour accélérer sa montée en puissance.</p>
+  </div>
+
+  <div class="formation boss">
+    <div class="form-title red">Formation Boss accessible (sans Khaos)</div>
+    <div class="form-heroes">
+      <span class="fhero nature">Guan Yu</span>
+      <span class="fhero lumiere">Herukab</span>
+      <span class="fhero feu">Norris</span>
+    </div>
+    <p class="form-desc">Herukab remplace Khaos avec son DEF −44% AoE qui amplifie les dégâts de Guan Yu et Norris. Formation solide sans héros rare — Herukab est un excellent amplificateur de DPS Boss.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation PvP Nature (avec Dimina)</div>
+    <div class="form-heroes">
+      <span class="fhero nature">Guan Yu</span>
+      <span class="fhero nature">Dimina</span>
+      <span class="fhero glace">Tania</span>
+    </div>
+    <p class="form-desc">Tambours d'Encouragement donne +10% Rage à Dimina dès le départ. Dimina bloque la Rage ennemie, Guan Yu burst la cible principale, Tania soigne. Formation Nature PvP très compétitive.</p>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Guan Yu v1 — Juillet 2026</footer>
+</body>
+</html>

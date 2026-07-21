@@ -9,11 +9,7 @@
   :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a2540 0%,#0d1117 70%)}
-
-  /* ── RETOUR ── */
-  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:0.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:0.5px}
-  .back:hover{color:var(--gold)}
-
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
   h1{font-family:'Cinzel',serif;color:var(--gold);text-align:center;font-size:1.55rem;letter-spacing:2px;text-shadow:0 0 20px rgba(232,184,75,.5);margin-bottom:4px}
   .subtitle{text-align:center;font-size:.78rem;color:#7a8fa8;margin-bottom:20px;letter-spacing:1px;text-transform:uppercase}
 
@@ -23,17 +19,19 @@
   .filter-btn:hover,.filter-btn.active{background:rgba(232,184,75,.12);border-color:rgba(232,184,75,.5);color:var(--gold)}
 
   /* ── CARTES HÉROS ── */
-  .hero-grid{display:flex;flex-direction:column;gap:12px}
-
+  .hero-grid{display:flex;flex-direction:column;gap:10px}
   .hero-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;overflow:hidden;text-decoration:none;color:inherit;display:block;position:relative;transition:transform .15s,box-shadow .15s}
   .hero-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
   .hero-card::before{content:'';display:block;height:2px}
-
-  .elem-sombre::before{background:linear-gradient(90deg,#6c3483,#a569bd)}
-  .elem-glace::before {background:linear-gradient(90deg,#1a5276,#5dade2)}
-  .elem-nature::before{background:linear-gradient(90deg,#1e8449,#58d68d)}
-  .elem-feu::before   {background:linear-gradient(90deg,#922b21,#ec7063)}
+  .elem-sombre::before {background:linear-gradient(90deg,#6c3483,#a569bd)}
+  .elem-glace::before  {background:linear-gradient(90deg,#1a5276,#5dade2)}
+  .elem-nature::before {background:linear-gradient(90deg,#1e8449,#58d68d)}
+  .elem-feu::before    {background:linear-gradient(90deg,#922b21,#ec7063)}
   .elem-lumiere::before{background:linear-gradient(90deg,#7d6608,#f4d03f)}
+
+  /* carte "à venir" */
+  .hero-card.soon{opacity:.45;pointer-events:none;border-style:dashed}
+  .hero-card.soon::before{background:linear-gradient(90deg,#2e3d55,#455a75)}
 
   .hero-inner{padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
   .hero-icon{font-size:1.6rem;flex-shrink:0;line-height:1;margin-top:2px}
@@ -42,16 +40,18 @@
   .hero-role{font-size:.7rem;color:#5a7090;text-transform:uppercase;letter-spacing:.8px;margin-top:1px}
   .hero-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
   .tag{padding:2px 8px;border-radius:12px;font-size:.68rem;font-weight:700;border:1px solid}
-  .tag-s{background:rgba(232,184,75,.15);color:var(--gold);border-color:rgba(232,184,75,.4)}
-  .tag-a{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
-  .tag-b{background:rgba(46,61,85,.4);color:#7a9ab8;border-color:var(--border)}
+  .tag-s  {background:rgba(232,184,75,.15);color:var(--gold);border-color:rgba(232,184,75,.4)}
+  .tag-a  {background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .tag-b  {background:rgba(46,61,85,.4);color:#7a9ab8;border-color:var(--border)}
   .tag-pvp{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
   .tag-pve{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
   .tag-eco{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .tag-soon{background:rgba(46,61,85,.3);color:#455a75;border-color:#2e3d55}
 
   .hero-arrow{font-size:.85rem;color:var(--gold);flex-shrink:0;margin-top:4px}
+  .hero-arrow.soon{color:#455a75}
 
-  .section-label{font-family:'Cinzel',serif;font-size:.72rem;color:#2e3d55;letter-spacing:2px;text-transform:uppercase;text-align:center;padding:8px 0 6px;margin-top:4px}
+  .section-label{font-family:'Cinzel',serif;font-size:.72rem;color:#2e3d55;letter-spacing:2px;text-transform:uppercase;text-align:center;padding:10px 0 6px;margin-top:4px}
 
   footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:28px;padding-top:10px;border-top:1px solid var(--border)}
 </style>
@@ -59,9 +59,8 @@
 <body>
 
 <a class="back" href="index.html">← Retour à l'accueil</a>
-
 <h1>⚔️ FICHES HÉROS</h1>
-<p class="subtitle">Roster complet · Synergies meta · Potentiel maximal</p>
+<p class="subtitle">21 fiches · Synergies meta · Potentiel maximal</p>
 
 <div class="filters">
   <button class="filter-btn active" onclick="filter('all',this)">Tous</button>
@@ -74,285 +73,238 @@
 
 <div class="hero-grid" id="grid">
 
-  <div class="section-label">⬡ Élément Sombre</div>
+<!-- ════════════════════════════
+     ⬡ SOMBRE
+════════════════════════════ -->
+<div class="section-label">⬡ Élément Sombre</div>
 
-  <a class="hero-card elem-sombre" href="aerposia_fiche.html" data-elem="sombre">
-    <div class="hero-inner">
-      <div class="hero-icon">⬡</div>
-      <div class="hero-info">
-        <div class="hero-name">AERPOSIA</div>
-        <div class="hero-role">Cavalerie · Carry DPS Burst</div>
-        <div class="hero-tags">
-          <span class="tag tag-s">S-Tier</span>
-          <span class="tag tag-pvp">PvP A</span>
-          <span class="tag tag-pve">PvE A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-sombre" href="aerposia_fiche.html" data-elem="sombre">
+  <div class="hero-inner"><div class="hero-icon">⬡</div><div class="hero-info">
+    <div class="hero-name">AERPOSIA</div>
+    <div class="hero-role">Cavalerie · Carry DPS Burst</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP S</span><span class="tag tag-pve">PvE A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-sombre" href="eris_fiche.html" data-elem="sombre">
-    <div class="hero-inner">
-      <div class="hero-icon">⬡</div>
-      <div class="hero-info">
-        <div class="hero-name">ERIS</div>
-        <div class="hero-role">Carry AoE · Contrôle · Étourdissement</div>
-        <div class="hero-tags">
-          <span class="tag tag-a">A-Tier</span>
-          <span class="tag tag-pvp">PvP A</span>
-          <span class="tag tag-pve">PvE A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-sombre" href="eris_fiche.html" data-elem="sombre">
+  <div class="hero-inner"><div class="hero-icon">⬡</div><div class="hero-info">
+    <div class="hero-name">ERIS</div>
+    <div class="hero-role">Carry AoE · Contrôle · Étourdissement</div>
+    <div class="hero-tags"><span class="tag tag-a">A-Tier</span><span class="tag tag-pvp">PvP A</span><span class="tag tag-pve">PvE A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-sombre" href="sirona_fiche.html" data-elem="sombre">
-    <div class="hero-inner">
-      <div class="hero-icon">⬡</div>
-      <div class="hero-info">
-        <div class="hero-name">SIRONA</div>
-        <div class="hero-role">Soigneuse · Support Rage · Ralliement</div>
-        <div class="hero-tags">
-          <span class="tag tag-s">S-Tier</span>
-          <span class="tag tag-pvp">PvP S</span>
-          <span class="tag tag-eco">Rallye S</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-sombre" href="sirona_fiche.html" data-elem="sombre">
+  <div class="hero-inner"><div class="hero-icon">⬡</div><div class="hero-info">
+    <div class="hero-name">SIRONA</div>
+    <div class="hero-role">Soigneuse · Support Rage · Ralliement</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP S</span><span class="tag tag-eco">Rallye S</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-sombre" href="aurora_fiche.html" data-elem="sombre">
-    <div class="hero-inner">
-      <div class="hero-icon">⬡</div>
-      <div class="hero-info">
-        <div class="hero-name">AURORA</div>
-        <div class="hero-role">Exécution 99% PV · Blocage Rage · Ralliement</div>
-        <div class="hero-tags">
-          <span class="tag tag-s">S-Tier</span>
-          <span class="tag tag-pvp">PvP S</span>
-          <span class="tag tag-eco">Rallye S</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-sombre" href="aurora_fiche.html" data-elem="sombre">
+  <div class="hero-inner"><div class="hero-icon">⬡</div><div class="hero-info">
+    <div class="hero-name">AURORA</div>
+    <div class="hero-role">Exécution 99% PV · Blocage Rage · Ralliement</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP S</span><span class="tag tag-eco">Rallye S</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <div class="section-label">❄ Élément Glace</div>
+<!-- À venir Sombre -->
+<a class="hero-card elem-sombre soon" href="#" data-elem="sombre">
+  <div class="hero-inner"><div class="hero-icon">⬡</div><div class="hero-info">
+    <div class="hero-name">VIOLETTE</div>
+    <div class="hero-role">Carry Arène · S PvP</div>
+    <div class="hero-tags"><span class="tag tag-soon">Fiche à venir</span></div>
+  </div><div class="hero-arrow soon">—</div></div>
+</a>
 
-  <a class="hero-card elem-glace" href="tania_fiche.html" data-elem="glace">
-    <div class="hero-inner">
-      <div class="hero-icon">❄</div>
-      <div class="hero-info">
-        <div class="hero-name">TANIA</div>
-        <div class="hero-role">Cavalerie · Soigneuse · Support</div>
-        <div class="hero-tags">
-          <span class="tag tag-a">A-Tier</span>
-          <span class="tag tag-pvp">PvP A</span>
-          <span class="tag tag-pve">PvE A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-sombre soon" href="#" data-elem="sombre">
+  <div class="hero-inner"><div class="hero-icon">⬡</div><div class="hero-info">
+    <div class="hero-name">KHAOS</div>
+    <div class="hero-role">S Universel · Boss · PvP</div>
+    <div class="hero-tags"><span class="tag tag-soon">Fiche à venir</span></div>
+  </div><div class="hero-arrow soon">—</div></div>
+</a>
 
-  <a class="hero-card elem-glace" href="edith_fiche.html" data-elem="glace">
-    <div class="hero-inner">
-      <div class="hero-icon">❄</div>
-      <div class="hero-info">
-        <div class="hero-name">EDITH</div>
-        <div class="hero-role">Archer · AoE · DEF −44% · ATQ −34%</div>
-        <div class="hero-tags">
-          <span class="tag tag-s">S-Tier</span>
-          <span class="tag tag-pvp">PvP S</span>
-          <span class="tag tag-pve">Boss A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<!-- ════════════════════════════
+     ❄ GLACE
+════════════════════════════ -->
+<div class="section-label">❄ Élément Glace</div>
 
-  <div class="section-label">🌿 Élément Nature</div>
+<a class="hero-card elem-glace" href="tania_fiche.html" data-elem="glace">
+  <div class="hero-inner"><div class="hero-icon">❄</div><div class="hero-info">
+    <div class="hero-name">TANIA</div>
+    <div class="hero-role">Cavalerie · Soigneuse · Support</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP A</span><span class="tag tag-pve">PvE A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-nature" href="dimina_fiche.html" data-elem="nature">
-    <div class="hero-inner">
-      <div class="hero-icon">🌿</div>
-      <div class="hero-info">
-        <div class="hero-name">DIMINA</div>
-        <div class="hero-role">Cav. & Archer · Blocage Rage</div>
-        <div class="hero-tags">
-          <span class="tag tag-s">S-Tier</span>
-          <span class="tag tag-pvp">PvP A</span>
-          <span class="tag tag-pve">PvE S</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-glace" href="edith_fiche.html" data-elem="glace">
+  <div class="hero-inner"><div class="hero-icon">❄</div><div class="hero-info">
+    <div class="hero-name">EDITH</div>
+    <div class="hero-role">Archer · AoE · DEF −44% · ATQ −34%</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP S</span><span class="tag tag-pve">Boss A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-nature" href="tala_fiche.html" data-elem="nature">
-    <div class="hero-inner">
-      <div class="hero-icon">🌿</div>
-      <div class="hero-info">
-        <div class="hero-name">TALA</div>
-        <div class="hero-role">Support Rage · Économie Fer</div>
-        <div class="hero-tags">
-          <span class="tag tag-s">S-Tier</span>
-          <span class="tag tag-eco">Éco S</span>
-          <span class="tag tag-pve">PvE A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-glace" href="basilong_fiche.html" data-elem="glace">
+  <div class="hero-inner"><div class="hero-icon">❄</div><div class="hero-info">
+    <div class="hero-name">BASILONG</div>
+    <div class="hero-role">AoE Partielle · Snowball Rage · Immunité Alliés</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP S</span><span class="tag tag-pve">PvE A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-nature" href="boyd_fiche.html" data-elem="nature">
-    <div class="hero-inner">
-      <div class="hero-icon">🌿</div>
-      <div class="hero-info">
-        <div class="hero-name">BOYD</div>
-        <div class="hero-role">Cavalerie · Carry · Sang Froid</div>
-        <div class="hero-tags">
-          <span class="tag tag-b">B-Tier</span>
-          <span class="tag tag-pve">PvE A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<!-- À venir Glace -->
+<a class="hero-card elem-glace soon" href="#" data-elem="glace">
+  <div class="hero-inner"><div class="hero-icon">❄</div><div class="hero-info">
+    <div class="hero-name">MAXIM</div>
+    <div class="hero-role">S Universel · PvP · PvE</div>
+    <div class="hero-tags"><span class="tag tag-soon">Fiche à venir</span></div>
+  </div><div class="hero-arrow soon">—</div></div>
+</a>
 
-  <a class="hero-card elem-nature" href="sodoma_fiche.html" data-elem="nature">
-    <div class="hero-inner">
-      <div class="hero-icon">🌿</div>
-      <div class="hero-info">
-        <div class="hero-name">SODOMA</div>
-        <div class="hero-role">Burst Cible Unique · Vol de Rage · Meute</div>
-        <div class="hero-tags">
-          <span class="tag tag-a">A-Tier</span>
-          <span class="tag tag-pvp">PvP A</span>
-          <span class="tag tag-pve">Boss A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<!-- ════════════════════════════
+     🌿 NATURE
+════════════════════════════ -->
+<div class="section-label">🌿 Élément Nature</div>
 
-  <div class="section-label">🔥 Élément Feu</div>
+<a class="hero-card elem-nature" href="dimina_fiche.html" data-elem="nature">
+  <div class="hero-inner"><div class="hero-icon">🌿</div><div class="hero-info">
+    <div class="hero-name">DIMINA</div>
+    <div class="hero-role">Cav. & Archer · Blocage Rage</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP A</span><span class="tag tag-pve">PvE S</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-feu" href="anastasia_fiche.html" data-elem="feu">
-    <div class="hero-inner">
-      <div class="hero-icon">🔥</div>
-      <div class="hero-info">
-        <div class="hero-name">ANASTASIA</div>
-        <div class="hero-role">Support Survie · Résurrection de Zone</div>
-        <div class="hero-tags">
-          <span class="tag tag-s">S-Tier</span>
-          <span class="tag tag-pvp">PvP S</span>
-          <span class="tag tag-pve">PvE S</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-nature" href="tala_fiche.html" data-elem="nature">
+  <div class="hero-inner"><div class="hero-icon">🌿</div><div class="hero-info">
+    <div class="hero-name">TALA</div>
+    <div class="hero-role">Support Rage · Économie Fer</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-eco">Éco S</span><span class="tag tag-pve">PvE A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-feu" href="tutanhet_fiche.html" data-elem="feu">
-    <div class="hero-inner">
-      <div class="hero-icon">🔥</div>
-      <div class="hero-info">
-        <div class="hero-name">TUTANHET</div>
-        <div class="hero-role">Toutes troupes · Paralysie</div>
-        <div class="hero-tags">
-          <span class="tag tag-a">A-Tier</span>
-          <span class="tag tag-pvp">PvP A</span>
-          <span class="tag tag-pve">PvE A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-nature" href="sodoma_fiche.html" data-elem="nature">
+  <div class="hero-inner"><div class="hero-icon">🌿</div><div class="hero-info">
+    <div class="hero-name">SODOMA</div>
+    <div class="hero-role">Burst Cible Unique · Vol de Rage · Meute</div>
+    <div class="hero-tags"><span class="tag tag-a">A-Tier</span><span class="tag tag-pvp">PvP A</span><span class="tag tag-pve">Boss A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-feu" href="fiona_fiche.html" data-elem="feu">
-    <div class="hero-inner">
-      <div class="hero-icon">🔥</div>
-      <div class="hero-info">
-        <div class="hero-name">FIONA</div>
-        <div class="hero-role">AoE Poison · Buff ATQ · Économie</div>
-        <div class="hero-tags">
-          <span class="tag tag-a">A-Tier</span>
-          <span class="tag tag-eco">Éco A</span>
-          <span class="tag tag-pvp">PvP B</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-nature" href="boyd_fiche.html" data-elem="nature">
+  <div class="hero-inner"><div class="hero-icon">🌿</div><div class="hero-info">
+    <div class="hero-name">BOYD</div>
+    <div class="hero-role">Cavalerie · Carry · Sang Froid</div>
+    <div class="hero-tags"><span class="tag tag-b">B-Tier</span><span class="tag tag-pve">PvE A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-feu" href="norris_fiche.html" data-elem="feu">
-    <div class="hero-inner">
-      <div class="hero-icon">🔥</div>
-      <div class="hero-info">
-        <div class="hero-name">NORRIS</div>
-        <div class="hero-role">Archer · AoE Brûlure · DPS Boss</div>
-        <div class="hero-tags">
-          <span class="tag tag-a">A-Tier</span>
-          <span class="tag tag-pve">Boss A</span>
-          <span class="tag tag-pvp">PvP B</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<!-- À venir Nature -->
+<a class="hero-card elem-nature" href="guanyu_fiche.html" data-elem="nature">
+  <div class="hero-inner"><div class="hero-icon">🌿</div><div class="hero-info">
+    <div class="hero-name">GUAN YU</div>
+    <div class="hero-role">S2 · Burst 530% · Meilleur DPS Boss · Montée ATQ</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP S</span><span class="tag tag-pve">Boss S</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <div class="section-label">☀ Élément Lumière</div>
+<!-- ════════════════════════════
+     🔥 FEU
+════════════════════════════ -->
+<div class="section-label">🔥 Élément Feu</div>
 
-  <a class="hero-card elem-lumiere" href="herukab_fiche.html" data-elem="lumiere">
-    <div class="hero-inner">
-      <div class="hero-icon">☀</div>
-      <div class="hero-info">
-        <div class="hero-name">HERUKAB</div>
-        <div class="hero-role">Double AoE · Double Debuff</div>
-        <div class="hero-tags">
-          <span class="tag tag-a">A-Tier</span>
-          <span class="tag tag-pvp">PvP A</span>
-          <span class="tag tag-pve">PvE A+</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-feu" href="anastasia_fiche.html" data-elem="feu">
+  <div class="hero-inner"><div class="hero-icon">🔥</div><div class="hero-info">
+    <div class="hero-name">ANASTASIA</div>
+    <div class="hero-role">Support Survie · Résurrection de Zone</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP S</span><span class="tag tag-pve">PvE S</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-  <a class="hero-card elem-lumiere" href="patty_fiche.html" data-elem="lumiere">
-    <div class="hero-inner">
-      <div class="hero-icon">☀</div>
-      <div class="hero-info">
-        <div class="hero-name">PATTY</div>
-        <div class="hero-role">Collecte · Ralliement · Support</div>
-        <div class="hero-tags">
-          <span class="tag tag-s">S-Tier</span>
-          <span class="tag tag-eco">Éco S</span>
-          <span class="tag tag-pve">Support A</span>
-        </div>
-      </div>
-      <div class="hero-arrow">→</div>
-    </div>
-  </a>
+<a class="hero-card elem-feu" href="oichi_fiche.html" data-elem="feu">
+  <div class="hero-inner"><div class="hero-icon">🔥</div><div class="hero-info">
+    <div class="hero-name">OICHI</div>
+    <div class="hero-role">AoE Partielle S3 · Brûlure niv.2 · Étourdissement · Esquive</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-pvp">PvP S</span><span class="tag tag-pve">PvE A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-</div>
+<a class="hero-card elem-feu" href="norris_fiche.html" data-elem="feu">
+  <div class="hero-inner"><div class="hero-icon">🔥</div><div class="hero-info">
+    <div class="hero-name">NORRIS</div>
+    <div class="hero-role">Archer · AoE Brûlure · DPS Boss</div>
+    <div class="hero-tags"><span class="tag tag-a">A-Tier</span><span class="tag tag-pve">Boss A</span><span class="tag tag-pvp">PvP B</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
 
-<footer>Puzzles &amp; Chaos : Frozen Castle · 16 fiches héros — Juillet 2026</footer>
+<a class="hero-card elem-feu" href="tutanhet_fiche.html" data-elem="feu">
+  <div class="hero-inner"><div class="hero-icon">🔥</div><div class="hero-info">
+    <div class="hero-name">TUTANHET</div>
+    <div class="hero-role">Toutes troupes · Paralysie</div>
+    <div class="hero-tags"><span class="tag tag-a">A-Tier</span><span class="tag tag-pvp">PvP A</span><span class="tag tag-pve">PvE A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
+
+<a class="hero-card elem-feu" href="fiona_fiche.html" data-elem="feu">
+  <div class="hero-inner"><div class="hero-icon">🔥</div><div class="hero-info">
+    <div class="hero-name">FIONA</div>
+    <div class="hero-role">AoE Poison · Buff ATQ · Économie</div>
+    <div class="hero-tags"><span class="tag tag-a">A-Tier</span><span class="tag tag-eco">Éco A</span><span class="tag tag-pvp">PvP B</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
+
+<!-- À venir Feu -->
+<a class="hero-card elem-feu soon" href="#" data-elem="feu">
+  <div class="hero-inner"><div class="hero-icon">🔥</div><div class="hero-info">
+    <div class="hero-name">LEONA</div>
+    <div class="hero-role">Carry en développement</div>
+    <div class="hero-tags"><span class="tag tag-soon">Fiche à venir</span></div>
+  </div><div class="hero-arrow soon">—</div></div>
+</a>
+
+<!-- ════════════════════════════
+     ☀ LUMIÈRE
+════════════════════════════ -->
+<div class="section-label">☀ Élément Lumière</div>
+
+<a class="hero-card elem-lumiere" href="herukab_fiche.html" data-elem="lumiere">
+  <div class="hero-inner"><div class="hero-icon">☀</div><div class="hero-info">
+    <div class="hero-name">HERUKAB</div>
+    <div class="hero-role">Double AoE · Double Debuff</div>
+    <div class="hero-tags"><span class="tag tag-a">A-Tier</span><span class="tag tag-pvp">PvP A</span><span class="tag tag-pve">PvE A+</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
+
+<a class="hero-card elem-lumiere" href="patty_fiche.html" data-elem="lumiere">
+  <div class="hero-inner"><div class="hero-icon">☀</div><div class="hero-info">
+    <div class="hero-name">PATTY</div>
+    <div class="hero-role">Collecte · Ralliement · Support</div>
+    <div class="hero-tags"><span class="tag tag-s">S-Tier</span><span class="tag tag-eco">Éco S</span><span class="tag tag-pve">Support A</span></div>
+  </div><div class="hero-arrow">→</div></div>
+</a>
+
+<!-- À venir Lumière -->
+<a class="hero-card elem-lumiere soon" href="#" data-elem="lumiere">
+  <div class="hero-inner"><div class="hero-icon">☀</div><div class="hero-info">
+    <div class="hero-name">NORRIS (Lumière)</div>
+    <div class="hero-role">S Boss Alliance · DPS Single-Target</div>
+    <div class="hero-tags"><span class="tag tag-soon">Fiche à venir</span></div>
+  </div><div class="hero-arrow soon">—</div></div>
+</a>
+
+</div><!-- fin hero-grid -->
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · 21 fiches · Juillet 2026</footer>
 
 <script>
 function filter(elem, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.hero-card').forEach(card => {
-    if (elem === 'all' || card.dataset.elem === elem) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
+    card.style.display = (elem === 'all' || card.dataset.elem === elem) ? 'block' : 'none';
   });
   document.querySelectorAll('.section-label').forEach(label => {
     label.style.display = elem === 'all' ? 'block' : 'none';
