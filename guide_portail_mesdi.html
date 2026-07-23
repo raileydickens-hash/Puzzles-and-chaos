@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portail Mesdi — Guide Complet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+
+  :root {
+    --gold:#e8b84b; --gold-dark:#a07720;
+    --bg:#0d1117; --panel:#161c26; --panel2:#1e2635; --border:#2e3d55; --text:#cdd6e0;
+    --mesdi:#1a4a6b; --mesdi-light:#5dade2; --mesdi-bg:rgba(26,74,107,.12);
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; }
+
+  body {
+    background:var(--bg); color:var(--text);
+    font-family:'Nunito',sans-serif; min-height:100vh; padding:16px;
+    background-image:radial-gradient(ellipse at top,#001a2e 0%,#0d1117 60%);
+  }
+
+  .back {
+    display:inline-flex; align-items:center; gap:6px;
+    color:#5a7090; font-size:.78rem; text-decoration:none;
+    margin-bottom:16px; letter-spacing:.5px;
+  }
+  .back:hover { color:var(--gold); }
+
+  .event-header {
+    text-align:center; padding:22px 16px 24px;
+    background:linear-gradient(180deg,var(--mesdi-bg) 0%,transparent 100%);
+    border:1px solid rgba(26,74,107,.45); border-radius:14px; margin-bottom:18px;
+  }
+
+  .event-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--mesdi-bg); border:1px solid rgba(93,173,226,.35);
+    border-radius:20px; padding:3px 14px;
+    font-size:.73rem; color:var(--mesdi-light); letter-spacing:.5px; margin-bottom:10px;
+  }
+
+  h1 {
+    font-family:'Cinzel',serif; font-size:1.9rem; letter-spacing:3px;
+    color:var(--gold); text-shadow:0 0 28px rgba(232,184,75,.4); margin-bottom:4px;
+  }
+
+  .event-sub {
+    font-size:.8rem; color:#7a8fa8; letter-spacing:1px;
+    text-transform:uppercase; margin-bottom:14px;
+  }
+
+  .quick-facts {
+    display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:6px;
+  }
+
+  .fact {
+    background:var(--panel2); border:1px solid var(--border);
+    border-radius:8px; padding:8px 12px; text-align:center;
+  }
+  .fact .val { font-family:'Cinzel',serif; font-size:.88rem; color:var(--gold); display:block; }
+  .fact .lbl { font-size:.63rem; color:#5a7090; text-transform:uppercase; letter-spacing:.5px; }
+
+  .section {
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:14px 16px; margin-bottom:14px;
+    position:relative; overflow:hidden;
+  }
+
+  .section::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent,var(--mesdi-light),transparent);
+  }
+
+  .section-title {
+    font-family:'Cinzel',serif; font-size:.85rem; color:var(--gold);
+    letter-spacing:1px; margin-bottom:12px;
+    display:flex; align-items:center; gap:8px;
+  }
+
+  .item {
+    display:flex; gap:8px; margin-bottom:9px; font-size:.82rem; line-height:1.5;
+  }
+
+  .bullet { width:6px; height:6px; border-radius:50%; background:var(--gold); margin-top:6px; flex-shrink:0; }
+  .bullet.green { background:#2ecc71; }
+  .bullet.red   { background:#e74c3c; }
+  .bullet.blue  { background:#5dade2; }
+
+  /* ── SYSTÈME ÉLÉMENTS ── */
+  .counter-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:8px 0;
+  }
+
+  .counter-card {
+    background:var(--panel2); border-radius:8px; padding:10px 8px; text-align:center;
+    border:1px solid var(--border);
+  }
+
+  .counter-icon { font-size:1.4rem; margin-bottom:4px; display:block; }
+  .counter-name { font-family:'Cinzel',serif; font-size:.75rem; color:var(--gold); }
+  .counter-beats { font-size:.65rem; color:#2ecc71; margin-top:3px; }
+  .counter-weak  { font-size:.65rem; color:#e07070; margin-top:1px; }
+
+  /* ── RÈGLE DES TUILES ── */
+  .tiles-rule {
+    background:rgba(93,173,226,.08); border:1px solid rgba(93,173,226,.3);
+    border-radius:8px; padding:12px 14px; margin:10px 0;
+  }
+
+  .tiles-title { font-family:'Cinzel',serif; font-size:.8rem; color:var(--mesdi-light); margin-bottom:8px; }
+
+  .tile-row {
+    display:flex; gap:8px; align-items:center; margin-bottom:6px; font-size:.8rem;
+  }
+
+  .tile-color {
+    width:28px; height:28px; border-radius:6px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.9rem; font-weight:700;
+  }
+
+  /* ── FORMATION VISUELLE ── */
+  .formation-visual {
+    display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin:10px 0;
+  }
+
+  .hero-slot {
+    background:var(--panel2); border-radius:8px; padding:8px 4px;
+    text-align:center; font-size:.7rem; border:1px solid var(--border);
+  }
+
+  .hero-slot.dark   { border-color:rgba(142,68,173,.5); }
+  .hero-slot.glace  { border-color:rgba(41,128,185,.5); }
+  .hero-slot.nature { border-color:rgba(39,174,96,.5); }
+  .hero-slot.lumiere{ border-color:rgba(232,184,75,.5); }
+  .hero-slot.feu    { border-color:rgba(192,57,43,.5); }
+
+  .hero-slot .elem  { font-size:1rem; margin-bottom:3px; display:block; }
+  .hero-slot .hname { font-weight:700; font-size:.7rem; color:var(--gold); display:block; }
+  .hero-slot .hrole { font-size:.6rem; color:#5a7090; margin-top:2px; display:block; }
+  .hero-slot .hpos  { font-size:.6rem; color:var(--mesdi-light); margin-top:2px; display:block; }
+
+  .pos-label {
+    display:grid; grid-template-columns:repeat(5,1fr); gap:6px;
+    margin-bottom:4px;
+  }
+  .pos-label span {
+    text-align:center; font-size:.62rem; color:#455a75;
+    font-family:'Cinzel',serif; letter-spacing:.5px;
+  }
+
+  /* ── ALTERNATIVE ROSTER ── */
+  .roster-alt {
+    background:var(--panel2); border-radius:8px; padding:10px 12px;
+    margin-bottom:8px; border-left:3px solid var(--mesdi-light);
+  }
+  .roster-title { font-weight:700; font-size:.82rem; color:var(--mesdi-light); margin-bottom:6px; }
+  .roster-heroes { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:4px; }
+  .rhero {
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:6px; padding:3px 9px; font-size:.74rem; font-weight:700;
+  }
+  .rhero.dark   { border-color:rgba(142,68,173,.5); color:#bb8fce; }
+  .rhero.glace  { border-color:rgba(41,128,185,.5); color:#5dade2; }
+  .rhero.nature { border-color:rgba(39,174,96,.5);  color:#6ecf96; }
+  .rhero.lumiere{ border-color:rgba(232,184,75,.5); color:var(--gold); }
+  .rhero.feu    { border-color:rgba(192,57,43,.5);  color:#e07070; }
+  .roster-note { font-size:.72rem; color:#5a7090; line-height:1.4; }
+
+  /* ── WORLDS TABLE ── */
+  .worlds-table { width:100%; border-collapse:collapse; font-size:.78rem; margin-top:8px; }
+  .worlds-table th {
+    background:var(--panel2); color:var(--gold); font-family:'Cinzel',serif;
+    font-size:.7rem; padding:7px 10px; text-align:left;
+    border-bottom:1px solid var(--border);
+  }
+  .worlds-table td { padding:6px 10px; border-bottom:1px solid rgba(46,61,85,.4); }
+  .worlds-table tr:last-child td { border-bottom:none; }
+
+  /* ── BOXES ── */
+  .tip-box {
+    background:rgba(39,174,96,.1); border:1px solid rgba(39,174,96,.3);
+    border-radius:8px; padding:10px 12px; margin-top:10px; font-size:.8rem; line-height:1.5;
+  }
+  .tip-box .tip-title { color:#2ecc71; font-weight:700; margin-bottom:5px; }
+
+  .warn-box {
+    background:rgba(192,57,43,.1); border:1px solid rgba(192,57,43,.3);
+    border-radius:8px; padding:10px 12px; margin-top:10px; font-size:.8rem;
+    line-height:1.5; color:#e07070;
+  }
+  .warn-box .warn-title { color:#e74c3c; font-weight:700; margin-bottom:5px; }
+
+  .info-box {
+    background:rgba(232,184,75,.07); border:1px solid rgba(232,184,75,.25);
+    border-radius:8px; padding:10px 12px; margin-top:10px; font-size:.78rem;
+    color:#c8a84b; line-height:1.5;
+  }
+  .info-box strong { color:var(--gold); }
+
+  /* ── ERREURS ── */
+  .error-item {
+    display:flex; gap:10px; margin-bottom:10px;
+    background:rgba(192,57,43,.08); border-radius:8px;
+    padding:9px 12px; font-size:.8rem; line-height:1.45;
+    border-left:3px solid #e74c3c;
+  }
+  .error-num {
+    font-family:'Cinzel',serif; font-size:.9rem; color:#e74c3c;
+    font-weight:900; flex-shrink:0;
+  }
+
+  /* ── ASTUCES ── */
+  .tip-item {
+    display:flex; gap:10px; margin-bottom:10px;
+    background:rgba(39,174,96,.07); border-radius:8px;
+    padding:9px 12px; font-size:.8rem; line-height:1.45;
+    border-left:3px solid #2ecc71;
+  }
+  .tip-icon { font-size:1rem; flex-shrink:0; }
+
+  footer {
+    text-align:center; font-size:.68rem; color:#2e3d55;
+    margin-top:24px; padding-top:10px; border-top:1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="evenements.html">← Retour aux événements</a>
+
+<div class="event-header">
+  <div class="event-badge">🌀 Mode permanent · Match-3 · Aventure</div>
+  <h1>PORTAIL MESDI</h1>
+  <div class="event-sub">Guide complet · Formation · Astuces · Erreurs à éviter</div>
+  <div class="quick-facts">
+    <div class="fact"><span class="val">Dès chapitre 4</span><span class="lbl">Débloqué</span></div>
+    <div class="fact"><span class="val">5 Mondes</span><span class="lbl">Structure</span></div>
+    <div class="fact"><span class="val">Match-3 RPG</span><span class="lbl">Mode de jeu</span></div>
+    <div class="fact"><span class="val">Ressources + héros</span><span class="lbl">Récompenses</span></div>
+  </div>
+</div>
+
+<!-- C'EST QUOI -->
+<div class="section">
+  <div class="section-title">📖 C'est quoi le Portail Mesdi ?</div>
+
+  <div class="item"><div class="bullet"></div><div>Le Portail Mesdi est le <strong>mode aventure principal</strong> du jeu, accessible dès le chapitre 4 de la campagne.</div></div>
+  <div class="item"><div class="bullet"></div><div>Il regroupe plusieurs activités : les <strong>chapitres principaux</strong>, la <strong>Cité des Dragons</strong>, les <strong>Ruines</strong>, et d'autres modes annexes.</div></div>
+  <div class="item"><div class="bullet"></div><div>Le principe : enchaîner des combats en <strong>match-3</strong> avec ta formation de héros contre des vagues d'ennemis de plus en plus difficiles.</div></div>
+  <div class="item"><div class="bullet"></div><div>C'est <strong>la principale source de ressources de développement</strong> en dehors de la carte du monde — à faire tous les jours.</div></div>
+
+  <div class="info-box">
+    <strong>💡 Pourquoi c'est indispensable</strong><br>
+    Avancer dans le Portail Mesdi débloque des ressources de château, des fragments de héros, et des récompenses uniques introuvables ailleurs. C'est aussi le seul endroit où se trouvent certains héros spécifiques à récupérer via les stages.
+  </div>
+</div>
+
+<!-- STRUCTURE DES MONDES -->
+<div class="section">
+  <div class="section-title">🗺️ Structure des Mondes</div>
+
+  <table class="worlds-table">
+    <tr>
+      <th>Monde</th>
+      <th>Thème</th>
+      <th>Difficulté</th>
+      <th>Ce qu'on y gagne</th>
+    </tr>
+    <tr>
+      <td><strong style="color:var(--gold)">Monde 1</strong></td>
+      <td>Portail des Ruines · Forêt Silencieuse</td>
+      <td style="color:#2ecc71">Facile</td>
+      <td>Ressources de base, premiers héros</td>
+    </tr>
+    <tr>
+      <td><strong style="color:var(--gold)">Monde 2</strong></td>
+      <td>Bois Pourris · Terres Glacées</td>
+      <td style="color:#e8b84b">Moyen</td>
+      <td>Ressources avancées, fragments héros S1</td>
+    </tr>
+    <tr>
+      <td><strong style="color:var(--gold)">Monde 3</strong></td>
+      <td>Terres dévastées · Catacombes</td>
+      <td style="color:#e07070">Difficile</td>
+      <td>Fragments héros S2, matériaux rares</td>
+    </tr>
+    <tr>
+      <td><strong style="color:var(--gold)">Monde 4+</strong></td>
+      <td>Niveaux avancés</td>
+      <td style="color:#e74c3c">Très difficile</td>
+      <td>Héros S3, équipements de haut rang</td>
+    </tr>
+  </table>
+
+  <div class="info-box" style="margin-top:10px">
+    <strong>Note</strong> — Chaque monde est divisé en chapitres, eux-mêmes divisés en stages numérotés (ex: Monde 2 Chapitre 15-7). Terminer un stage le débloque en mode <strong>balayage automatique</strong> — plus besoin de jouer manuellement les stages déjà battus.
+  </div>
+</div>
+
+<!-- MÉCANIQUES DE COMBAT -->
+<div class="section">
+  <div class="section-title">⚔️ Mécaniques de combat — Ce qu'il faut comprendre</div>
+
+  <div class="tiles-rule">
+    <div class="tiles-title">🎨 Règle fondamentale des tuiles colorées</div>
+    <div class="tile-row">
+      <div class="tile-color" style="background:rgba(142,68,173,.3);color:#bb8fce">⬡</div>
+      <div><strong style="color:#bb8fce">Tuiles Sombres</strong> → font des dégâts uniquement si un héros Sombre est dans ta formation</div>
+    </div>
+    <div class="tile-row">
+      <div class="tile-color" style="background:rgba(41,128,185,.3);color:#5dade2">❄</div>
+      <div><strong style="color:#5dade2">Tuiles Glace</strong> → font des dégâts uniquement si un héros Glace est dans ta formation</div>
+    </div>
+    <div class="tile-row">
+      <div class="tile-color" style="background:rgba(39,174,96,.3);color:#6ecf96">🌿</div>
+      <div><strong style="color:#6ecf96">Tuiles Nature</strong> → font des dégâts uniquement si un héros Nature est dans ta formation</div>
+    </div>
+    <div class="tile-row">
+      <div class="tile-color" style="background:rgba(232,184,75,.3);color:var(--gold)">☀</div>
+      <div><strong style="color:var(--gold)">Tuiles Lumière</strong> → font des dégâts uniquement si un héros Lumière est dans ta formation</div>
+    </div>
+    <div class="tile-row">
+      <div class="tile-color" style="background:rgba(192,57,43,.3);color:#e07070">🔥</div>
+      <div><strong style="color:#e07070">Tuiles Feu</strong> → font des dégâts uniquement si un héros Feu est dans ta formation</div>
+    </div>
+    <div style="margin-top:8px;font-size:.75rem;color:#e74c3c;font-weight:700">
+      ⚠️ Conséquence directe : une formation qui ne couvre pas les 5 éléments "gaspille" les tuiles des éléments manquants — elles ne font rien.
+    </div>
+  </div>
+
+  <div class="item" style="margin-top:10px"><div class="bullet blue"></div><div>Les tuiles déclenchent des soldats qui avancent vers les ennemis en face d'eux. Si l'ennemi n'est pas dans la même rangée, le coup <strong>rate</strong> — même avec un bon combo.</div></div>
+  <div class="item"><div class="bullet blue"></div><div>Les combos de tuiles de la même couleur rechargent la <strong>jauge de Rage</strong> du héros de cette couleur. Plus tu combos, plus vite il déclenche sa compétence.</div></div>
+  <div class="item"><div class="bullet blue"></div><div>Les ennemis gagnent de la Rage à chaque fois que tes attaques les touchent, <strong>et avec le temps</strong>. Il vaut mieux tuer vite que de laisser s'accumuler leur Rage.</div></div>
+  <div class="item"><div class="bullet blue"></div><div>Si tes attaques <strong>ratent</strong> (mauvaise rangée), tes héros récupèrent quand même de la Rage — c'est la seule situation où rater n'est pas une perte sèche.</div></div>
+</div>
+
+<!-- SYSTÈME DE CONTRE -->
+<div class="section">
+  <div class="section-title">🔄 Système de contre-type — Toujours vérifier</div>
+
+  <div class="counter-grid">
+    <div class="counter-card">
+      <span class="counter-icon">🐴</span>
+      <div class="counter-name">Cavalerie</div>
+      <div class="counter-beats">✓ Bat Infanterie</div>
+      <div class="counter-weak">✗ Faible vs Archer</div>
+    </div>
+    <div class="counter-card">
+      <span class="counter-icon">🏹</span>
+      <div class="counter-name">Archer</div>
+      <div class="counter-beats">✓ Bat Cavalerie</div>
+      <div class="counter-weak">✗ Faible vs Infanterie</div>
+    </div>
+    <div class="counter-card">
+      <span class="counter-icon">🛡️</span>
+      <div class="counter-name">Infanterie</div>
+      <div class="counter-beats">✓ Bat Archer</div>
+      <div class="counter-weak">✗ Faible vs Cavalerie</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Règle d'or du contre-type</div>
+    Avant chaque combat, vérifie le type dominant des ennemis. Une formation qui contre le bon type gagne souvent même avec moins de puissance brute. C'est plus important que d'avoir des héros au niveau max.
+  </div>
+</div>
+
+<!-- FORMATION RECOMMANDÉE -->
+<div class="section">
+  <div class="section-title">🏆 Formation recommandée pour le Monde 2</div>
+
+  <div style="font-size:.75rem;color:#5a7090;margin-bottom:10px">Objectif : couvrir les 5 éléments + avoir un soigneur + un contrôleur de Rage</div>
+
+  <div class="pos-label">
+    <span>POS 1</span><span>POS 2</span><span>POS 3</span><span>POS 4</span><span>POS 5</span>
+  </div>
+
+  <div class="formation-visual">
+    <div class="hero-slot glace">
+      <span class="elem">❄</span>
+      <span class="hname">TANIA</span>
+      <span class="hrole">Soigneuse</span>
+      <span class="hpos">Flanc gauche</span>
+    </div>
+    <div class="hero-slot nature">
+      <span class="elem">🌿</span>
+      <span class="hname">DIMINA</span>
+      <span class="hrole">Contrôle Rage</span>
+      <span class="hpos">Flanc int. g.</span>
+    </div>
+    <div class="hero-slot lumiere">
+      <span class="elem">☀</span>
+      <span class="hname">HERUKAB</span>
+      <span class="hrole">Double Debuff</span>
+      <span class="hpos">Centre</span>
+    </div>
+    <div class="hero-slot dark">
+      <span class="elem">⬡</span>
+      <span class="hname">AERPOSIA</span>
+      <span class="hrole">Carry Burst</span>
+      <span class="hpos">Flanc int. d.</span>
+    </div>
+    <div class="hero-slot feu">
+      <span class="elem">🔥</span>
+      <span class="hname">ANASTASIA</span>
+      <span class="hrole">Résurrection</span>
+      <span class="hpos">Flanc droit</span>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:10px">
+    <div class="tip-title">💡 Pourquoi ce placement</div>
+    <strong>Herukab au centre</strong> — ses debuffs (ATQ −40% + DEF −35%) profitent à toute la formation et les tuiles Lumière au centre sont accessibles de partout.<br>
+    <strong>Tania et Anastasia aux flancs</strong> — les soigneurs survivent plus longtemps en bordure, là où les ennemis les ciblent en dernier.<br>
+    <strong>Dimina et Aerposia entre les deux</strong> — leurs couleurs (Nature et Sombre) sont bien positionnées pour capter les tuiles de leurs couleurs depuis le centre.
+  </div>
+
+  <!-- ALTERNATIVES -->
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">Alternatives selon ton roster</div>
+
+  <div class="roster-alt">
+    <div class="roster-title">Si tu as Sirona → remplace Tania</div>
+    <div class="roster-heroes">
+      <span class="rhero glace">Sirona</span><span class="rhero nature">Dimina</span>
+      <span class="rhero lumiere">Herukab</span><span class="rhero dark">Aerposia</span>
+      <span class="rhero feu">Anastasia</span>
+    </div>
+    <div class="roster-note">Sirona apporte le même soin 44% que Tania PLUS +24% Rage pour tous — légèrement meilleure si disponible.</div>
+  </div>
+
+  <div class="roster-alt">
+    <div class="roster-title">Si tu n'as pas Herukab → remplace par Eris ou Patty</div>
+    <div class="roster-heroes">
+      <span class="rhero glace">Tania</span><span class="rhero nature">Dimina</span>
+      <span class="rhero dark">Eris</span><span class="rhero dark">Aerposia</span>
+      <span class="rhero feu">Anastasia</span>
+    </div>
+    <div class="roster-note">⚠ Dans ce cas tu perds la couverture Lumière — les tuiles ☀ ne font plus de dégâts. Ajoute Patty (Lumière) si possible pour garder les 5 éléments couverts.</div>
+  </div>
+
+  <div class="roster-alt">
+    <div class="roster-title">Formation mono-élément Nature (si tu bloques)</div>
+    <div class="roster-heroes">
+      <span class="rhero nature">Tala</span><span class="rhero nature">Dimina</span>
+      <span class="rhero nature">Boyd</span><span class="rhero glace">Tania</span>
+      <span class="rhero feu">Anastasia</span>
+    </div>
+    <div class="roster-note">Si tes héros Sombre et Lumière sont trop faibles, une formation Nature concentrée avec Tala (générateur de Rage) est plus efficace qu'une formation mixte sous-investie. Tu perds 2 couleurs de tuiles mais tu gagnes en cohérence.</div>
+  </div>
+</div>
+
+<!-- ASTUCES -->
+<div class="section">
+  <div class="section-title">💎 Astuces et bonnes pratiques</div>
+
+  <div class="tip-item">
+    <span class="tip-icon">🎯</span>
+    <div><strong>Cherche toujours le meilleur coup avant de jouer</strong> — prends 2-3 secondes pour repérer un combo de 4 tuiles ou plus avant d'en aligner juste 3. Un combo de 4 génère une tuile spéciale qui fait beaucoup plus de dégâts.</div>
+  </div>
+
+  <div class="tip-item">
+    <span class="tip-icon">🎨</span>
+    <div><strong>Concentre tes combos sur la couleur de ton carry DPS</strong> — si Aerposia (Sombre) est ta principale source de dégâts, fais en priorité des combos de tuiles violettes pour déclencher son burst le plus vite possible.</div>
+  </div>
+
+  <div class="tip-item">
+    <span class="tip-icon">🎳</span>
+    <div><strong>Vise les ennemis dans la bonne rangée</strong> — tes soldats avancent dans la rangée de la tuile jouée. Si l'ennemi est sur 2 rangées, cible celle où il est le plus vulnérable. Les boss occupent souvent 3 rangées — n'importe quelle tuile les touchera.</div>
+  </div>
+
+  <div class="tip-item">
+    <span class="tip-icon">💀</span>
+    <div><strong>Élimine les soigneurs ennemis en premier</strong> — un ennemi soigneur peut annuler tous tes efforts. Identifie-les (généralement en arrière) et dirige tes premières tuiles vers leur rangée.</div>
+  </div>
+
+  <div class="tip-item">
+    <span class="tip-icon">⏳</span>
+    <div><strong>Garde les compétences héros pour les moments critiques</strong> — ne déclenche pas le soin de Tania quand tes héros sont à 80% de PV. Garde-le pour quand un héros passe sous 30%, ou avant un gros burst ennemi prévisible.</div>
+  </div>
+
+  <div class="tip-item">
+    <span class="tip-icon">🔄</span>
+    <div><strong>Balaie automatiquement les stages déjà battus</strong> — une fois un stage terminé, tu peux le balayer en 1 clic pour farm les ressources sans rejouer. Fais-le quotidiennement sur les stages que tu as déjà passés.</div>
+  </div>
+
+  <div class="tip-item">
+    <span class="tip-icon">🧩</span>
+    <div><strong>Utilise les tuiles de couleur pour recharger la Rage même si tu rates</strong> — si l'ennemi n'est pas dans la bonne rangée, le coup rate mais la Rage de ton héros se recharge quand même. Dans certains cas, rater volontairement sur une tuile de la bonne couleur est stratégique.</div>
+  </div>
+
+  <div class="tip-item">
+    <span class="tip-icon">🔀</span>
+    <div><strong>Change ta formation selon l'ennemi dominant</strong> — regarde toujours le type de troupe adverse avant de commencer. Si les ennemis ont surtout de la Cavalerie, mets des héros Archer en priorité dans ta formation.</div>
+  </div>
+
+  <div class="tip-item">
+    <span class="tip-icon">⚡</span>
+    <div><strong>La Rage ennemie augmente avec le temps</strong> — plus le combat dure, plus les ennemis deviennent dangereux. Joue de façon offensive dès le début plutôt que d'attendre passivement.</div>
+  </div>
+</div>
+
+<!-- ERREURS À ÉVITER -->
+<div class="section">
+  <div class="section-title">⛔ Erreurs classiques à ne pas faire</div>
+
+  <div class="error-item">
+    <span class="error-num">1</span>
+    <div><strong>Ne pas couvrir les 5 éléments</strong> — jouer sans héros Lumière ou sans héros Feu revient à gaspiller toutes les tuiles de ces couleurs. C'est la perte de puissance la plus facilement évitable du jeu.</div>
+  </div>
+
+  <div class="error-item">
+    <span class="error-num">2</span>
+    <div><strong>Aligner exactement 3 tuiles à chaque coup sans chercher mieux</strong> — la différence entre un joueur débutant et un joueur avancé, c'est la fréquence des combos de 4+ tuiles. Prends le temps de chercher.</div>
+  </div>
+
+  <div class="error-item">
+    <span class="error-num">3</span>
+    <div><strong>Déclencher les soins trop tôt</strong> — utiliser la compétence de Tania à 70% de PV la gaspille. Elle doit être gardée pour les moments critiques, surtout avant d'affronter un boss ou un burst ennemi chargé.</div>
+  </div>
+
+  <div class="error-item">
+    <span class="error-num">4</span>
+    <div><strong>Ignorer le type de troupe ennemi</strong> — envoyer de la Cavalerie contre des Archers (qui la contre) est la première cause d'échec évitable. 30 secondes à vérifier le type ennemi avant de commencer peut changer l'issue du combat.</div>
+  </div>
+
+  <div class="error-item">
+    <span class="error-num">5</span>
+    <div><strong>Ne pas balayer les stages déjà battus chaque jour</strong> — le balayage automatique génère des ressources sans effort. Oublier de le faire quotidiennement est une perte de progression permanente.</div>
+  </div>
+
+  <div class="error-item">
+    <span class="error-num">6</span>
+    <div><strong>Mettre ses héros les plus faibles au flanc en pensant les protéger</strong> — les soigneurs (Tania, Anastasia) vont bien aux flancs car ils ont moins besoin d'être ciblés souvent. Mais un carry DPS fragile aux flancs rate des opportunités de combo au centre.</div>
+  </div>
+
+  <div class="error-item">
+    <span class="error-num">7</span>
+    <div><strong>Avancer trop vite dans les mondes sans investir ses héros</strong> — un stage bloqué en monde 2 avec des héros sous-développés ne se débloque pas avec de l'acharnement. Mieux vaut reculer, farmer les stages inférieurs en balayage, et monter le niveau des héros avant de réessayer.</div>
+  </div>
+
+  <div class="error-item">
+    <span class="error-num">8</span>
+    <div><strong>Disperser ses ressources sur trop de héros à la fois</strong> — monter 8 héros à 50% d'investissement est moins efficace que d'en monter 5 à fond. Concentre tes ressources sur ta formation principale avant d'élargir.</div>
+  </div>
+</div>
+
+<!-- RÉCOMPENSES -->
+<div class="section">
+  <div class="section-title">🏆 Récompenses par activité</div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Stages principaux</strong> — ressources de château (pierre, bois, fer, nourriture), gemmes, fragments de héros spécifiques selon le chapitre.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Balayage automatique</strong> — les mêmes ressources sans jouer, une fois le stage débloqué. À faire tous les jours sans exception.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Cité des Dragons</strong> (accessible depuis le même menu) — Pierres de Dragon pour améliorer le dragon de l'alliance.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Premières victoires</strong> — certains stages donnent un bonus unique la première fois — diamants, fragments de héros rares, équipements.</div></div>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Priorité de progression</div>
+    Ne bloque pas indéfiniment sur un stage difficile. Si tu es bloquée depuis plusieurs jours :<br>
+    1. Reviens farmer les stages inférieurs en balayage pour accumuler des ressources<br>
+    2. Monte le niveau de tes héros avec les ressources accumulées<br>
+    3. Réessaie le stage bloquant — il deviendra souvent trivial après quelques niveaux d'écart
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Guide Portail Mesdi v1 — Juillet 2026</footer>
+
+</body>
+</html>

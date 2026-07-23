@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Endurance — P&C Frozen Castle</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--end:#1a5276;--end-light:#5dade2;--end-bg:rgba(26,82,118,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#001a2e 0%,#0d1117 60%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .page-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--end-bg) 0%,transparent 100%);border:1px solid rgba(26,82,118,.35);border-radius:14px;margin-bottom:18px}
+  .page-badge{display:inline-flex;align-items:center;gap:6px;background:var(--end-bg);border:1px solid rgba(93,173,226,.35);border-radius:20px;padding:3px 14px;font-size:.73rem;color:var(--end-light);letter-spacing:.5px;margin-bottom:10px}
+  h1{font-family:'Cinzel',serif;font-size:1.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .page-sub{font-size:.78rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--end-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .item{display:flex;gap:8px;margin-bottom:9px;font-size:.82rem;line-height:1.5}
+  .bullet{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:6px;flex-shrink:0}
+  .bullet.green{background:#2ecc71}.bullet.red{background:#e74c3c}.bullet.blue{background:#5dade2}
+
+  /* ── USAGES ── */
+  .usage-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+  .usage-card{background:var(--panel2);border-radius:8px;padding:10px 12px;border-left:3px solid}
+  .usage-card.yes{border-left-color:#2ecc71}
+  .usage-card.no{border-left-color:#e74c3c;opacity:.7}
+  .usage-title{font-weight:700;font-size:.82rem;margin-bottom:4px}
+  .usage-title.green{color:#2ecc71}
+  .usage-title.red{color:#e07070}
+  .usage-desc{font-size:.75rem;color:#8fa8c0;line-height:1.4}
+
+  /* ── SOURCES ── */
+  .source-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+  .source-card{background:var(--panel2);border-radius:8px;padding:10px 12px;border-left:3px solid var(--end-light)}
+  .source-card.daily{border-left-color:#2ecc71}
+  .source-card.event{border-left-color:#e8b84b}
+  .source-title{font-weight:700;font-size:.82rem;margin-bottom:4px}
+  .source-title.green{color:#2ecc71}
+  .source-title.gold{color:var(--gold)}
+  .source-title.blue{color:#5dade2}
+  .source-desc{font-size:.75rem;color:#8fa8c0;line-height:1.4}
+
+  /* ── STRATÉGIE ── */
+  .strat-item{display:flex;gap:10px;margin-bottom:10px;background:rgba(39,174,96,.07);border-radius:8px;padding:9px 12px;font-size:.8rem;line-height:1.45;border-left:3px solid #2ecc71}
+  .strat-icon{font-size:1rem;flex-shrink:0}
+  .error-item{display:flex;gap:10px;margin-bottom:10px;background:rgba(192,57,43,.08);border-radius:8px;padding:9px 12px;font-size:.8rem;line-height:1.45;border-left:3px solid #e74c3c}
+  .error-num{font-family:'Cinzel',serif;font-size:.9rem;color:#e74c3c;font-weight:900;flex-shrink:0}
+  .tip-box{background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5}
+  .tip-box .tip-title{color:#2ecc71;font-weight:700;margin-bottom:5px}
+  .warn-box{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5;color:#e07070}
+  .warn-box .warn-title{color:#e74c3c;font-weight:700;margin-bottom:5px}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.78rem;color:#c8a84b;line-height:1.5}
+  .info-box strong{color:var(--gold)}
+
+  /* ── RECHERCHES ── */
+  .research-item{display:flex;gap:10px;margin-bottom:8px;padding:8px 12px;background:var(--panel2);border-radius:7px;border-left:3px solid var(--end-light)}
+  .research-item.prio{border-left-color:#2ecc71}
+  .research-num{font-family:'Cinzel',serif;font-size:.9rem;font-weight:900;color:var(--gold);flex-shrink:0;min-width:20px}
+  .research-name{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:2px}
+  .research-why{font-size:.75rem;color:#8fa8c0;line-height:1.4}
+
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="economie.html">← Retour à l'économie</a>
+
+<div class="page-header">
+  <div class="page-badge">⚡ Guide permanent · Combat · Exploration</div>
+  <h1>L'ENDURANCE</h1>
+  <div class="page-sub">Sources · Utilisation · Stratégies · Optimisation</div>
+</div>
+
+<!-- QU'EST-CE QUE L'ENDURANCE -->
+<div class="section">
+  <div class="section-title">📖 C'est quoi l'Endurance ?</div>
+
+  <div class="item"><div class="bullet"></div><div>L'Endurance est une ressource consommée lors de certaines activités de combat sur la carte du monde. Elle se régénère <strong>automatiquement avec le temps</strong>.</div></div>
+  <div class="item"><div class="bullet"></div><div>Elle est <strong>distincte des ressources classiques</strong> (Fer, Pierre, Bois, Nourriture) et ne sert pas à construire ni à entraîner des troupes.</div></div>
+  <div class="item"><div class="bullet"></div><div>La gestion de l'endurance est un facteur limitant pour les joueurs qui chassent régulièrement les monstres et les tanières.</div></div>
+
+  <div class="warn-box">
+    <div class="warn-title">⚠️ Idée reçue fréquente</div>
+    L'endurance n'est <strong>pas</strong> consommée pour entraîner des troupes — c'est le Fer et les ressources classiques qui servent à l'entraînement. Confondre les deux est une erreur courante chez les nouveaux joueurs.
+  </div>
+</div>
+
+<!-- OÙ S'UTILISE L'ENDURANCE -->
+<div class="section">
+  <div class="section-title">🗺️ Où se consomme l'Endurance ?</div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">✅ Activités qui consomment de l'Endurance</div>
+  <div class="usage-grid">
+    <div class="usage-card yes">
+      <div class="usage-title green">🧟 Monstres sur la carte</div>
+      <div class="usage-desc">Chaque attaque de monstre (Loups, Golems, Démons…) consomme de l'Endurance. Plus le niveau du monstre est élevé, plus la consommation est importante.</div>
+    </div>
+    <div class="usage-card yes">
+      <div class="usage-title green">🐉 Tanières de monstres</div>
+      <div class="usage-desc">Attaquer une tanière consomme de l'Endurance. Les tanières de haut niveau nécessitent souvent plusieurs attaques, ce qui multiplie la consommation.</div>
+    </div>
+    <div class="usage-card yes">
+      <div class="usage-title green">🏆 Certains événements</div>
+      <div class="usage-desc">Certains événements spéciaux ou quêtes d'alliance demandent de l'Endurance pour participer (ex : chasses aux monstres d'événement, Repaires de Boss).</div>
+    </div>
+    <div class="usage-card yes">
+      <div class="usage-title green">⚔️ Boss de l'Alliance</div>
+      <div class="usage-desc">Attaquer le Boss de l'Alliance peut consommer de l'Endurance selon le format de l'événement. Vérifie avant chaque session.</div>
+    </div>
+  </div>
+
+  <div style="font-size:.75rem;color:#e74c3c;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">❌ Activités qui NE consomment PAS d'Endurance</div>
+  <div class="usage-grid">
+    <div class="usage-card no">
+      <div class="usage-title red">🛡️ Entraînement de troupes</div>
+      <div class="usage-desc">L'entraînement consomme du Fer et des ressources — pas d'Endurance.</div>
+    </div>
+    <div class="usage-card no">
+      <div class="usage-title red">🗺️ Collecte de ressources</div>
+      <div class="usage-desc">Les marches de collecte (Fer, Bois, Pierre) ne consomment pas d'Endurance.</div>
+    </div>
+    <div class="usage-card no">
+      <div class="usage-title red">⚔️ PvP · Attaque de joueurs</div>
+      <div class="usage-desc">Attaquer d'autres seigneurs ne consomme pas d'Endurance.</div>
+    </div>
+    <div class="usage-card no">
+      <div class="usage-title red">🏰 Construction et recherche</div>
+      <div class="usage-desc">La construction de bâtiments et les recherches ne consomment pas d'Endurance.</div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 Priorité de gestion</strong><br>
+    Si tu joues activement en chasse aux monstres (pour les événements de points, les loots de repaires ou les drops de ressources), l'Endurance devient ton facteur limitant principal. En dehors de ça, elle est moins critique que le Fer pour la progression quotidienne.
+  </div>
+</div>
+
+<!-- SOURCES D'ENDURANCE -->
+<div class="section">
+  <div class="section-title">⚡ Comment gagner de l'Endurance</div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Sources quotidiennes</div>
+  <div class="source-grid">
+    <div class="source-card daily">
+      <div class="source-title green">🔄 Régénération naturelle</div>
+      <div class="source-desc">L'Endurance se régénère passivement avec le temps. La quantité régénérée dépend du niveau de tes bâtiments et des recherches effectuées.</div>
+    </div>
+    <div class="source-card daily">
+      <div class="source-title green">📋 Quêtes quotidiennes</div>
+      <div class="source-desc">Certaines quêtes journalières donnent des flacons d'Endurance en récompense. À compléter chaque jour.</div>
+    </div>
+    <div class="source-card daily">
+      <div class="source-title green">🤝 Boutique de l'Alliance</div>
+      <div class="source-desc">Des flacons d'Endurance apparaissent régulièrement dans la boutique alliance. Vérifie les rotations hebdomadaires et achète-les en priorité si tu chasses beaucoup.</div>
+    </div>
+    <div class="source-card daily">
+      <div class="source-title green">⚔️ Portail Mesdi (balayage)</div>
+      <div class="source-desc">Certains stages donnent des flacons d'Endurance en récompense automatique. À balayer quotidiennement.</div>
+    </div>
+  </div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">Sources événementielles</div>
+  <div class="source-grid">
+    <div class="source-card event">
+      <div class="source-title gold">🏆 Récompenses d'événements</div>
+      <div class="source-desc">Les paliers de récompenses des événements (Conquête des Seigneurs, Arms Race…) donnent des flacons d'Endurance.</div>
+    </div>
+    <div class="source-card event">
+      <div class="source-title gold">🐉 Loot de tanières</div>
+      <div class="source-desc">Vaincre des tanières de haut niveau peut dropper des flacons d'Endurance en bonus de loot.</div>
+    </div>
+    <div class="source-card event">
+      <div class="source-title gold">📦 Coffres d'événements</div>
+      <div class="source-desc">Les coffres de récompenses contiennent parfois des flacons d'Endurance parmi les autres ressources.</div>
+    </div>
+    <div class="source-card event">
+      <div class="source-title gold">🎁 Cadeaux d'Alliance</div>
+      <div class="source-desc">Certains cadeaux de l'alliance (lors des Boss ou des événements collectifs) incluent des flacons d'Endurance.</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Ne jamais dépasser le plafond</div>
+    L'Endurance a un plafond maximum. Si ce plafond est atteint, la régénération s'arrête — tu perds de l'Endurance gratuite. Connecte-toi régulièrement pour la consommer avant d'atteindre ce seuil, ou utilise tes flacons pour libérer de la place.
+  </div>
+</div>
+
+<!-- STRATÉGIE -->
+<div class="section">
+  <div class="section-title">🎯 Stratégie — Utiliser l'Endurance intelligemment</div>
+
+  <div class="strat-item"><span class="strat-icon">🏆</span><div><strong>Utilise tes flacons pendant les événements de chasse</strong> — certains événements donnent des points bonus par monstre tué ou par tanière attaquée. Consommer ton Endurance pendant ces événements multiplie l'efficacité de chaque flacon.</div></div>
+  <div class="strat-item"><span class="strat-icon">🎯</span><div><strong>Chasse les monstres du niveau le plus élevé possible</strong> — les monstres de haut niveau donnent de meilleurs loots et plus de points d'événement pour la même consommation d'Endurance.</div></div>
+  <div class="strat-item"><span class="strat-icon">🤝</span><div><strong>Coordonne avec l'Alliance pour les tanières</strong> — une tanière attaquée par plusieurs membres simultanément est plus vite détruite. Moins d'attaques = moins d'Endurance consommée collectivement pour le même résultat.</div></div>
+  <div class="strat-item"><span class="strat-icon">📋</span><div><strong>Garde de l'Endurance en réserve avant les événements de chasse</strong> — si un événement de points sur les monstres approche, arrête de chasser 12-24h avant pour accumuler de l'Endurance et des flacons.</div></div>
+  <div class="strat-item"><span class="strat-icon">⚡</span><div><strong>Régénération passive la nuit</strong> — si tu ne joues pas la nuit, laisse ton Endurance se régénérer naturellement. Au réveil, tu as un stock disponible pour attaquer immédiatement sans toucher à tes flacons.</div></div>
+</div>
+
+<!-- OPTIMISATION -->
+<div class="section">
+  <div class="section-title">🔬 Recherches pour optimiser l'Endurance</div>
+
+  <div class="research-item prio">
+    <div class="research-num">1</div>
+    <div>
+      <div class="research-name">Régénération d'Endurance</div>
+      <div class="research-why">Augmente le taux de régénération passive — plus d'Endurance disponible par heure sans rien faire. Investissement permanent et continu.</div>
+    </div>
+  </div>
+  <div class="research-item prio">
+    <div class="research-num">2</div>
+    <div>
+      <div class="research-name">Plafond d'Endurance maximum</div>
+      <div class="research-why">Augmente la capacité maximale — tu peux accumuler plus d'Endurance avant de plafonner, ce qui est utile avant les grands événements de chasse.</div>
+    </div>
+  </div>
+  <div class="research-item">
+    <div class="research-num">3</div>
+    <div>
+      <div class="research-name">Réduction du coût d'attaque (monstres)</div>
+      <div class="research-why">Si disponible dans l'arbre — réduit l'Endurance consommée par attaque de monstre. S'applique à chaque chasse, donc rentable sur la durée.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ERREURS -->
+<div class="section">
+  <div class="section-title">⛔ Erreurs à éviter</div>
+
+  <div class="error-item">
+    <span class="error-num">1</span>
+    <div><strong>Laisser l'Endurance au plafond</strong> — quand le plafond est atteint, la régénération s'arrête. C'est de l'Endurance gratuite perdue définitivement. Chasse régulièrement pour rester sous le plafond.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">2</span>
+    <div><strong>Consommer ses flacons hors événement</strong> — si un événement de chasse aux monstres approche dans 24h, attends-le. Chaque attaque pendant l'événement vaut des points bonus en plus du loot habituel.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">3</span>
+    <div><strong>Chasser des monstres de bas niveau</strong> — ils consomment autant d'Endurance que des monstres plus puissants pour moins de récompenses. Toujours attaquer le niveau le plus élevé que tu peux vaincre.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">4</span>
+    <div><strong>Attaquer des tanières en solo quand l'Alliance peut aider</strong> — une tanière vaincue collectivement coûte moins d'Endurance individuelle pour le même résultat. Coordonne toujours avec tes membres actifs.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">5</span>
+    <div><strong>Confondre Endurance et ressources d'entraînement</strong> — l'Endurance ne sert pas à entraîner des troupes. Ne gère pas les deux de la même façon — ce sont deux systèmes indépendants.</div>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Guide Endurance v2 — Juillet 2026</footer>
+</body>
+</html>
