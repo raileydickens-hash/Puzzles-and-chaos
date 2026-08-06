@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PvP Tracker — K258</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--green:#2ecc71;--red:#e74c3c}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px}
+
+  h1{font-family:'Cinzel',serif;color:var(--gold);font-size:1.4rem;letter-spacing:2px;text-align:center;margin-bottom:4px}
+  .subtitle{text-align:center;font-size:.78rem;color:#5a7090;margin-bottom:16px}
+
+  .top-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .stats{display:flex;gap:10px}
+  .stat{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center;font-size:.75rem}
+  .stat .val{font-family:'Cinzel',serif;font-size:1.1rem;display:block}
+  .stat .val.green{color:var(--green)}
+  .stat .val.red{color:var(--red)}
+  .stat .val.gold{color:var(--gold)}
+
+  .btn{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-family:'Nunito',sans-serif;font-size:.78rem;color:var(--text);cursor:pointer;transition:all .15s}
+  .btn:hover{border-color:var(--gold);color:var(--gold)}
+  .btn.danger{border-color:rgba(231,76,60,.4);color:var(--red)}
+  .btn.danger:hover{background:rgba(231,76,60,.15)}
+
+  .search-bar{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Nunito',sans-serif;font-size:.82rem;color:var(--text);margin-bottom:12px}
+  .search-bar:focus{outline:none;border-color:rgba(232,184,75,.5)}
+
+  /* ── FILTRE ── */
+  .filters{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+  .filter-btn{background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:.72rem;color:#5a7090;cursor:pointer;font-family:'Nunito',sans-serif}
+  .filter-btn.active{background:rgba(232,184,75,.12);border-color:rgba(232,184,75,.5);color:var(--gold)}
+
+  /* ── LISTE CIBLES ── */
+  .target-list{display:flex;flex-direction:column;gap:8px}
+
+  .target{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;transition:all .2s;cursor:pointer}
+  .target.attacked{background:rgba(39,174,96,.07);border-color:rgba(39,174,96,.35);opacity:.7}
+  .target.attacked .target-name{text-decoration:line-through;color:#5a7090}
+
+  .checkbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .2s}
+  .target.attacked .checkbox{background:rgba(39,174,96,.3);border-color:var(--green)}
+
+  .target-info{flex:1;min-width:0}
+  .target-name{font-weight:700;font-size:.88rem;color:var(--gold);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .target-coords{font-size:.72rem;color:#5a7090;font-family:'Courier New',monospace}
+
+  .target-actions{display:flex;gap:6px;flex-shrink:0}
+  .copy-btn{background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.3);border-radius:6px;padding:4px 10px;font-size:.68rem;color:var(--gold);cursor:pointer;font-family:'Nunito',sans-serif;white-space:nowrap}
+  .copy-btn:hover{background:rgba(232,184,75,.2)}
+  .copy-btn.copied{background:rgba(39,174,96,.2);border-color:rgba(39,174,226,.4);color:var(--green)}
+
+  /* ── NOTES ── */
+  .note-input{background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-family:'Nunito',sans-serif;font-size:.72rem;color:var(--text);width:100%;margin-top:4px}
+  .note-input:focus{outline:none;border-color:rgba(232,184,75,.4)}
+
+  /* ── AJOUT MANUEL ── */
+  .add-form{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px}
+  .add-form-title{font-family:'Cinzel',serif;font-size:.78rem;color:var(--gold);margin-bottom:10px}
+  .add-row{display:grid;grid-template-columns:1fr 80px 80px auto;gap:8px;align-items:center}
+  .add-input{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:7px 10px;font-family:'Nunito',sans-serif;font-size:.8rem;color:var(--text)}
+  .add-input:focus{outline:none;border-color:rgba(232,184,75,.4)}
+  .add-btn{background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.4);border-radius:7px;padding:7px 12px;color:var(--gold);font-family:'Nunito',sans-serif;font-size:.8rem;cursor:pointer;white-space:nowrap}
+  .add-btn:hover{background:rgba(232,184,75,.25)}
+
+  .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#0d1117;padding:8px 20px;border-radius:20px;font-size:.78rem;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none}
+  .toast.show{opacity:1}
+
+  .empty{text-align:center;color:#455a75;font-size:.82rem;padding:30px;font-style:italic}
+
+  footer{text-align:center;font-size:.65rem;color:#2e3d55;margin-top:20px}
+</style>
+</head>
+<body>
+
+<h1>⚔️ PvP TRACKER</h1>
+<p class="subtitle">Royaume K258 · Cibles ennemies · Réinitialisation quotidienne</p>
+
+<div class="top-bar">
+  <div class="stats">
+    <div class="stat"><span class="val gold" id="total">0</span>Cibles</div>
+    <div class="stat"><span class="val green" id="attacked">0</span>Attaquées</div>
+    <div class="stat"><span class="val red" id="remaining">0</span>Restantes</div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="resetDay()">🔄 Nouvelle journée</button>
+    <button class="btn danger" onclick="clearAll()">🗑️ Tout effacer</button>
+  </div>
+</div>
+
+<input class="search-bar" type="text" placeholder="🔍 Rechercher un nom..." oninput="filterTargets(this.value)" id="search">
+
+<div class="filters">
+  <button class="filter-btn active" onclick="setFilter('all',this)">Toutes</button>
+  <button class="filter-btn" onclick="setFilter('remaining',this)">⚔️ À attaquer</button>
+  <button class="filter-btn" onclick="setFilter('attacked',this)">✅ Attaquées</button>
+</div>
+
+<!-- AJOUT MANUEL -->
+<div class="add-form">
+  <div class="add-form-title">➕ Ajouter une cible</div>
+  <div class="add-row">
+    <input class="add-input" type="text" id="newName" placeholder="Nom du joueur">
+    <input class="add-input" type="number" id="newX" placeholder="X">
+    <input class="add-input" type="number" id="newY" placeholder="Y">
+    <button class="add-btn" onclick="addTarget()">Ajouter</button>
+  </div>
+</div>
+
+<div class="target-list" id="targetList"></div>
+<div class="empty" id="emptyMsg" style="display:none">Aucune cible trouvée</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>K258 · WTH Alliance · Données personnelles locales</footer>
+
+<script>
+// ── DONNÉES INITIALES (extraites des screenshots) ──
+const INITIAL_TARGETS = [
+  {name:"NHF18",           x:358, y:398},
+  {name:"ゆきまるちゃん",   x:317, y:373},
+  {name:"ebisuki",         x:305, y:373},
+  {name:"えり足とかげ",    x:301, y:271},
+  {name:"MerCiel",         x:231, y:339},
+  {name:"Wrockbell",       x:472, y:136},
+  {name:"RangerArk",       x:448, y:556},
+  {name:"ういんぐ",        x:453, y:305},
+  {name:"Lusid",           x:192, y:314},
+  {name:"LordLexi123",     x:393, y:381},
+  {name:"☠LILBrat☠",      x:216, y:356},
+  {name:"PrincessöfDeath", x:203, y:359},
+  {name:"Kataleaa",        x:213, y:397},
+  {name:"Oberin",          x:178, y:348},
+  {name:"Gone1011010",     x:174, y:336},
+  {name:"ひとみ婆",        x:254, y:360},
+  {name:"Vietnamtoquoctoi",x:64,  y:628},
+  {name:"Nezubabe",        x:64,  y:632},
+  {name:"うんちころころ",  x:312, y:378},
+  {name:"Avenging~Angel",  x:255, y:251},
+  {name:"ФАРТЕЛЬ",         x:261, y:225},
+  {name:"romonaqx",        x:158, y:590},
+  {name:"teseus",          x:191, y:731},
+  {name:"s8n-child",       x:134, y:866},
+  {name:"Lord3K2cAUy-o4",  x:297, y:397},
+  {name:"AlyanaS",         x:294, y:396},
+];
+
+const STORAGE_KEY = 'pvp_tracker_k258';
+let currentFilter = 'all';
+let searchTerm = '';
+
+function loadData() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) return JSON.parse(raw);
+  // Premier lancement : initialise avec les cibles
+  const data = INITIAL_TARGETS.map((t,i) => ({
+    id: i+1,
+    name: t.name,
+    x: t.x,
+    y: t.y,
+    attacked: false,
+    note: '',
+    addedAt: new Date().toISOString()
+  }));
+  saveData(data);
+  return data;
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function getData() {
+  return loadData();
+}
+
+function render() {
+  const data = getData();
+  const list = document.getElementById('targetList');
+  const emptyMsg = document.getElementById('emptyMsg');
+
+  let filtered = data.filter(t => {
+    const matchSearch = t.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchFilter = currentFilter === 'all' ||
+      (currentFilter === 'remaining' && !t.attacked) ||
+      (currentFilter === 'attacked' && t.attacked);
+    return matchSearch && matchFilter;
+  });
+
+  // Stats
+  document.getElementById('total').textContent = data.length;
+  document.getElementById('attacked').textContent = data.filter(t=>t.attacked).length;
+  document.getElementById('remaining').textContent = data.filter(t=>!t.attacked).length;
+
+  if (filtered.length === 0) {
+    list.innerHTML = '';
+    emptyMsg.style.display = 'block';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+
+  // Trier : non attaquées en premier
+  filtered.sort((a,b) => a.attacked - b.attacked);
+
+  list.innerHTML = filtered.map(t => `
+    <div class="target ${t.attacked ? 'attacked' : ''}" id="target-${t.id}" onclick="toggleAttacked(${t.id})">
+      <div class="checkbox">${t.attacked ? '✓' : ''}</div>
+      <div class="target-info">
+        <div class="target-name">${t.name}</div>
+        <div class="target-coords">K258 · X:${t.x} · Y:${t.y}</div>
+        <input class="note-input"
+          type="text"
+          placeholder="Notes (niveau château, puissance…)"
+          value="${t.note}"
+          onclick="event.stopPropagation()"
+          onchange="updateNote(${t.id}, this.value)"
+          style="display:${t.attacked || t.note ? 'block' : 'none'}"
+          id="note-${t.id}">
+      </div>
+      <div class="target-actions" onclick="event.stopPropagation()">
+        <button class="copy-btn" id="copy-${t.id}" onclick="copyCoords(${t.id}, '${t.name}', ${t.x}, ${t.y})">📋 Copier</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleAttacked(id) {
+  const data = getData();
+  const t = data.find(x => x.id === id);
+  if (t) {
+    t.attacked = !t.attacked;
+    // Afficher/masquer la note
+    saveData(data);
+    render();
+    const noteEl = document.getElementById(`note-${id}`);
+    if (noteEl) noteEl.style.display = t.attacked ? 'block' : 'none';
+  }
+}
+
+function updateNote(id, val) {
+  const data = getData();
+  const t = data.find(x => x.id === id);
+  if (t) { t.note = val; saveData(data); }
+}
+
+function copyCoords(id, name, x, y) {
+  const text = `K 258 X :${x} Y :${y}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(`copy-${id}`);
+    btn.textContent = '✓ Copié';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function addTarget() {
+  const name = document.getElementById('newName').value.trim();
+  const x = parseInt(document.getElementById('newX').value);
+  const y = parseInt(document.getElementById('newY').value);
+  if (!name || isNaN(x) || isNaN(y)) { showToast('Remplis tous les champs !'); return; }
+
+  const data = getData();
+  const newId = Math.max(...data.map(t=>t.id), 0) + 1;
+  data.push({ id: newId, name, x, y, attacked: false, note: '', addedAt: new Date().toISOString() });
+  saveData(data);
+
+  document.getElementById('newName').value = '';
+  document.getElementById('newX').value = '';
+  document.getElementById('newY').value = '';
+  render();
+  showToast(`${name} ajouté !`);
+}
+
+function resetDay() {
+  if (!confirm('Réinitialiser toutes les attaques pour une nouvelle journée ?')) return;
+  const data = getData();
+  data.forEach(t => t.attacked = false);
+  saveData(data);
+  render();
+  showToast('Nouvelle journée — toutes les cibles sont disponibles !');
+}
+
+function clearAll() {
+  if (!confirm('Effacer TOUTES les cibles définitivement ?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  render();
+  showToast('Liste effacée');
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function filterTargets(val) {
+  searchTerm = val;
+  render();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Init
+render();
+</script>
+</body>
+</html>
