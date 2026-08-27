@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mine de Saphir — Guide Complet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--saph:#1a5276;--saph-light:#5dade2;--saph-bg:rgba(26,82,118,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#001a2e 0%,#0d1117 60%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+
+  .page-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--saph-bg) 0%,transparent 100%);border:1px solid rgba(26,82,118,.4);border-radius:14px;margin-bottom:18px}
+  .page-badge{display:inline-flex;align-items:center;gap:6px;background:var(--saph-bg);border:1px solid rgba(93,173,226,.4);border-radius:20px;padding:3px 14px;font-size:.73rem;color:var(--saph-light);letter-spacing:.5px;margin-bottom:10px}
+  h1{font-family:'Cinzel',serif;font-size:1.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .page-sub{font-size:.78rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+  .quick-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+  .fact{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;text-align:center}
+  .fact .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .fact .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--saph-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+  .item{display:flex;gap:8px;margin-bottom:9px;font-size:.82rem;line-height:1.5}
+  .bullet{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:6px;flex-shrink:0}
+  .bullet.green{background:#2ecc71}.bullet.red{background:#e74c3c}.bullet.blue{background:#5dade2}
+
+  /* ── NIVEAUX ── */
+  .levels-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:8px}
+  .levels-table th{background:var(--panel2);color:var(--gold);font-family:'Cinzel',serif;font-size:.7rem;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
+  .levels-table td{padding:7px 10px;border-bottom:1px solid rgba(46,61,85,.4);vertical-align:middle}
+  .levels-table tr:last-child td{border-bottom:none}
+  .levels-table tr.highlight td{background:rgba(39,174,96,.07)}
+  .tag-best{background:rgba(39,174,96,.15);color:#2ecc71;padding:1px 7px;border-radius:4px;font-size:.68rem;font-weight:700}
+  .tag-ok{background:rgba(41,128,185,.15);color:#5dade2;padding:1px 7px;border-radius:4px;font-size:.68rem;font-weight:700}
+  .tag-atk{background:rgba(232,184,75,.12);color:var(--gold);padding:1px 7px;border-radius:4px;font-size:.68rem;font-weight:700}
+
+  /* ── BOUTIQUE ── */
+  .shop-item{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .shop-item.prio1{border-left:3px solid #2ecc71}
+  .shop-item.prio2{border-left:3px solid #e8b84b}
+  .shop-item.prio3{border-left:3px solid #5dade2}
+  .shop-item.skip{border-left:3px solid #e74c3c;opacity:.7}
+  .shop-name{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px}
+  .shop-why{font-size:.75rem;color:#8fa8c0;line-height:1.4}
+  .shop-price{font-family:'Cinzel',serif;font-size:.82rem;color:var(--saph-light);white-space:nowrap;flex-shrink:0}
+
+  /* ── STRATÉGIE ── */
+  .strat-item{display:flex;gap:10px;margin-bottom:10px;background:rgba(39,174,96,.07);border-radius:8px;padding:9px 12px;font-size:.8rem;line-height:1.45;border-left:3px solid #2ecc71}
+  .strat-icon{font-size:1rem;flex-shrink:0}
+  .error-item{display:flex;gap:10px;margin-bottom:10px;background:rgba(192,57,43,.08);border-radius:8px;padding:9px 12px;font-size:.8rem;line-height:1.45;border-left:3px solid #e74c3c}
+  .error-num{font-family:'Cinzel',serif;font-size:.9rem;color:#e74c3c;font-weight:900;flex-shrink:0}
+
+  .tip-box{background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5}
+  .tip-box .tip-title{color:#2ecc71;font-weight:700;margin-bottom:5px}
+  .warn-box{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5;color:#e07070}
+  .warn-box .warn-title{color:#e74c3c;font-weight:700;margin-bottom:5px}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.78rem;color:#c8a84b;line-height:1.5}
+  .info-box strong{color:var(--gold)}
+
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="economie.html">← Retour à l'économie</a>
+
+<div class="page-header">
+  <div class="page-badge">💎 Événement permanent · Mine de Saphir</div>
+  <h1>MINE DE SAPHIR</h1>
+  <div class="page-sub">Récolte · Défense · Boutique · Stratégie</div>
+  <div class="quick-facts">
+    <div class="fact"><span class="val">8 niveaux</span><span class="lbl">Profondeur de mine</span></div>
+    <div class="fact"><span class="val">14.4K → 43.2K/h</span><span class="lbl">Production par niveau</span></div>
+    <div class="fact"><span class="val">+20%</span><span class="lbl">Bonus classement actif</span></div>
+    <div class="fact"><span class="val">Permanente</span><span class="lbl">Disponibilité</span></div>
+  </div>
+</div>
+
+<!-- C'EST QUOI -->
+<div class="section">
+  <div class="section-title">📖 C'est quoi la Mine de Saphir ?</div>
+
+  <div class="item"><div class="bullet"></div><div>La Mine de Saphir est un <strong>événement compétitif permanent</strong> où tu choisis un niveau de mine (1 à 8) et tu y installes ta marche pour collecter des Saphirs passivement.</div></div>
+  <div class="item"><div class="bullet"></div><div>Plus le niveau de la mine est élevé, plus la <strong>production horaire est importante</strong> — mais plus les adversaires qui te chassent sont puissants.</div></div>
+  <div class="item"><div class="bullet"></div><div>Les Saphirs récoltés se dépensent dans la <strong>Boutique de Saphir</strong> — l'une des meilleures boutiques du jeu pour les items de progression.</div></div>
+  <div class="item"><div class="bullet"></div><div>La mine est <strong>compétitive</strong> : d'autres joueurs peuvent t'attaquer et te chasser de ton emplacement, volant une partie de tes Saphirs accumulés.</div></div>
+
+  <div class="info-box">
+    <strong>💡 Pourquoi c'est important</strong><br>
+    Les Saphirs sont la seule monnaie permettant d'acheter certains items exclusifs comme les Cristaux de Dragon, les Pierres d'énergie de Totem, les Essences de Totem et les fragments de héros (Fiona ici à −70%). C'est une source de progression impossible à ignorer en milieu et fin de partie.
+  </div>
+</div>
+
+<!-- NIVEAUX DE MINE -->
+<div class="section">
+  <div class="section-title">⛏️ Les 8 niveaux de Mine — Lequel choisir ?</div>
+
+  <table class="levels-table">
+    <tr>
+      <th>Niveau</th>
+      <th>Production</th>
+      <th>Difficulté défense</th>
+      <th>Recommandation</th>
+    </tr>
+    <tr>
+      <td><strong>1</strong></td>
+      <td>14 400/h</td>
+      <td style="color:#2ecc71">Très faible</td>
+      <td><span class="tag-ok">Débutant</span></td>
+    </tr>
+    <tr>
+      <td><strong>2</strong></td>
+      <td>18 000/h</td>
+      <td style="color:#2ecc71">Faible</td>
+      <td><span class="tag-ok">Débutant</span></td>
+    </tr>
+    <tr>
+      <td><strong>3</strong></td>
+      <td>21 600/h</td>
+      <td style="color:#e8b84b">Modérée</td>
+      <td><span class="tag-ok">Intermédiaire</span></td>
+    </tr>
+    <tr>
+      <td><strong>4</strong></td>
+      <td>25 200/h</td>
+      <td style="color:#e8b84b">Modérée</td>
+      <td><span class="tag-ok">Intermédiaire</span></td>
+    </tr>
+    <tr>
+      <td><strong>5</strong></td>
+      <td>28 800/h</td>
+      <td style="color:#e8b84b">Élevée</td>
+      <td><span class="tag-ok">Avancé</span></td>
+    </tr>
+    <tr>
+      <td><strong>6</strong></td>
+      <td>32 400/h</td>
+      <td style="color:#e07070">Très élevée</td>
+      <td><span class="tag-ok">Avancé</span></td>
+    </tr>
+    <tr class="highlight">
+      <td><strong>7 ⭐</strong></td>
+      <td>36 000/h</td>
+      <td style="color:#e07070">Très élevée</td>
+      <td><span class="tag-best">Meilleur rapport</span></td>
+    </tr>
+    <tr>
+      <td><strong>8</strong></td>
+      <td>43 200/h</td>
+      <td style="color:#e74c3c">Extrême</td>
+      <td><span class="tag-atk">Attaque seulement</span></td>
+    </tr>
+  </table>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Le niveau 7 est le sweet spot confirmé</div>
+    Tu le confirmes toi-même : ton meilleur record est au niveau 7. C'est le niveau avec le meilleur ratio production/risque — 36 000/h sans être dans la zone des combattants les plus puissants du niveau 8. La plupart des joueurs avancés visent le niveau 7 comme installation principale.
+  </div>
+
+  <div class="warn-box">
+    <div class="warn-title">⚠️ Le niveau 8 — attaque uniquement</div>
+    Le niveau 8 produit 43 200/h mais concentre les joueurs les plus puissants du serveur. À moins d'avoir une armée exceptionnelle, c'est plus rentable de <strong>raidar le niveau 8</strong> que de s'y installer — tu chasses quelqu'un, tu voles ses Saphirs accumulés, et tu repars au niveau 7.
+  </div>
+</div>
+
+<!-- MÉCANIQUE DE PILLAGE -->
+<div class="section">
+  <div class="section-title">⚔️ Mécanique de pillage — Comment ça fonctionne</div>
+
+  <div class="item"><div class="bullet red"></div><div>Quand tu es chassé d'un emplacement, tu <strong>perds une partie des Saphirs</strong> que tu avais accumulés mais n'avais pas encore réclamés. Exemple vu sur ton screenshot : 25 780 Saphirs perdus lors d'une attaque sur une Mine niveau 7.</div></div>
+  <div class="item"><div class="bullet red"></div><div>Les Saphirs <strong>déjà réclamés</strong> (via le bouton "Réclamer") sont en sécurité dans ton stock — ils ne peuvent pas être volés.</div></div>
+  <div class="item"><div class="bullet blue"></div><div>Tu peux <strong>riposter</strong> directement depuis le message de défaite pour tenter de récupérer tes Saphirs perdus.</div></div>
+  <div class="item"><div class="bullet blue"></div><div>Si tu perds un combat de mine, tu es <strong>éjecté de l'emplacement</strong> et devras en trouver un nouveau.</div></div>
+
+  <div class="info-box">
+    <strong>💡 La règle d'or : réclamer souvent</strong><br>
+    N'accumule jamais trop de Saphirs non réclamés dans une mine. Si tu sais que tu vas être déconnecté longtemps, <strong>clique sur "Réclamer" avant</strong>. Les Saphirs réclamés sont intouchables — ceux en attente dans la mine sont vulnérables.
+  </div>
+</div>
+
+<!-- BONUS CLASSEMENT -->
+<div class="section">
+  <div class="section-title">🏆 Bonus Classement et Vitesse de Collecte</div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Bonus Classement +20%</strong> — visible sur ton écran (icône trophée). Ce bonus augmente ta production horaire de 20% tant qu'il est actif. À activer systématiquement.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Vitesse de collecte de Saphir +20%</strong> — le boost disponible en bas de l'écran Mine. À activer dès que possible pour augmenter encore la production.</div></div>
+  <div class="item"><div class="bullet green"></div><div>Les deux bonus se <strong>cumulent</strong> — avec les deux actifs, ta production effective est significativement supérieure au chiffre de base affiché.</div></div>
+  <div class="item"><div class="bullet blue"></div><div>Le bouton <strong>"Inactif"</strong> en rouge signifie que tu n'es actuellement dans aucune mine — aucun Saphir n'est en cours de production. Il faut entrer dans un niveau.</div></div>
+</div>
+
+<!-- BOUTIQUE — QUOI ACHETER -->
+<div class="section">
+  <div class="section-title">🛒 Boutique de Saphir — Priorités d'achat</div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">✅ Priorité 1 — À acheter en premier</div>
+
+  <div class="shop-item prio1">
+    <div>
+      <div class="shop-name">💎 Éclat Fiona (×1)</div>
+      <div class="shop-why">Fragment de héros S-tier Éco − 70% de réduction. Fiona réduit les coûts d'entraînement et sa vitesse. C'est l'item le plus rare et le plus impactant de toute la boutique. Achetable en illimité.</div>
+    </div>
+    <div class="shop-price">💎 350K</div>
+  </div>
+
+  <div class="shop-item prio1">
+    <div>
+      <div class="shop-name">🐉 Cristal de Dragon 1★ (×2 disponibles)</div>
+      <div class="shop-why">Item exclusif à cette boutique − 50% de réduction. Sert à améliorer le Dragon de l'Alliance. Stock limité à 2 par rotation — achète-les dès qu'ils apparaissent.</div>
+    </div>
+    <div class="shop-price">💎 8K</div>
+  </div>
+
+  <div class="shop-item prio1">
+    <div>
+      <div class="shop-name">🔮 Pierre d'énergie de Totem (×100 disponibles)</div>
+      <div class="shop-why">Item de progression du Totem − 50% de réduction. 100 disponibles par rotation. Priorité haute car le stock est important et le prix est raisonnable.</div>
+    </div>
+    <div class="shop-price">💎 40K</div>
+  </div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">✅ Priorité 2 — Bons achats</div>
+
+  <div class="shop-item prio2">
+    <div>
+      <div class="shop-name">💠 Essence de Totem 1★ (lot de 50 — meilleur ratio)</div>
+      <div class="shop-why">800 saphirs par essence dans le lot ×50 vs 1 000 à l'unité. Meilleur ratio prix/quantité pour les Essences de Totem.</div>
+    </div>
+    <div class="shop-price">💎 40K</div>
+  </div>
+
+  <div class="shop-item prio2">
+    <div>
+      <div class="shop-name">🐉 20K Expérience de Dragon</div>
+      <div class="shop-why">Disponible en illimité — utile pour monter le niveau du Dragon si tu as des Saphirs en surplus après les achats prioritaires.</div>
+    </div>
+    <div class="shop-price">💎 16K</div>
+  </div>
+
+  <div class="shop-item prio2">
+    <div>
+      <div class="shop-name">🦁 Totems 3★ (Ours / Aigle / Loup)</div>
+      <div class="shop-why">1 disponible par rotation. Si tu as besoin d'un Totem spécifique, achète-le immédiatement — le stock est très limité et se vend vite.</div>
+    </div>
+    <div class="shop-price">💎 100K</div>
+  </div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">⚠️ Priorité 3 — Situationnel</div>
+
+  <div class="shop-item prio3">
+    <div>
+      <div class="shop-name">🥇 Marque de Gloire (×illimité)</div>
+      <div class="shop-why">Utile si tu en manques — sinon pas urgent, les ressources classiques valent mieux.</div>
+    </div>
+    <div class="shop-price">💎 10K</div>
+  </div>
+
+  <div class="shop-item prio3">
+    <div>
+      <div class="shop-name">🔷 Spinelle d'énergie de totem (×100)</div>
+      <div class="shop-why">Utile après avoir épuisé les Pierres d'énergie de Totem. Secondaire.</div>
+    </div>
+    <div class="shop-price">💎 10K</div>
+  </div>
+
+  <div style="font-size:.75rem;color:#e74c3c;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">❌ À éviter</div>
+
+  <div class="shop-item skip">
+    <div>
+      <div class="shop-name">Nourriture 50K / Bois 50K / Pierre 10K / Fer 2.5K</div>
+      <div class="shop-why">Très mauvais ratio Saphirs/ressources. Ces ressources s'obtiennent bien plus efficacement via les marches de collecte classiques. Ne jamais dépenser des Saphirs en ressources de base.</div>
+    </div>
+    <div class="shop-price">💎 5K</div>
+  </div>
+
+  <div class="shop-item skip">
+    <div>
+      <div class="shop-name">2 000 Points civils de Dragon</div>
+      <div class="shop-why">Trop cher pour la valeur apportée — les points civils s'obtiennent autrement.</div>
+    </div>
+    <div class="shop-price">💎 8K</div>
+  </div>
+
+  <div class="shop-item skip">
+    <div>
+      <div class="shop-name">Expérience de Seigneur 10K</div>
+      <div class="shop-why">L'expérience de Seigneur ne justifie pas un coût en Saphirs — à ignorer.</div>
+    </div>
+    <div class="shop-price">💎 20K</div>
+  </div>
+</div>
+
+<!-- STRATÉGIE -->
+<div class="section">
+  <div class="section-title">🎯 Stratégie complète</div>
+
+  <div class="strat-item"><span class="strat-icon">⛏️</span><div><strong>Vise le niveau 7 comme installation principale</strong> — meilleur ratio production/risque confirmé. C'est ton meilleur record et le niveau recommandé pour les joueurs avancés.</div></div>
+  <div class="strat-item"><span class="strat-icon">💎</span><div><strong>Réclame tes Saphirs régulièrement</strong> — surtout avant de te déconnecter. Les Saphirs réclamés sont en sécurité, ceux dans la mine sont pillables.</div></div>
+  <div class="strat-item"><span class="strat-icon">🏆</span><div><strong>Active toujours les deux bonus</strong> — le Bonus Classement +20% (trophée) et la Vitesse de collecte +20% (bas d'écran). Les deux se cumulent pour augmenter significativement ta production.</div></div>
+  <div class="strat-item"><span class="strat-icon">⚔️</span><div><strong>Raider le niveau 8 plutôt que s'y installer</strong> — attaque, vole les Saphirs accumulés par le défenseur, et repars. Moins risqué que rester exposé dans la zone la plus compétitive.</div></div>
+  <div class="strat-item"><span class="strat-icon">🛡️</span><div><strong>Coordonne avec l'Alliance</strong> — signale ta position en mine à tes alliés. Un allié qui défend ta mine pendant ton absence peut te faire économiser des milliers de Saphirs.</div></div>
+  <div class="strat-item"><span class="strat-icon">⏰</span><div><strong>Quitte ta mine environ 1 heure avant la fin de session</strong> — pour ne pas te faire piller en fin d'événement quand les joueurs chasseurs sont actifs. Rentre dans une nouvelle mine libre juste après.</div></div>
+  <div class="strat-item"><span class="strat-icon">🛒</span><div><strong>Dépense tes Saphirs selon les priorités listées</strong> — Éclat Fiona → Cristaux de Dragon → Pierres d'énergie de Totem. Ne touche jamais aux ressources de base (Nourriture, Bois, Pierre, Fer).</div></div>
+</div>
+
+<!-- ERREURS -->
+<div class="section">
+  <div class="section-title">⛔ Erreurs à éviter</div>
+
+  <div class="error-item">
+    <span class="error-num">1</span>
+    <div><strong>Laisser des Saphirs non réclamés en mine pendant des heures</strong> — chaque Saphir non réclamé est un Saphir potentiellement perdu en cas d'attaque. Réclame avant de te déconnecter.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">2</span>
+    <div><strong>Ne pas activer les bonus de collecte</strong> — le bouton "Vitesse de collecte +20%" visible en bas de l'écran Mine est souvent oublié. C'est de la production gratuite.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">3</span>
+    <div><strong>Acheter des ressources de base avec des Saphirs</strong> — Nourriture, Bois, Pierre et Fer à 5 000 Saphirs sont une erreur économique grave. Ces ressources valent bien moins que les items exclusifs de la boutique.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">4</span>
+    <div><strong>Rester au niveau 1-2 par peur</strong> — la différence de production entre niveau 2 (18K/h) et niveau 7 (36K/h) est 2× sur la même durée. La peur de se faire attaquer ne justifie pas de perdre la moitié de ses Saphirs.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">5</span>
+    <div><strong>Laisser la mine en statut "Inactif"</strong> — chaque heure sans mine active est de la production perdue définitivement. Dès que tu es éjecté ou que tu quittes, retourne immédiatement dans un niveau disponible.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">6</span>
+    <div><strong>Ne pas riposter après une attaque</strong> — le bouton "Riposter" dans le message de défaite permet de tenter de récupérer tes Saphirs perdus. C'est gratuit et vaut toujours la peine d'essayer.</div>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Guide Mine de Saphir v1 — Juillet 2026</footer>
+</body>
+</html>

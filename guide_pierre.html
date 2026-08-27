@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Pierre — P&C Frozen Castle</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--pierre:#7a8fa8;--pierre-light:#aab7c4;--pierre-bg:rgba(122,143,168,.1)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0d1117 0%,#0d1117 100%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+
+  .page-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--pierre-bg) 0%,transparent 100%);border:1px solid rgba(122,143,168,.3);border-radius:14px;margin-bottom:18px}
+  .page-badge{display:inline-flex;align-items:center;gap:6px;background:var(--pierre-bg);border:1px solid rgba(170,183,196,.3);border-radius:20px;padding:3px 14px;font-size:.73rem;color:var(--pierre-light);letter-spacing:.5px;margin-bottom:10px}
+  h1{font-family:'Cinzel',serif;font-size:1.8rem;letter-spacing:2px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .page-sub{font-size:.78rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}
+  .quick-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+  .fact{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;text-align:center}
+  .fact .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .fact .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--pierre-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+  .item{display:flex;gap:8px;margin-bottom:9px;font-size:.82rem;line-height:1.5}
+  .bullet{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:6px;flex-shrink:0}
+  .bullet.green{background:#2ecc71}.bullet.red{background:#e74c3c}.bullet.blue{background:#5dade2}
+
+  /* ── SOURCES ── */
+  .source-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+  .source-card{background:var(--panel2);border-radius:8px;padding:10px 12px;border-left:3px solid var(--pierre-light)}
+  .source-card.primary{border-left-color:#2ecc71}
+  .source-card.secondary{border-left-color:#e8b84b}
+  .source-card.bonus{border-left-color:#5dade2}
+  .source-title{font-weight:700;font-size:.82rem;margin-bottom:4px}
+  .source-title.green{color:#2ecc71}
+  .source-title.gold{color:var(--gold)}
+  .source-title.blue{color:#5dade2}
+  .source-title.grey{color:var(--pierre-light)}
+  .source-desc{font-size:.75rem;color:#8fa8c0;line-height:1.4}
+
+  /* ── USAGES ── */
+  .usage-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:8px}
+  .usage-table th{background:var(--panel2);color:var(--gold);font-family:'Cinzel',serif;font-size:.7rem;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
+  .usage-table td{padding:7px 10px;border-bottom:1px solid rgba(46,61,85,.4);vertical-align:top}
+  .usage-table tr:last-child td{border-bottom:none}
+  .tag-high{background:rgba(192,57,43,.15);color:#e07070;padding:1px 7px;border-radius:4px;font-size:.68rem;font-weight:700}
+  .tag-med{background:rgba(232,184,75,.12);color:var(--gold);padding:1px 7px;border-radius:4px;font-size:.68rem;font-weight:700}
+  .tag-low{background:rgba(46,61,85,.4);color:#7a8fa8;padding:1px 7px;border-radius:4px;font-size:.68rem;font-weight:700}
+
+  /* ── STRATÉGIE ── */
+  .strat-item{display:flex;gap:10px;margin-bottom:10px;background:rgba(39,174,96,.07);border-radius:8px;padding:9px 12px;font-size:.8rem;line-height:1.45;border-left:3px solid #2ecc71}
+  .strat-icon{font-size:1rem;flex-shrink:0}
+  .error-item{display:flex;gap:10px;margin-bottom:10px;background:rgba(192,57,43,.08);border-radius:8px;padding:9px 12px;font-size:.8rem;line-height:1.45;border-left:3px solid #e74c3c}
+  .error-num{font-family:'Cinzel',serif;font-size:.9rem;color:#e74c3c;font-weight:900;flex-shrink:0}
+
+  .tip-box{background:rgba(39,174,96,.1);border:1px solid rgba(39,174,96,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5}
+  .tip-box .tip-title{color:#2ecc71;font-weight:700;margin-bottom:5px}
+  .warn-box{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5;color:#e07070}
+  .warn-box .warn-title{color:#e74c3c;font-weight:700;margin-bottom:5px}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.78rem;color:#c8a84b;line-height:1.5}
+  .info-box strong{color:var(--gold)}
+
+  /* ── HÉROS ── */
+  .hero-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:8px}
+  .hero-table th{background:var(--panel2);color:var(--gold);font-family:'Cinzel',serif;font-size:.7rem;padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
+  .hero-table td{padding:7px 10px;border-bottom:1px solid rgba(46,61,85,.4);vertical-align:top}
+  .hero-table tr:last-child td{border-bottom:none}
+
+  /* ── RECHERCHES ── */
+  .research-item{display:flex;gap:10px;margin-bottom:8px;padding:8px 12px;background:var(--panel2);border-radius:7px;border-left:3px solid var(--pierre-light)}
+  .research-item.prio{border-left-color:#2ecc71}
+  .research-num{font-family:'Cinzel',serif;font-size:.9rem;font-weight:900;color:var(--gold);flex-shrink:0;min-width:20px}
+  .research-name{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:2px}
+  .research-why{font-size:.75rem;color:#8fa8c0;line-height:1.4}
+
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="economie.html">← Retour à l'économie</a>
+
+<div class="page-header">
+  <div class="page-badge">🪨 Ressource de Construction · Guide complet</div>
+  <h1>LA PIERRE</h1>
+  <div class="page-sub">Sources · Usages · Optimisation · Stratégie</div>
+  <div class="quick-facts">
+    <div class="fact"><span class="val">Construction</span><span class="lbl">Usage principal</span></div>
+    <div class="fact"><span class="val">Guérison troupes</span><span class="lbl">Usage secondaire</span></div>
+    <div class="fact"><span class="val">Milieu de partie</span><span class="lbl">Ressource critique à partir de</span></div>
+    <div class="fact"><span class="val">Carrières</span><span class="lbl">Production passive</span></div>
+  </div>
+</div>
+
+<!-- C'EST QUOI -->
+<div class="section">
+  <div class="section-title">📖 Rôle de la Pierre dans le jeu</div>
+
+  <div class="item"><div class="bullet"></div><div>La Pierre est l'une des <strong>quatre ressources de base</strong> du jeu (avec le Bois, le Fer et la Nourriture). C'est la ressource de construction par excellence.</div></div>
+  <div class="item"><div class="bullet"></div><div>Elle est consommée à chaque <strong>amélioration de bâtiment</strong> — son coût explose en milieu et fin de partie quand les niveaux de Citadelle augmentent.</div></div>
+  <div class="item"><div class="bullet"></div><div>Elle sert également à <strong>soigner les troupes blessées</strong> dans les infirmeries — une consommation souvent négligée qui peut vider les stocks rapidement après un combat.</div></div>
+  <div class="item"><div class="bullet"></div><div>Contrairement au Bois (abondant) ou au Fer (facile à farmer avec Tala), la Pierre est souvent <strong>le goulot d'étranglement des constructions de mid-game</strong>.</div></div>
+
+  <div class="info-box">
+    <strong>💡 Pierre vs Fer — deux goulets différents</strong><br>
+    Le Fer bloque l'<em>entraînement des troupes</em>. La Pierre bloque la <em>construction des bâtiments</em>. En milieu de partie, les deux manquent simultanément — la Pierre devient souvent critique avant le Fer car les coûts de construction augmentent plus vite que la production passive des Carrières.
+  </div>
+</div>
+
+<!-- USAGES -->
+<div class="section">
+  <div class="section-title">🏗️ À quoi sert la Pierre ?</div>
+
+  <table class="usage-table">
+    <tr>
+      <th>Usage</th>
+      <th>Consommation</th>
+      <th>Priorité</th>
+    </tr>
+    <tr>
+      <td><strong>Amélioration de bâtiments</strong><br><span style="font-size:.7rem;color:#5a7090">Citadelle, casernes, carrières, infirmeries…</span></td>
+      <td>Très élevée — augmente exponentiellement avec le niveau</td>
+      <td><span class="tag-high">Critique</span></td>
+    </tr>
+    <tr>
+      <td><strong>Soins des troupes blessées</strong><br><span style="font-size:.7rem;color:#5a7090">Après chaque combat avec pertes</span></td>
+      <td>Élevée — proportionnelle au nombre de blessés</td>
+      <td><span class="tag-high">Élevée</span></td>
+    </tr>
+    <tr>
+      <td><strong>Recherches avancées</strong><br><span style="font-size:.7rem;color:#5a7090">Institut de Recherche niveaux élevés</span></td>
+      <td>Modérée à élevée selon la recherche</td>
+      <td><span class="tag-med">Modérée</span></td>
+    </tr>
+    <tr>
+      <td><strong>Certains équipements</strong><br><span style="font-size:.7rem;color:#5a7090">Forge et artisanat</span></td>
+      <td>Variable</td>
+      <td><span class="tag-low">Situationnel</span></td>
+    </tr>
+  </table>
+
+  <div class="warn-box">
+    <div class="warn-title">⚠️ Le piège de la guérison</div>
+    Beaucoup de joueurs ne réalisent pas que soigner les troupes consomme énormément de Pierre. Après une guerre ou un combat de mine perdu, les infirmeries pleines vident les stocks de Pierre si on soigne sans réfléchir. <strong>Basilong réduit ce coût de −36%</strong> — un avantage économique majeur.
+  </div>
+</div>
+
+<!-- SOURCES -->
+<div class="section">
+  <div class="section-title">⛏️ Toutes les sources de Pierre</div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Sources passives (sans action)</div>
+  <div class="source-grid">
+    <div class="source-card primary">
+      <div class="source-title green">🏔️ Carrières (production)</div>
+      <div class="source-desc">Les Carrières du château produisent de la Pierre en continu. Améliore-les régulièrement — chaque niveau augmente le débit horaire. Construis autant de Carrières que le niveau de Citadelle le permet.</div>
+    </div>
+    <div class="source-card primary">
+      <div class="source-title green">📦 Entrepôt de Pierre</div>
+      <div class="source-desc">Les ressources produites s'accumulent dans l'Entrepôt. Améliore l'Entrepôt pour augmenter le plafond protégé — au-delà, la Pierre excédentaire est pillable.</div>
+    </div>
+  </div>
+
+  <div style="font-size:.75rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 8px">Sources actives (nécessitent une action)</div>
+  <div class="source-grid">
+    <div class="source-card secondary">
+      <div class="source-title gold">🗺️ Cases Pierre sur la carte</div>
+      <div class="source-desc">Des cases de Pierre apparaissent sur la carte du monde. Envoie des marches de collecte en permanence — c'est la source de volume la plus importante après la production passive.</div>
+    </div>
+    <div class="source-card secondary">
+      <div class="source-title gold">⚔️ Portail Mesdi (balayage)</div>
+      <div class="source-desc">Le balayage automatique des stages déjà battus donne de la Pierre en récompense quotidienne. À faire chaque jour sans exception.</div>
+    </div>
+    <div class="source-card secondary">
+      <div class="source-title gold">🏰 Pillage de seigneurs</div>
+      <div class="source-desc">La Pierre non protégée dans l'Entrepôt adverse est pillable. Taxe de 30% sur tout ce qu'on vole — à calculer avant de lancer une attaque.</div>
+    </div>
+    <div class="source-card secondary">
+      <div class="source-title gold">🧟 Repaires de monstres</div>
+      <div class="source-desc">Les repaires de monstres lootent parfois de la Pierre en bonus. Les niveaux élevés donnent de meilleures quantités.</div>
+    </div>
+    <div class="source-card bonus">
+      <div class="source-title blue">🤝 Boutique Alliance</div>
+      <div class="source-desc">Des packs de Pierre apparaissent en rotation dans la boutique alliance. Vérifie régulièrement — la Pierre y est souvent vendue en grande quantité.</div>
+    </div>
+    <div class="source-card bonus">
+      <div class="source-title blue">💎 Boutique Saphir</div>
+      <div class="source-desc">Pierre 10K disponible à 5 000 Saphirs. <strong>Mauvais ratio</strong> — à éviter sauf urgence absolue. Les Saphirs valent bien plus dépensés ailleurs.</div>
+    </div>
+  </div>
+</div>
+
+<!-- HÉROS QUI AIDENT -->
+<div class="section">
+  <div class="section-title">⚔️ Héros qui influencent la Pierre</div>
+
+  <table class="hero-table">
+    <tr>
+      <th>Héros</th>
+      <th>Bonus lié à la Pierre</th>
+      <th>Type d'impact</th>
+    </tr>
+    <tr>
+      <td><strong style="color:#5dade2">❄ Basilong</strong></td>
+      <td>Coût de guérison (Pierre) <strong style="color:#2ecc71">−36%</strong><br><span style="font-size:.7rem;color:#5a7090">Passif compétence de troupe Talent +8</span></td>
+      <td style="color:#2ecc71">Économie sur les soins ✓✓✓</td>
+    </tr>
+    <tr>
+      <td><strong style="color:#e8b84b">⬡ Aurora</strong></td>
+      <td>Coût de guérison (Pierre) <strong style="color:#2ecc71">−6%</strong><br><span style="font-size:.7rem;color:#5a7090">Passif compétence de troupe Talent +1</span></td>
+      <td style="color:#6ecf96">Économie légère sur les soins ✓</td>
+    </tr>
+    <tr>
+      <td><strong style="color:#6ecf96">🌿 Patty</strong></td>
+      <td>Vitesse de collecte <strong style="color:#2ecc71">+35%</strong><br><span style="font-size:.7rem;color:#5a7090">S'applique à toutes les ressources dont la Pierre</span></td>
+      <td style="color:#2ecc71">Collecte accélérée ✓✓</td>
+    </tr>
+    <tr>
+      <td><strong style="color:#6ecf96">🌿 Sirona</strong></td>
+      <td>Vitesse de collecte <strong style="color:#2ecc71">+24%</strong></td>
+      <td style="color:#2ecc71">Collecte accélérée ✓</td>
+    </tr>
+  </table>
+
+  <div class="tip-box">
+    <div class="tip-title">💡 Basilong — l'allié inattendu pour la Pierre</div>
+    Son bonus de −36% sur le coût de guérison en Pierre est le plus élevé du jeu sur ce critère. Après chaque guerre ou combat perdu, avoir Basilong dans son roster réduit drastiquement la facture en Pierre pour soigner les blessés. Sur une alliance active qui combat souvent, c'est des centaines de milliers de Pierre économisées.
+  </div>
+</div>
+
+<!-- MARCHE DE COLLECTE -->
+<div class="section">
+  <div class="section-title">🏃 Formation optimale de collecte de Pierre</div>
+
+  <div class="item"><div class="bullet green"></div><div><strong>Patty en chef de marche</strong> — Collecte +35% sur toutes les ressources, Pierre incluse.</div></div>
+  <div class="item"><div class="bullet green"></div><div><strong>Sirona en support</strong> — Collecte +24% supplémentaires.</div></div>
+  <div class="item"><div class="bullet blue"></div><div><strong>Type de troupes</strong> — Infanterie ou Archer pour les marches de collecte (meilleur taux de collecte que la Cavalerie).</div></div>
+  <div class="item"><div class="bullet"></div><div><strong>3 slots restants</strong> — n'importe quel héros. Un slot plein vaut toujours mieux qu'un slot vide.</div></div>
+
+  <div class="warn-box">
+    <div class="warn-title">⚠️ Ne jamais mélanger marche de collecte et marche de combat</div>
+    Envoyer Tania ou Aerposia collecter de la Pierre pendant 3 heures bloque ta formation de combat. Maintiens toujours deux marches séparées : une de combat, une de collecte.
+  </div>
+</div>
+
+<!-- RECHERCHES -->
+<div class="section">
+  <div class="section-title">🔬 Recherches pour optimiser la Pierre</div>
+
+  <div class="research-item prio">
+    <div class="research-num">1</div>
+    <div>
+      <div class="research-name">Production de Pierre (Carrières)</div>
+      <div class="research-why">Augmente le débit horaire de toutes les Carrières en permanence. S'applique 24h/24 sans action — meilleur retour sur investissement à long terme.</div>
+    </div>
+  </div>
+  <div class="research-item prio">
+    <div class="research-num">2</div>
+    <div>
+      <div class="research-name">Vitesse de Collecte</div>
+      <div class="research-why">Réduit le temps passé sur chaque case de ressources — plus de voyages dans le même laps de temps, donc plus de Pierre collectée par heure.</div>
+    </div>
+  </div>
+  <div class="research-item">
+    <div class="research-num">3</div>
+    <div>
+      <div class="research-name">Capacité de l'Entrepôt</div>
+      <div class="research-why">Augmente la quantité de Pierre protégée contre le pillage. Indispensable pour accumuler de grandes quantités sans risque entre deux sessions.</div>
+    </div>
+  </div>
+  <div class="research-item">
+    <div class="research-num">4</div>
+    <div>
+      <div class="research-name">Réduction du coût de guérison</div>
+      <div class="research-why">Réduit la Pierre consommée pour soigner les troupes blessées. Très rentable pour les joueurs qui combattent souvent.</div>
+    </div>
+  </div>
+</div>
+
+<!-- STRATÉGIE -->
+<div class="section">
+  <div class="section-title">🎯 Stratégie — Ne jamais manquer de Pierre</div>
+
+  <div class="strat-item"><span class="strat-icon">🗺️</span><div><strong>Envoie des marches de collecte Pierre en permanence</strong> — même la nuit. La Pierre sur la carte se régénère et les cases sont disponibles en continu. Un slot de marche vide est de la Pierre perdue.</div></div>
+  <div class="strat-item"><span class="strat-icon">🏔️</span><div><strong>Monte toutes les Carrières au niveau maximum de ton Citadel</strong> — chaque niveau de Carrière est une augmentation permanente du débit passif. Ne jamais laisser des emplacements de Carrière inoccupés.</div></div>
+  <div class="strat-item"><span class="strat-icon">🛡️</span><div><strong>Protège ta Pierre dans l'Entrepôt avant de te déconnecter</strong> — la Pierre au-delà du plafond de protection est pillable. Dépense l'excédent en constructions avant de partir, ou améliore l'Entrepôt.</div></div>
+  <div class="strat-item"><span class="strat-icon">🏥</span><div><strong>Ne soigne pas en masse immédiatement après un combat</strong> — évalue d'abord si tu as assez de Pierre. Soigner toutes les troupes d'un coup peut vider tes réserves au mauvais moment.</div></div>
+  <div class="strat-item"><span class="strat-icon">📋</span><div><strong>Balaye le Portail Mesdi chaque jour</strong> — les récompenses de balayage automatique incluent de la Pierre régulièrement. C'est de la ressource gratuite en 1 clic.</div></div>
+  <div class="strat-item"><span class="strat-icon">🤝</span><div><strong>Coordonne avec l'Alliance pour les constructions prioritaires</strong> — les aides d'alliance réduisent les temps de construction et donc la Pierre consommée indirectement (moins de constructions accélérées = moins besoin d'urgence en Pierre).</div></div>
+</div>
+
+<!-- ERREURS -->
+<div class="section">
+  <div class="section-title">⛔ Erreurs classiques à éviter</div>
+
+  <div class="error-item">
+    <span class="error-num">1</span>
+    <div><strong>Soigner toutes ses troupes sans vérifier le stock de Pierre</strong> — après une grosse guerre, les infirmeries pleines peuvent nécessiter des centaines de milliers de Pierre. Vérifie ton stock avant de tout soigner d'un coup.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">2</span>
+    <div><strong>Acheter de la Pierre avec des Saphirs</strong> — la Pierre 10K à 5 000 Saphirs est l'un des pires achats de la boutique Saphir. Ces Saphirs valent 10 fois plus dépensés en Essences de Totem ou Cristaux de Dragon.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">3</span>
+    <div><strong>Négliger les Carrières</strong> — construire des bâtiments militaires avant de maxer les Carrières est une erreur courante. La production passive de Pierre est la base de toute progression en construction.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">4</span>
+    <div><strong>Laisser de la Pierre non protégée avant de se déconnecter</strong> — la Pierre au-delà du plafond de l'Entrepôt est offerte aux pillards. Dépense l'excédent en constructions ou améliore l'Entrepôt.</div>
+  </div>
+  <div class="error-item">
+    <span class="error-num">5</span>
+    <div><strong>Ignorer les cases Pierre sur la carte</strong> — beaucoup de joueurs ne collectent que le Fer (pour l'entraînement) et oublient les cases Pierre. Les deux doivent être collectées en parallèle.</div>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Guide Pierre v1 — Juillet 2026</footer>
+</body>
+</html>

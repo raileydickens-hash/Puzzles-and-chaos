@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angelita — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#7d6608;--elem-light:#f4d03f;--elem-bg:rgba(125,102,8,.12)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a1800 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(125,102,8,.35);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(125,102,8,.5);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.passive{border-left-color:#5dade2}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-passive{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-highlight{grid-column:1/-1;background:rgba(125,102,8,.1);border:1px solid rgba(125,102,8,.3)}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}.fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}.fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}.fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}.fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  .warn-box{background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.8rem;line-height:1.5;color:#e07070}
+  .warn-box .warn-title{color:#e74c3c;font-weight:700;margin-bottom:5px}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+<a class="back" href="heroes.html">← Retour aux héros</a>
+
+<div class="hero-header">
+  <div class="elem-badge">☀ Élément Lumière · Saison 2 · AoE Retardée · Châtiment Divin</div>
+  <div class="hero-name">ANGELITA</div>
+  <div class="hero-subtitle">L'Ange de la Gloire · AoE 600% · Incapacité Régénération · +40% Rage · Immunité Silence</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">1★ → 6★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">☀ Lumière · S2</span><span class="lbl">Élément · Saison</span></div>
+    <div class="stat-badge"><span class="val">Talent +8</span><span class="lbl">Niveau arme</span></div>
+    <div class="stat-badge"><span class="val">Carry AoE</span><span class="lbl">Rôle</span></div>
+  </div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval s">S</div><div class="rdesc">AoE 600% + incapacité</div></div>
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval s">S</div><div class="rdesc">AoE massive toutes cibles</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval a">A</div><div class="rdesc">Solide mais mono-cible préférable</div></div>
+  </div>
+</div>
+
+<!-- COMPÉTENCES -->
+<div class="section">
+  <div class="section-title">☀ Compétences — Plein Potentiel</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Épée de Gloire</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
+      <span class="skill-tag tag-active">AoE Retardée</span>
+    </div>
+    <p class="skill-desc">Lance le <em>Châtiment Divin</em>, infligeant <em>600% de dégâts à tous les ennemis après 2 tours</em>. La mécanique de délai est unique — Angelita marque toute la formation adverse, qui subit l'impact 2 tours plus tard. Les ennemis ne peuvent pas esquiver l'explosion différée.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Briser le Destin</span><span class="skill-tag tag-amelio">Incapacité Régénération</span></div>
+    <p class="skill-desc">Chance d'infliger une <em>incapacité de régénération de PV pendant 5 tours</em> en cas de coup. Effet indissipable — les cibles touchées ne peuvent plus récupérer leurs PV pendant 5 tours, annulant tous les soins adverses (Tania, Anastasia, Sirona…).</p>
+  </div>
+
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Ascension</span><span class="skill-tag tag-passive">Avantage Rage</span></div>
+    <p class="skill-desc">Gagne <em>+40% de Rage au début du combat</em>. Avantage de démarrage très élevé — Angelita déclenche son Châtiment Divin très tôt, dès les premiers tours, avant que les soigneurs adverses aient eu le temps d'agir.</p>
+  </div>
+
+  <div class="skill passive">
+    <div class="skill-head"><span class="skill-name">Domaine Sacré</span><span class="skill-tag tag-passive">Double Immunité</span></div>
+    <p class="skill-desc">Angelita est <em>immunisée contre le Silence et les Brûlures</em>. Double immunité permanente indissipable — contre directement Maxim (Silence) et les formations Feu (Norris, Oichi, Fiona).</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head"><span class="skill-name">Faiblesse de Cible</span><span class="skill-tag tag-locked">🔒 Niveau avancé</span></div>
+    <p class="skill-desc">Briser <em>+30%</em>. Chance d'ignorer la Parade et d'infliger des dégâts normaux — s'applique à chacune des cibles touchées par l'AoE de 600%, multipliant les chances de percer les défenses adverses.</p>
+  </div>
+
+  <div class="info-box">
+    <strong>💡 La mécanique de délai — avantage ou risque ?</strong><br>
+    L'AoE à 600% après 2 tours est la plus puissante du jeu sur une zone complète. Le délai de 2 tours crée une pression psychologique sur l'adversaire mais donne aussi un court délai de réaction. En pratique avec +40% Rage au départ, Angelita déclenche très tôt — les 2 tours d'attente tombent souvent dans la fenêtre où les adversaires n'ont pas encore agi.<br><br>
+    <strong>Point clé :</strong> Briser le Destin bloque les soins adverses 5 tours — exactement ce qu'il faut pour que l'explosion différée arrive sur des cibles ne pouvant pas se soigner entre la marque et l'impact.
+  </div>
+</div>
+
+<!-- TROUPES -->
+<div class="section">
+  <div class="section-title">⚔️ Compétences de Troupe — Talent +8</div>
+  <div class="troop-grid">
+    <div class="troop-item troop-highlight">
+      <div class="troop-val">+500%</div>
+      <div class="troop-lbl">ATQ de troupe (compétence active)</div>
+    </div>
+    <div class="troop-item"><div class="troop-val">+350%</div><div class="troop-lbl">ATQ Archer (passif)</div></div>
+    <div class="troop-item"><div class="troop-val">+350%</div><div class="troop-lbl">ATQ Cavalerie (passif)</div></div>
+    <div class="troop-item"><div class="troop-val">+350%</div><div class="troop-lbl">DEF de Troupe (passif)</div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px">
+    <strong>💡 Bonus ATQ exceptionnel</strong><br>
+    +350% ATQ Archer ET +350% ATQ Cavalerie en passif simultanément — Angelita booste deux types de troupes offensifs en même temps. Rare et très puissant pour les formations mixtes Archer/Cavalerie. Le +350% DEF universelle complète un profil à la fois offensif et défensif.
+  </div>
+</div>
+
+<!-- CURIOSITÉ -->
+<div class="section">
+  <div class="section-title">⚔️ Curiosité Exclusive — Épée des Présages</div>
+  <div class="weapon-box">
+    <div class="weapon-name">⚔️ Épée des Présages ★★★★★★★★ — Niveau maximum : +30</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus légion à +30 (niveau max)</div>
+    <div class="weapon-stats">
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1 200</span>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Angelita uniquement) — Archer + Cavalerie</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>PV Archer <strong style="color:#2ecc71">+200%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV Cavalerie <strong style="color:#2ecc71">+200%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>DEF de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>ATQ Archer <strong style="color:#2ecc71">+200%</strong> + ATQ Cavalerie <strong style="color:#2ecc71">+200%</strong></div></div>
+  </div>
+  <div class="info-box">
+    <strong>💡 Curiosité double-type unique</strong><br>
+    L'Épée des Présages est l'une des rares curiosités à booster simultanément Archer et Cavalerie à +200% chacun à Héros +6. Combinée aux +350% passifs de la compétence de troupe, Angelita offre des bonus offensifs exceptionnels pour les deux types — idéale pour les formations mixtes Archer/Cavalerie.
+  </div>
+</div>
+
+<!-- POINTS FORTS / LIMITES -->
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>AoE 600% sur toute la formation — la plus haute AoE complète du jeu</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Briser le Destin bloque tous les soins adverses 5 tours — annule Tania, Anastasia, Sirona</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>+40% Rage au départ — l'une des plus hautes avances de démarrage</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Double immunité Silence + Brûlure — imperturbable</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>+350% ATQ Archer ET Cavalerie simultanément — bonus double-type unique</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Délai de 2 tours — fenêtre de vulnérabilité entre la marque et l'impact</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Briser le Destin est aléatoire — l'incapacité de soin n'est pas garantie</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Boss Alliance — AoE moins efficace sur cible unique que les carry single-target</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Faiblesse de Cible verrouillée — plein potentiel limité sans ce passif</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXTE -->
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●●</span><span class="ctx-note">AoE 600% + blocage soins 5 tours = formation adverse incapable de se soigner avant l'impact différé</span></td></tr>
+    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●●●</span><span class="ctx-note">AoE massive sur toutes les vagues + immunité Brûlure = très solide sur tous les stages</span></td></tr>
+    <tr><td class="ctx-label">KvK · Guerre</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Excellent — le blocage de soins est dévastateur en combat prolongé où les soigneurs adverses sont actifs</span></td></tr>
+    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●●●</span><span class="dots-empty">●●</span><span class="ctx-note">AoE moins adaptée au Boss unique — Guan Yu et Khaos restent prioritaires pour le Boss</span></td></tr>
+  </table>
+</div>
+
+<!-- SYNERGIES -->
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Herukab</div><div class="syn-role">Lumière · DEF −44% · ATQ −34% AoE</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Duo Lumière dévastateur. Herukab réduit la DEF de tous les ennemis de −44% → l'AoE de 600% d'Angelita arrive sur des cibles à DEF réduite. Herukab réduit aussi leur ATQ de −34%, protégeant Angelita pendant ses 2 tours d'attente avant l'impact.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Lumière</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Debuff → AoE 600%</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Tania</div><div class="syn-role">Glace · Soigneuse · DEF +63% AoE</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Tania protège Angelita pendant les 2 tours d'attente avant l'explosion. Le soin 44% AoE + DEF +63% permettent à Angelita de survivre jusqu'à ce que son Châtiment Divin s'abatte. Ironiquement, Angelita bloque les soins adverses (Briser le Destin) pendant que Tania la soigne elle.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Sustain</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Protection Attente</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div class="syn-name">Khaos</div><div class="syn-role">Sombre · S Universel · Immobilisation</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Khaos immobilise les ennemis pendant qu'Angelita attend ses 2 tours. Les cibles immobilisées ne peuvent pas agir — elles reçoivent l'AoE de 600% sans avoir pu réagir ni se soigner. Combo contrôle + explosion différée redoutable.</p>
+    <div class="syn-tags"><span class="stag stag-purple">Immobil. → AoE</span><span class="stag stag-red">PvP</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Maxim</div><div class="syn-role">Lumière · Transformation · DEF +80%</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Duo Lumière contrôle total. Maxim transforme les ennemis au tour 1 (+50% Rage), pendant que l'AoE d'Angelita se charge. Les cibles transformées ne peuvent pas agir et reçoivent l'AoE 2 tours plus tard. Double contrôle Lumière impossible à contrer.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Lumière</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Double Contrôle</span></div>
+  </div>
+</div>
+
+<!-- FORMATIONS -->
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+
+  <div class="formation">
+    <div class="form-title">Formation Lumière Contrôle Total (PvP optimal)</div>
+    <div class="form-heroes">
+      <span class="fhero lumiere">Angelita</span>
+      <span class="fhero lumiere">Maxim</span>
+      <span class="fhero lumiere">Herukab</span>
+    </div>
+    <p class="form-desc">Trio Lumière pur. Maxim transforme au tour 1, Herukab débuff DEF −44% et ATQ −34%, Angelita frappe à 600% sur des cibles neutralisées et affaiblies. Formation Lumière la plus dominante disponible en PvP.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation AoE + Sustain (PvP défensif)</div>
+    <div class="form-heroes">
+      <span class="fhero lumiere">Angelita</span>
+      <span class="fhero lumiere">Herukab</span>
+      <span class="fhero glace">Tania</span>
+    </div>
+    <p class="form-desc">Herukab affaiblit, Tania soigne Angelita pendant l'attente, Angelita frappe à 600% sur des cibles à DEF réduite. Formation très résistante — Tania compense la vulnérabilité des 2 tours d'attente.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation Double Explosion (PvP agressif)</div>
+    <div class="form-heroes">
+      <span class="fhero lumiere">Angelita</span>
+      <span class="fhero dark">Khaos</span>
+      <span class="fhero glace">Tania</span>
+    </div>
+    <p class="form-desc">Khaos immobilise pendant qu'Angelita charge, l'AoE de 600% arrive sur des cibles paralysées. Tania maintient la survie. Formation offensive maximale — les ennemis sont contrôlés ET soumis à 600% de dégâts différés simultanément.</p>
+  </div>
+</div>
+
+
+<!-- ══ POSITION ══ -->
+<div class="section">
+  <div class="section-title">🗺️ Position en Formation</div>
+  <div style="background:rgba(125,102,8,.12);border:1px solid #f4d03f33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+    <div style="font-family:'Cinzel',serif;font-size:.8rem;color:#f4d03f;margin-bottom:6px">Position recommandée</div>
+    <div style="font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px">📍 Centre ou Flanc intérieur</div>
+    <div style="font-size:.8rem;color:#8fa8c0;line-height:1.5">Angelita a besoin de tuiles Lumière pour charger rapidement grâce à son +40% Rage de départ. Au centre, elle reçoit les combos depuis toutes les positions. En flanc intérieur, elle est moins exposée pendant ses 2 tours d'attente avant l'explosion. Éviter le flanc extrême isolé où les tuiles Lumière sont plus rares.</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:center;font-size:.65rem">
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>extrême G</div>
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>intérieur G</div>
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Centre</div>
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>intérieur D</div>
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>extrême D</div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin-top:10px;line-height:1.4">
+    <strong style="color:var(--gold)">Investissement :</strong> 1★ à 6★ · jusqu'à Talent +8
+  </div>
+</div>
+
+<!-- ══ COMBOS PAR ACTIVITÉ ══ -->
+<div class="section">
+  <div class="section-title">⚡ Combos par Activité</div>
+  
+  <div style="background:rgba(192,57,43,.12);border:1px solid #e74c3c44;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#e74c3c;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">PvP · Arène</div>
+    
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Maxim + Angelita</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Maxim transforme les ennemis au tour 1. Angelita déclenche son AoE 600% sur des cibles neutralisées 2 tours plus tard. Contrôle + explosion imparable.</div>
+      </div>
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Khaos + Angelita</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Khaos immobilise pendant qu'Angelita charge. L'AoE 600% arrive sur des cibles paralysées et bloquées simultanément.</div>
+      </div>
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Herukab + Angelita</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Herukab réduit DEF −44% AoE. AoE 600% d'Angelita amplifie sur cibles affaiblies. Combo debuff → explosion.</div>
+      </div>
+  </div>
+  <div style="background:rgba(192,57,43,.12);border:1px solid #e74c3c44;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#e74c3c;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">PvP · Contre soigneurs</div>
+    
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Angelita seule</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Briser le Destin bloque tous les soins adverses 5 tours. À déclencher dès que possible pour neutraliser Tania ou Anastasia adverses.</div>
+      </div>
+  </div>
+  <div style="background:rgba(41,128,185,.1);border:1px solid #5dade244;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#5dade2;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">KvK · Guerre</div>
+    
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Tania + Angelita</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Tania protège Angelita pendant les 2 tours d'attente. Le blocage de soins annule ensuite les soigneurs adverses.</div>
+      </div>
+  </div>
+  <div style="background:rgba(39,174,96,.1);border:1px solid #6ecf9644;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#6ecf96;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">Portail Mesdi</div>
+    
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Herukab (centre) + Angelita (flanc int.)</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Herukab debuff depuis le centre. Angelita arrive avec 600% 2 tours plus tard sur des ennemis à DEF réduite.</div>
+      </div>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Angelita v1 — Juillet 2026</footer>
+</body>
+</html>

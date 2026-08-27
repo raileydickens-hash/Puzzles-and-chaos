@@ -6,13 +6,12 @@
 <title>Zumera — Fiche Héros</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
-  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#6c3483;--elem-light:#bb8fce;--elem-bg:rgba(142,68,173,.12);--elem-border-a:rgba(142,68,173,.35);--elem-border-b:rgba(142,68,173,.5)}
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#6c3483;--elem-light:#a569bd;--elem-bg:rgba(108,52,131,.12)}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a2a 0%,#0d1117 65%)}
-  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
-  .back:hover{color:var(--gold)}
-  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid var(--elem-border-a);border-radius:14px;margin-bottom:18px}
-  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a1030 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}.back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(108,52,131,.35);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(108,52,131,.5);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
   .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
   .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
   .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
@@ -24,29 +23,33 @@
   .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
   .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
   .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
-  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.b-plus{color:#85c1e9}.rval.c{color:#e07070}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}
   .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
   .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
   .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
   .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
-  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.util{border-left-color:#5dade2}.skill.ctrl{border-left-color:#bb8fce}.skill.locked{border-left-color:#455a75;opacity:.7}.skill.passif{border-left-color:#f39c12}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.passive{border-left-color:#5dade2}.skill.locked{border-left-color:#455a75;opacity:.7}
   .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
   .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
   .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
   .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
   .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
   .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
-  .tag-util{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
-  .tag-ctrl{background:rgba(142,68,173,.15);color:#bb8fce;border:1px solid rgba(142,68,173,.4)}
+  .tag-passive{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
   .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
-  .tag-passif{background:rgba(243,156,18,.14);color:#f5b041;border:1px solid rgba(243,156,18,.4)}
+  .skill-req{font-size:.65rem;color:#e07070;font-style:italic;margin-left:6px}
   .skill-desc{font-size:.8rem;line-height:1.45}
   .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .perturb-box{background:rgba(108,52,131,.15);border:1px solid rgba(108,52,131,.4);border-radius:8px;padding:10px 12px;margin-top:8px}
+  .perturb-title{color:var(--elem-light);font-weight:700;font-size:.8rem;margin-bottom:6px}
+  .perturb-step{display:flex;gap:8px;margin-bottom:5px;font-size:.78rem;line-height:1.4}
+  .perturb-num{font-family:'Cinzel',serif;font-size:.8rem;color:var(--elem-light);font-weight:700;flex-shrink:0;min-width:20px}
   .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
   .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-locked{border-style:dashed;opacity:.6}
   .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
   .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
-  .troop-highlight{grid-column:1/-1;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.3)}
+  .troop-req{font-size:.62rem;color:#e07070;margin-top:2px}
   .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
   .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
   .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
@@ -54,12 +57,6 @@
   .exclu-list{margin-top:4px}
   .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
   .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
-  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
-  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
-  .ctx-table tr:last-child td{border-bottom:none}
-  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
-  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
-  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
   .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
   .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
   .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
@@ -67,6 +64,12 @@
   .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
   .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
   .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
   .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
   .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
   .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
@@ -79,191 +82,323 @@
   .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
   .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
   .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
-  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
   .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
   .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
-  .formation.sustain{border-left-color:#5dade2}.formation.boss{border-left-color:#e74c3c}
   .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
-  .form-title.blue{color:#5dade2}.form-title.red{color:#e07070}
   .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
   .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
-  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}
-  .fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}
-  .fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}
-  .fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}
-  .fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}.fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}.fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}.fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}.fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
   .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
   .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
   .info-box strong{color:var(--gold)}
-  .pos-box{background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:8px;padding:12px 14px;margin-bottom:10px}
-  .pos-label{font-family:'Cinzel',serif;font-size:.8rem;color:var(--elem-light);margin-bottom:6px}
-  .pos-value{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px}
-  .pos-desc{font-size:.8rem;color:#8fa8c0;line-height:1.5}
-  .pos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:center;font-size:.65rem}
-  .pos-slot{background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090}
-  .pos-slot.active{background:var(--elem-bg);color:var(--gold);border:1px solid var(--elem-border-b);font-weight:700}
-  .combo-cat{border-radius:8px;padding:10px 12px;margin-bottom:8px}
-  .combo-cat-title{font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
-  .combo-item{background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px}
-  .combo-item:last-child{margin-bottom:0}
-  .combo-item-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px}
-  .combo-item-desc{font-size:.77rem;color:#8fa8c0;line-height:1.4}
+  .potential-box{background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.78rem;color:#6ecf96;line-height:1.45}
+  .potential-box strong{color:#2ecc71}
   footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
 </style>
 </head>
 <body>
-
 <a class="back" href="heroes.html">← Retour aux héros</a>
 
 <div class="hero-header">
-  <div class="elem-badge">⬡ Élément Sombre · 6★ · Sortie 04/06/2026</div>
+  <div class="elem-badge">⬡ Élément Sombre · Saison 3 · Contrôle · Perturbation</div>
   <div class="hero-name">ZUMERA</div>
-  <div class="hero-subtitle">Type de troupe : Civil · Carry Cible Unique · Contrôle par Malédiction</div>
+  <div class="hero-subtitle">La Seigneure Démon · Burst 530% · Effet Perturbé · Indissipable · S3</div>
   <div class="stat-row">
-    <div class="stat-badge"><span class="val">6★</span><span class="lbl">Étoiles max</span></div>
-    <div class="stat-badge"><span class="val">⬡ Sombre</span><span class="lbl">Élément</span></div>
-    <div class="stat-badge"><span class="val">640%</span><span class="lbl">Dégâts cible unique</span></div>
-    <div class="stat-badge"><span class="val">Curiosité</span><span class="lbl">Œil du Seigneur Démon</span></div>
+    <div class="stat-badge"><span class="val">1★ → 7★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">⬡ Sombre · S3</span><span class="lbl">Élément · Saison</span></div>
+    <div class="stat-badge"><span class="val">Talent +0</span><span class="lbl">Niveau arme</span></div>
+    <div class="stat-badge"><span class="val">Carry Contrôle</span><span class="lbl">Rôle</span></div>
   </div>
   <div class="ratings">
-    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval b">?</div><div class="rdesc">Non évalué en jeu</div></div>
-    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval b">?</div><div class="rdesc">Non évalué en jeu</div></div>
-    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval b">?</div><div class="rdesc">Non évalué en jeu</div></div>
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval s">S</div><div class="rdesc">Perturbé indissipable</div></div>
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval a">A</div><div class="rdesc">Burst + contrôle</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval b">B</div><div class="rdesc">Kit peu adapté Boss</div></div>
   </div>
 </div>
 
-<div class="info-box" style="margin-bottom:14px">
-  <strong>⚠️ Note de fiabilité</strong> — Les compétences ci-dessous proviennent du wiki Fandom Puzzles &amp; Chaos (données brutes officielles). Les tiers PvP/PvE/Boss et la position en formation n'ont pas encore été confirmés en jeu par l'alliance — ce sont des hypothèses de lecture de kit, à corriger avec un retour terrain.
-</div>
-
-<!-- ══ CE QU'ELLE FAIT ══ -->
-<div class="section">
-  <div class="section-title">🎯 Ce qu'elle fait</div>
-  <p class="skill-desc">Zumera est une <em>carry cible unique à contrôle par malédiction</em>. Âme Dévorée inflige 640% de dégâts à la cible ennemie — un burst mono-cible élevé. Malédiction Maléfique inflige l'état <em>Perturbé</em> pendant 3 tours : tant que la cible est Perturbée, chaque fois que Zumera utilise une compétence de Rage, la cible perturbée est forcée d'attaquer un allié au hasard — un contrôle qui retourne l'ennemi contre sa propre formation. Ses paliers supérieurs allongent la durée de Perturbation (+1 tour à Lv.31) puis la rendent indissipable (Lv.71). Profil de duelliste anti-carry : idéale contre un héros ennemi unique très puissant plutôt qu'en AoE.</p>
-</div>
-
+<!-- COMPÉTENCES -->
 <div class="section">
   <div class="section-title">⬡ Compétences — Progression par niveau</div>
 
   <div class="skill active">
     <div class="skill-head">
-      <div><span class="skill-name">Âme Dévorée</span><span class="skill-regen"> — Régén. Rage : Moyenne · Dès le départ</span></div>
-      <span class="skill-tag tag-active">Active</span>
+      <div><span class="skill-name">Dévoration d'Âme</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
+      <span class="skill-tag tag-active">Burst Single-Target</span>
     </div>
-    <p class="skill-desc">Inflige <em>640% de dégâts</em> à la cible ennemie. Burst mono-cible parmi les plus élevés du roster sur une cible unique.</p>
-  </div>
-
-  <div class="skill ctrl">
-    <div class="skill-head"><span class="skill-name">Malédiction Maléfique</span><span class="skill-tag tag-ctrl">Niveau 11</span></div>
-    <p class="skill-desc">Compétence active améliorée : inflige <em>Perturbé</em> à la cible pendant 3 tours. Lors de l'utilisation d'une compétence de Rage, la cible Perturbée effectue une attaque spéciale contre un allié au hasard — retourne l'ennemi contre sa propre équipe.</p>
-  </div>
-
-  <div class="skill amelio">
-    <div class="skill-head"><span class="skill-name">Corruption Vile</span><span class="skill-tag tag-amelio">Niveau 31</span></div>
-    <p class="skill-desc">Compétence active améliorée : prolonge la durée de l'effet Perturbé de <em>+1 tour</em>. Renforce la fenêtre de contrôle sur la cible.</p>
-  </div>
-
-  <div class="skill amelio">
-    <div class="skill-head"><span class="skill-name">Lignée du Seigneur Démon</span><span class="skill-tag tag-amelio">Niveau 71</span></div>
-    <p class="skill-desc">Compétence active améliorée : l'effet Perturbé devient <em>indissipable</em>. La cible ne peut plus se soustraire au contrôle une fois marquée.</p>
+    <p class="skill-desc">Inflige <em>530% de dégâts à la cible ennemie</em>. Burst concentré de niveau S3 — comparable à Guan Yu (530%) et Sodoma (528%), mais combiné avec des effets de contrôle uniques.</p>
   </div>
 
   <div class="skill locked">
-    <div class="skill-head"><span class="skill-name">Volonté d'Acier</span><span class="skill-tag tag-locked">🔒 6★★</span></div>
-    <p class="skill-desc">Résistance Critique <em>+30%</em>. Chance de recevoir des dégâts normaux en lieu d'un coup critique.</p>
+    <div class="skill-head">
+      <span class="skill-name">Malédiction Maléfique</span>
+      <span class="skill-req">🔒 Niveau 11 requis</span>
+    </div>
+    <p class="skill-desc">Applique l'effet <em>Perturbé à la cible pendant 3 tours</em>. Lorsque sa compétence de Rage est activée (coûte de la Rage), la cible Perturbée <em>lance une attaque spéciale sur un allié aléatoire</em>. Contrôle offensif unique — la cible se retourne contre ses propres alliés.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head">
+      <span class="skill-name">Corruption Immonde</span>
+      <span class="skill-req">🔒 Niveau 31 requis</span>
+    </div>
+    <p class="skill-desc"><em>Prolonge la durée de l'effet Perturbé d'un tour supplémentaire</em>. Passe de 3 à 4 tours — donne plus de temps pour que la cible déclenche ses compétences contre ses propres alliés.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head">
+      <span class="skill-name">Lignée du Seigneur Démon</span>
+      <span class="skill-req">🔒 Niveau 71 requis</span>
+    </div>
+    <p class="skill-desc">L'effet Perturbé devient <em>indissipable</em>. Les soigneurs ou supports adverses ne peuvent plus annuler la Perturbation — la cible reste sous contrôle pour toute la durée, quoi qu'il arrive.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head">
+      <span class="skill-name">Volonté d'Acier</span>
+      <span class="skill-req">🔒 7 étoiles requises</span>
+    </div>
+    <p class="skill-desc">Résistance Critique <em>+30%</em>. Chance de recevoir des dégâts normaux en lieu d'un coup critique — renforce la survie de Zumera face aux carry adverses à fort taux de critique.</p>
+  </div>
+
+  <!-- EXPLICATION EFFET PERTURBÉ -->
+  <div class="perturb-box">
+    <div class="perturb-title">🌀 Comment fonctionne l'effet Perturbé</div>
+    <div class="perturb-step"><span class="perturb-num">1</span><div>Zumera frappe la cible (530%) et applique Perturbé pendant 3-4 tours.</div></div>
+    <div class="perturb-step"><span class="perturb-num">2</span><div>La cible joue normalement — mais si elle déclenche sa compétence de Rage, elle <strong>attaque un allié aléatoire</strong> dans sa propre formation au lieu de l'ennemi.</div></div>
+    <div class="perturb-step"><span class="perturb-num">3</span><div>Cet effet <strong>coûte de la Rage à la cible</strong> à chaque déclenchement — elle perd ses compétences ET s'auto-blesse.</div></div>
+    <div class="perturb-step"><span class="perturb-num">4</span><div>À partir du niveau 71, l'effet est <strong>indissipable</strong> — aucun soin ou support adverse ne peut l'annuler.</div></div>
+    <div style="font-size:.72rem;color:#5a7090;margin-top:6px">⚠️ La cible doit déclencher une compétence pour que Perturbé se manifeste. Si elle n'a pas de Rage, l'effet est inactif mais reste actif jusqu'à expiration.</div>
   </div>
 </div>
 
+<!-- TROUPES -->
 <div class="section">
-  <div class="section-title">⚔️ Compétence de Troupe</div>
+  <div class="section-title">⚔️ Compétences de Troupe — Progression par niveau</div>
   <div class="troop-grid">
-    <div class="troop-item troop-highlight">
-      <div class="troop-val">Jusqu'à +500%</div>
-      <div class="troop-lbl">Dégâts de troupe (compétence active) — évolue avec le niveau du héros, paliers +100/+120/+150/+200/+300/+500%</div>
+    <div class="troop-item">
+      <div class="troop-val">+100%</div>
+      <div class="troop-lbl">ATQ de troupe (compétence active) — dès Talent +0</div>
     </div>
-    <div class="troop-item"><div class="troop-val">Civil</div><div class="troop-lbl">Type de troupe (particularité de Zumera — hors Cavalerie/Archer/Infanterie)</div></div>
+    <div class="troop-item">
+      <div class="troop-val">+10%</div>
+      <div class="troop-lbl">PV de troupe (passif) — dès Talent +0</div>
+    </div>
+    <div class="troop-item troop-locked">
+      <div class="troop-val">+10%</div>
+      <div class="troop-lbl">DEF de troupe (passif)</div>
+      <div class="troop-req">🔒 Niveau 31 requis</div>
+    </div>
+    <div class="troop-item troop-locked">
+      <div class="troop-val">+10%</div>
+      <div class="troop-lbl">ATQ de troupe (passif)</div>
+      <div class="troop-req">🔒 Niveau 131 requis</div>
+    </div>
   </div>
-  <div class="info-box" style="margin-top:10px">
-    <strong>Note</strong> — Les bonus PV/DEF/ATQ de troupe se débloquent à partir du niveau 31 (DEF) et 131 (ATQ) du héros, avec des paliers supplémentaires à 6★ et 6★★. Système de progression par niveau plutôt que par Talent — à recouper avec le niveau actuel de Zumera en jeu.
+
+  <div class="potential-box">
+    <strong>📈 Héros S3 au stade initial</strong><br>
+    À Talent +0 et niveau 1, Zumera est encore très loin de son plein potentiel. Les compétences de troupe sont progressivement débloquées en montant son niveau (11, 31, 71, 131). C'est un investissement à long terme — son impact en jeu augmente significativement à chaque palier débloqué.
   </div>
 </div>
 
+<!-- CURIOSITÉ -->
 <div class="section">
-  <div class="section-title">💎 Curiosité — Œil du Seigneur Démon</div>
+  <div class="section-title">👁️ Curiosité Exclusive — Œil du Seigneur Démon</div>
   <div class="weapon-box">
-    <div class="weapon-name">💎 Œil du Seigneur Démon</div>
-    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus selon rareté de la curiosité</div>
+    <div class="weapon-name">👁️ Œil du Seigneur Démon ★★★★★★★★ — Niveau maximum : +30</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus légion à +30 (niveau max)</div>
     <div class="weapon-stats">
-      <span class="wstat">DEF Troupe jusqu'à +100%</span>
-      <span class="wstat">PV Troupe jusqu'à +100%</span>
-      <span class="wstat">ATQ Troupe jusqu'à +100%</span>
-      <span class="wstat">ATQ Troupe (Légendaire) +150%</span>
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1 200</span>
     </div>
   </div>
-  <div class="info-box" style="margin-top:10px">
-    <strong>Note</strong> — Comme toutes les curiosités, l'Œil du Seigneur Démon possède aussi des Attributs de Légion (passifs) et des Attributs de Héros communs à toutes les curiosités du jeu. Se référer au guide Curiosités général pour le détail.
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Zumera uniquement)</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>DEF de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>ATQ de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>ATQ de Troupe <strong style="color:#2ecc71">+150%</strong> supplémentaires</div></div>
   </div>
 </div>
 
+<!-- POINTS FORTS / LIMITES -->
 <div class="section">
   <div class="section-title">⚖️ Points Forts et Limites</div>
   <div class="pf-grid">
     <div class="pf-box">
       <div class="pf-title green">✓ Points Forts</div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>640% de dégâts sur cible unique — burst mono-cible très élevé</div></div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>Contrôle unique : force l'ennemi Perturbé à attaquer son propre allié</div></div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>Perturbation prolongée puis indissipable aux paliers supérieurs — contrôle très fiable en fin de progression</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Effet Perturbé unique — force la cible à attaquer ses propres alliés avec ses compétences</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Indissipable au niveau 71 — aucun support adverse ne peut annuler la Perturbation</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Burst 530% S3 — parmi les plus élevés en single-target</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Double pression : dégâts immédiats + contrôle durable sur la cible</div></div>
     </div>
     <div class="pf-box">
       <div class="pf-title red">✗ Limites</div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Aucun dégât ni contrôle AoE — profil strictement mono-cible</div></div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Type de troupe « Civil » atypique — synergies de légion à vérifier en jeu</div></div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Effet Perturbé pleinement puissant seulement à partir du niveau 71</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Talent à développer — compétences de troupe et passifs héros très limités au stade initial</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Malédiction Maléfique verrouillée jusqu'au niveau 11 — le contrôle n'est pas encore disponible</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Perturbé conditionnel — la cible doit déclencher une compétence pour que l'effet se manifeste</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Boss Alliance — le contrôle sur Boss unique est peu utile, kit inadapté</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Héros S3 — investissement long avant d'atteindre le plein potentiel</div></div>
     </div>
   </div>
 </div>
 
+<!-- PROGRESSION -->
+<div class="section">
+  <div class="section-title">📈 Paliers de progression — Ce qui se débloque</div>
+  <table style="width:100%;border-collapse:collapse;font-size:.78rem">
+    <tr style="background:var(--panel2)">
+      <th style="padding:7px 10px;text-align:left;color:var(--gold);font-family:'Cinzel',serif;font-size:.7rem;border-bottom:1px solid var(--border)">Palier</th>
+      <th style="padding:7px 10px;text-align:left;color:var(--gold);font-family:'Cinzel',serif;font-size:.7rem;border-bottom:1px solid var(--border)">Ce qui se débloque</th>
+      <th style="padding:7px 10px;text-align:left;color:var(--gold);font-family:'Cinzel',serif;font-size:.7rem;border-bottom:1px solid var(--border)">Impact</th>
+    </tr>
+    <tr><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)"><strong>Dès maintenant</strong></td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)">Burst 530%</td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4);color:#5dade2">Déjà utilisable</td></tr>
+    <tr><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)"><strong>Niveau 11</strong></td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)">Malédiction Maléfique (Perturbé 3 tours)</td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4);color:#2ecc71">Premier palier clé ✓</td></tr>
+    <tr><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)"><strong>Niveau 31</strong></td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)">Perturbé → 4 tours + DEF troupe +10%</td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4);color:#2ecc71">Contrôle amélioré ✓</td></tr>
+    <tr><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)"><strong>Niveau 71</strong></td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)">Perturbé indissipable</td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4);color:#e8b84b">Palier S-tier PvP ⭐</td></tr>
+    <tr><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)"><strong>Niveau 131</strong></td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4)">ATQ de troupe +10% (passif)</td><td style="padding:6px 10px;border-bottom:1px solid rgba(46,61,85,.4);color:#5dade2">Bonus légion complet</td></tr>
+    <tr><td style="padding:6px 10px"><strong>7 étoiles</strong></td><td style="padding:6px 10px">Volonté d'Acier (Rés. Crit. +30%)</td><td style="padding:6px 10px;color:#5dade2">Survie améliorée</td></tr>
+  </table>
+
+  <div class="info-box">
+    <strong>💡 Priorité d'investissement</strong><br>
+    Le palier le plus important est le <strong>niveau 71</strong> — c'est là que Perturbé devient indissipable et que Zumera passe vraiment en S-tier PvP. Monter rapidement jusqu'à ce palier est l'objectif principal.
+  </div>
+</div>
+
+<!-- CONTEXTE -->
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●●</span><span class="ctx-note">Perturbé indissipable (niv.71) — force le carry adverse à attaquer ses propres alliés. Contre direct des formations à gros DPS single-target</span></td></tr>
+    <tr><td class="ctx-label">KvK · Guerre</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Contrôle durable très efficace en combat prolongé — la cible perturbée s'auto-détruit si elle a beaucoup de Rage</span></td></tr>
+    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●</span><span class="dots-empty">●●</span><span class="ctx-note">Burst 530% solide, mais le Perturbé est moins utile sur des vagues de mobs que sur des héros adverses avec compétences</span></td></tr>
+    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●●</span><span class="dots-empty">●●●</span><span class="ctx-note">Kit de contrôle inadapté au Boss — préférer Guan Yu ou Khaos pour le DPS Boss</span></td></tr>
+  </table>
+</div>
+
+<!-- SYNERGIES -->
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Aerposia</div><div class="syn-role">Sombre · Carry Burst · Cavalerie</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Duo Sombre redoutable. Zumera perturbe la cible principale (530% + contrôle), Aerposia burst une deuxième cible simultanément (1 088%). Deux menaces indépendantes en même temps — la formation adverse doit gérer deux problèmes simultanés.</p>
+    <div class="syn-tags"><span class="stag stag-purple">Duo Sombre</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Double Menace</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Khaos</div><div class="syn-role">Sombre · S Universel · Immobilisation</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Duo contrôle total Sombre. Khaos immobilise (50% chance/décharge × 5), Zumera perturbe. Les ennemis sont simultanément immobilisés ET forcés d'attaquer leurs alliés s'ils déclenchent une compétence. Double contrôle de zone + single-target indépendants.</p>
+    <div class="syn-tags"><span class="stag stag-purple">Duo Sombre</span><span class="stag stag-red">PvP</span><span class="stag stag-gold">Double Contrôle</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Tania</div><div class="syn-role">Glace · Soigneuse · DEF +63% AoE</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Tania compense la fragilité de Zumera pendant les combats prolongés. Le soin 44% AoE + DEF +63% permettent à Zumera de tenir jusqu'à ce que sa Perturbation produise ses effets sur la cible.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Sustain</span><span class="stag stag-red">PvP</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Aurora</div><div class="syn-role">Sombre · Exécution 99% PV · Blocage Rage</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Combo contrôle + exécution Sombre. Aurora bloque la Rage de la cible de −50%, ce qui réduit les chances qu'elle déclenche son effet Perturbé (puisque la cible a moins de Rage). Mais si Aurora exécute sa cible, Zumera peut passer à une deuxième cible avec son burst.</p>
+    <div class="syn-tags"><span class="stag stag-purple">Duo Sombre</span><span class="stag stag-red">PvP</span></div>
+  </div>
+</div>
+
+<!-- FORMATIONS -->
+<div class="section">
+  <div class="section-title">🏆 Formations Types</div>
+
+  <div class="formation">
+    <div class="form-title">Formation Trio Sombre Contrôle (PvP optimal)</div>
+    <div class="form-heroes">
+      <span class="fhero dark">Zumera</span>
+      <span class="fhero dark">Khaos</span>
+      <span class="fhero dark">Aerposia</span>
+    </div>
+    <p class="form-desc">Zumera perturbe une cible, Khaos immobilise la zone, Aerposia burst une troisième cible. Trois effets de contrôle/DPS indépendants sur trois cibles différentes simultanément — formation Sombre la plus dominante possible.</p>
+  </div>
+
+  <div class="formation">
+    <div class="form-title">Formation Contrôle + Sustain</div>
+    <div class="form-heroes">
+      <span class="fhero dark">Zumera</span>
+      <span class="fhero dark">Aerposia</span>
+      <span class="fhero glace">Tania</span>
+    </div>
+    <p class="form-desc">Tania maintient la formation en vie, Zumera perturbe la cible prioritaire, Aerposia burst. Formation équilibrée qui peut tenir dans les combats prolongés où le contrôle de Zumera produit le plus d'effet.</p>
+  </div>
+</div>
+
+
 <!-- ══ POSITION ══ -->
 <div class="section">
   <div class="section-title">🗺️ Position en Formation</div>
-  <div class="pos-box">
-    <div class="pos-label">Position — hypothèse à valider</div>
-    <div class="pos-value">📍 Flanc intérieur (à confirmer)</div>
-    <div class="pos-desc">Zumera cible un ennemi unique — sa position exacte a moins d'impact que pour un héros de zone. Le flanc intérieur offre un compromis entre portée sur la cible et un minimum de protection. Cette recommandation est une lecture de kit et n'a pas encore été testée en formation par l'alliance — à ajuster selon retour terrain.</div>
+  <div style="background:rgba(108,52,131,.12);border:1px solid #a569bd33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
+    <div style="font-family:'Cinzel',serif;font-size:.8rem;color:#a569bd;margin-bottom:6px">Position recommandée</div>
+    <div style="font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px">📍 Flanc intérieur ou Centre</div>
+    <div style="font-size:.8rem;color:#8fa8c0;line-height:1.5">Zumera est un carry contrôle single-target — en flanc intérieur ou au centre, elle accumule de la Rage via les tuiles Sombre pour déclencher Dévoration d'Âme rapidement. L'effet Perturbé est maximal quand la cible a beaucoup de Rage — Zumera doit frapper tôt avant que les ennemis ne déclenchent leurs propres compétences.</div>
   </div>
-  <div class="pos-grid">
-    <div class="pos-slot">Flanc<br>extrême G</div>
-    <div class="pos-slot active">Flanc<br>intérieur G</div>
-    <div class="pos-slot">Centre</div>
-    <div class="pos-slot active">Flanc<br>intérieur D</div>
-    <div class="pos-slot">Flanc<br>extrême D</div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:center;font-size:.65rem">
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>extrême G</div>
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>intérieur G</div>
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Centre</div>
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>intérieur D</div>
+    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>extrême D</div>
   </div>
   <div style="font-size:.72rem;color:#5a7090;margin-top:10px;line-height:1.4">
-    <strong style="color:var(--gold)">Investissement :</strong> jusqu'à 6★ puis 6★★ (Volonté d'Acier) · progression par niveau (paliers 11 / 31 / 71 / 131)
+    <strong style="color:var(--gold)">Investissement :</strong> 1★ à 6★ (7★ pour Volonté d'Acier) · de Talent +0 à Talent +8 progressivement
   </div>
 </div>
 
 <!-- ══ COMBOS PAR ACTIVITÉ ══ -->
 <div class="section">
-  <div class="section-title">⚡ Combos par Activité — hypothèses à tester</div>
-
-  <div class="combo-cat" style="background:rgba(192,57,43,.12);border:1px solid #e74c3c44">
-    <div class="combo-cat-title" style="color:#e74c3c">PvP · Arène</div>
-    <div class="combo-item">
-      <div class="combo-item-title">Zumera contre un carry adverse isolé</div>
-      <div class="combo-item-desc">Le contrôle « attaque un allié au hasard » est surtout utile contre des formations resserrées où l'ennemi Perturbé peut frapper son propre support. À tester en situation réelle avant de généraliser.</div>
-    </div>
+  <div class="section-title">⚡ Combos par Activité</div>
+  
+  <div style="background:rgba(192,57,43,.12);border:1px solid #e74c3c44;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#e74c3c;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">PvP · Arène</div>
+    
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Zumera + Aerposia + Sirona</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Zumera perturbe la cible principale, Aerposia burst une deuxième. Sirona soigne et charge la Rage des deux. Trio Sombre dominant.</div>
+      </div>
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Zumera + Khaos</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Zumera perturbe une cible (force à attaquer ses alliés), Khaos immobilise la zone. Double contrôle indépendant simultané.</div>
+      </div>
   </div>
-
-  <div class="combo-cat" style="background:rgba(232,184,75,.08);border:1px solid #e8b84b44">
-    <div class="combo-cat-title" style="color:#e8b84b">Boss Alliance</div>
-    <div class="combo-item">
-      <div class="combo-item-title">Profil compatible en théorie</div>
-      <div class="combo-item-desc">640% sur cible unique correspond au profil recherché pour les Boss (cible unique fixe). Non testé — à comparer avec Guan Yu/Norris/Khaos avant de l'intégrer à une formation Boss.</div>
-    </div>
+  <div style="background:rgba(192,57,43,.12);border:1px solid #e74c3c44;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#e74c3c;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">PvP · Contre carry adverse</div>
+    
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Zumera (Perturbé indissipable niv.71)</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Force le carry adverse à attaquer ses propres alliés quand il déclenche ses compétences. Neutralisation totale.</div>
+      </div>
+  </div>
+  <div style="background:rgba(41,128,185,.1);border:1px solid #5dade244;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#5dade2;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">KvK · Guerre</div>
+    
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Zumera + Tania</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Zumera contrôle la menace principale, Tania maintient la formation. Combat prolongé = Perturbé produit plus d'effets.</div>
+      </div>
+  </div>
+  <div style="background:rgba(39,174,96,.1);border:1px solid #6ecf9644;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#6ecf96;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">Portail Mesdi</div>
+    
+      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
+        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Flanc intérieur Monde 3+</div>
+        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Dévoration d'Âme 530% efficace sur les boss de chapitre. Perturbé indissipable neutralise les soigneurs ennemis du Portail.</div>
+      </div>
   </div>
 </div>
 
-<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Zumera v1 — Août 2026 · Données : wiki Fandom P&amp;C</footer>
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Zumera v1 — Juillet 2026</footer>
 </body>
 </html>
