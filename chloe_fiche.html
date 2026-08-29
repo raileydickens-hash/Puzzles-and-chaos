@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chloe — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#6c3483;--elem-light:#bb8fce;--elem-bg:rgba(142,68,173,.12);--elem-border-a:rgba(142,68,173,.35);--elem-border-b:rgba(142,68,173,.5)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a2a 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
+  .back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid var(--elem-border-a);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.b-plus{color:#85c1e9}.rval.c{color:#e07070}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.util{border-left-color:#5dade2}.skill.ctrl{border-left-color:#bb8fce}.skill.locked{border-left-color:#455a75;opacity:.7}.skill.passif{border-left-color:#f39c12}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-util{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-ctrl{background:rgba(142,68,173,.15);color:#bb8fce;border:1px solid rgba(142,68,173,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .tag-passif{background:rgba(243,156,18,.14);color:#f5b041;border:1px solid rgba(243,156,18,.4)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .troop-highlight{grid-column:1/-1;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.3)}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .formation.sustain{border-left-color:#5dade2}.formation.boss{border-left-color:#e74c3c}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-title.blue{color:#5dade2}.form-title.red{color:#e07070}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}
+  .fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}
+  .fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}
+  .fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}
+  .fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  .pos-box{background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+  .pos-label{font-family:'Cinzel',serif;font-size:.8rem;color:var(--elem-light);margin-bottom:6px}
+  .pos-value{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px}
+  .pos-desc{font-size:.8rem;color:#8fa8c0;line-height:1.5}
+  .pos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:center;font-size:.65rem}
+  .pos-slot{background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090}
+  .pos-slot.active{background:var(--elem-bg);color:var(--gold);border:1px solid var(--elem-border-b);font-weight:700}
+  .combo-cat{border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .combo-cat-title{font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
+  .combo-item{background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px}
+  .combo-item:last-child{margin-bottom:0}
+  .combo-item-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px}
+  .combo-item-desc{font-size:.77rem;color:#8fa8c0;line-height:1.4}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<a class="back" href="heroes.html">← Retour aux héros</a>
+
+<div class="hero-header">
+  <div class="elem-badge">⬡ Élément Sombre · Type Civil · Héros Économique</div>
+  <div class="hero-name">CHLOE</div>
+  <div class="hero-subtitle">Réduction du Coût de Construction (Pierre &amp; Fer) + Accélération Gratuite</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">3★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">⬡ Sombre</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">Civil</span><span class="lbl">Type de troupe</span></div>
+    <div class="stat-badge"><span class="val">Passif</span><span class="lbl">Activation</span></div>
+  </div>
+</div>
+
+<div class="info-box" style="margin-bottom:14px">
+  <strong>💡 Bonus 100% passif</strong> — Chloe n'a pas besoin d'être déployée en formation ni envoyée en marche. Son bonus s'applique simplement en la possédant et en la faisant progresser en niveau, comme tous les héros de type Civil.
+</div>
+
+<!-- ══ CE QU'ELLE FAIT ══ -->
+<div class="section">
+  <div class="section-title">🎯 Ce qu'elle fait</div>
+  <p class="skill-desc">Au lieu du respect qu'elle méritait, l'excellence de Chloe a suscité la jalousie des autres candidats. Faussement accusée d'apprendre la magie sombre, elle fut emprisonnée. Son esprit rongé par la colère et la vengeance, elle devint une proie facile pour les manipulations du Pontife des Ténèbres, et finit par embrasser la magie sombre. En jeu, son rôle est économique : elle augmente le <strong>temps d'accélération gratuite</strong>, réduit le <strong>coût en Pierre</strong> de construction (débloqué au niveau 31) et réduit le <strong>coût en Fer</strong> de construction (débloqué au niveau 71). Un profil économique qui monte en puissance avec le niveau, complémentaire de William (Nourriture/Bois) et Elsa (vitesse/Fer).</p>
+</div>
+
+<div class="section">
+  <div class="section-title">⬡ Compétence de Troupe (Civil)</div>
+  <div class="troop-grid">
+    <div class="troop-item troop-highlight"><div class="troop-val">Accélération Gratuite ↑</div><div class="troop-lbl">Bonus de base — dès le déblocage du héros</div></div>
+    <div class="troop-item"><div class="troop-val">Coût Pierre ↓</div><div class="troop-lbl">Débloqué au niveau 31 du héros</div></div>
+    <div class="troop-item"><div class="troop-val">Coût Fer ↓</div><div class="troop-lbl">Débloqué au niveau 71 du héros</div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px">
+    <strong>Note</strong> — Les pourcentages exacts par palier n'ont pas encore été confirmés par une capture d'écran en jeu. À valider avant de les afficher.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Trois bonus cumulés qui montent en puissance avec le niveau (paliers 31 et 71)</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Réduit deux ressources coûteuses en fin de progression (Pierre, Fer)</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Complémentaire de William et Elsa pour couvrir toutes les ressources de construction</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Bonus Pierre/Fer inactifs tant que le héros n'a pas atteint les niveaux 31/71</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Aucune utilité en combat (PvP/PvE/Boss) ni en Tourelle de Défense</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Pourcentages exacts de bonus non confirmés en jeu à ce jour</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">Progression du Château (ex. C29)</td><td><span class="dots">●●●●●</span><span class="ctx-note">Trois bonus cumulés, particulièrement forts en fin de progression (niveau 71+)</span></td></tr>
+    <tr><td class="ctx-label">Combat (PvP/PvE/Boss)</td><td><span class="dots-empty">●●●●●</span><span class="ctx-note">Non applicable — héros Civil, jamais déployé en formation</span></td></tr>
+  </table>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Chloe v1 — Août 2026 · Données : wiki Fandom P&amp;C</footer>
+</body>
+</html>
