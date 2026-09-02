@@ -6,13 +6,13 @@
 <title>Aerposia — Fiche Héros</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
-  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#6c3483;--elem-light:#a569bd;--elem-bg:rgba(108,52,131,.12)}
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#6c3483;--elem-light:#bb8fce;--elem-bg:rgba(142,68,173,.12);--elem-border-a:rgba(142,68,173,.35);--elem-border-b:rgba(142,68,173,.5)}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#1a1030 0%,#0d1117 65%)}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a2a 0%,#0d1117 65%)}
   .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
   .back:hover{color:var(--gold)}
-  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid rgba(108,52,131,.3);border-radius:14px;margin-bottom:18px}
-  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid rgba(108,52,131,.45);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid var(--elem-border-a);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
   .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
   .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
   .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
@@ -24,26 +24,29 @@
   .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
   .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
   .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
-  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.c{color:#455a75}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.b-plus{color:#85c1e9}.rval.c{color:#e07070}
   .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
   .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
   .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
   .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
-  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.passive{border-left-color:#5dade2}.skill.locked{border-left-color:#455a75;opacity:.7}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.util{border-left-color:#5dade2}.skill.ctrl{border-left-color:#bb8fce}.skill.locked{border-left-color:#455a75;opacity:.7}.skill.passif{border-left-color:#f39c12}
   .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
   .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
   .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
   .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
   .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
   .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
-  .tag-passive{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-util{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-ctrl{background:rgba(142,68,173,.15);color:#bb8fce;border:1px solid rgba(142,68,173,.4)}
   .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .tag-passif{background:rgba(243,156,18,.14);color:#f5b041;border:1px solid rgba(243,156,18,.4)}
   .skill-desc{font-size:.8rem;line-height:1.45}
   .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
   .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
   .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
   .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
   .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .troop-highlight{grid-column:1/-1;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.3)}
   .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
   .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
   .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
@@ -79,9 +82,9 @@
   .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
   .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
   .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
-  .formation.sustain{border-left-color:#2ecc71}.formation.caution{border-left-color:#e74c3c}
+  .formation.sustain{border-left-color:#5dade2}.formation.boss{border-left-color:#e74c3c}
   .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
-  .form-title.green{color:#2ecc71}.form-title.red{color:#e07070}
+  .form-title.blue{color:#5dade2}.form-title.red{color:#e07070}
   .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
   .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
   .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}
@@ -92,6 +95,19 @@
   .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
   .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
   .info-box strong{color:var(--gold)}
+  .pos-box{background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+  .pos-label{font-family:'Cinzel',serif;font-size:.8rem;color:var(--elem-light);margin-bottom:6px}
+  .pos-value{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px}
+  .pos-desc{font-size:.8rem;color:#8fa8c0;line-height:1.5}
+  .pos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:center;font-size:.65rem}
+  .pos-slot{background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090}
+  .pos-slot.active{background:var(--elem-bg);color:var(--gold);border:1px solid var(--elem-border-b);font-weight:700}
+  .combo-cat{border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .combo-cat-title{font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
+  .combo-item{background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px}
+  .combo-item:last-child{margin-bottom:0}
+  .combo-item-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px}
+  .combo-item-desc{font-size:.77rem;color:#8fa8c0;line-height:1.4}
   footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
 </style>
 </head>
@@ -100,20 +116,26 @@
 <a class="back" href="heroes.html">← Retour aux héros</a>
 
 <div class="hero-header">
-  <div class="elem-badge">⬡ Élément Sombre · Saison 2</div>
+  <div class="elem-badge">⬡ Élément Sombre · Héros S2</div>
   <div class="hero-name">AERPOSIA</div>
-  <div class="hero-subtitle">La Moissonneuse des Âmes · Cavalerie · Carry DPS Burst</div>
+  <div class="hero-subtitle">La Moissonneuse des Âmes · Carry DPS Burst · Cavalerie</div>
   <div class="stat-row">
-    <div class="stat-badge"><span class="val">5★ → 6★</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">★★★★★</span><span class="lbl">Étoiles actuelles</span></div>
     <div class="stat-badge"><span class="val">⬡ Sombre</span><span class="lbl">Élément</span></div>
-    <div class="stat-badge"><span class="val">S2</span><span class="lbl">Saison</span></div>
-    <div class="stat-badge"><span class="val">Carry DPS</span><span class="lbl">Rôle</span></div>
+    <div class="stat-badge"><span class="val">+300%</span><span class="lbl">ATQ troupe (T+4)</span></div>
+    <div class="stat-badge"><span class="val">Carry</span><span class="lbl">Rôle</span></div>
   </div>
   <div class="ratings">
     <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval s">S</div><div class="rdesc">Tier dominant</div></div>
     <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval a">A</div><div class="rdesc">Très solide</div></div>
-    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval c">C</div><div class="rdesc">Kit inadapté</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval c">C</div><div class="rdesc">Ne pas déployer</div></div>
   </div>
+</div>
+
+<!-- ══ CE QU'ELLE FAIT ══ -->
+<div class="section">
+  <div class="section-title">🎯 Ce qu'elle fait</div>
+  <p class="skill-desc">Aerposia est un <em>carry DPS burst</em> Cavalerie. Elle pose une Marque Mortelle sur sa cible puis invoque un Spectre après 2 tours qui inflige <em>1 088% de dégâts</em> — l'un des multiplicateurs les plus élevés du roster. Son passif Barrière Spirituelle la rend indissipable et immunisée contre toute réduction de Rage, et Moisson Spirituelle lui redonne 40% de Rage à chaque kill, ce qui lui permet d'enchaîner ses compétences en combat prolongé. Son point faible : aucun outil adapté aux Boss Alliance (cible unique, montée en puissance progressive).</p>
 </div>
 
 <div class="section">
@@ -124,53 +146,48 @@
       <div><span class="skill-name">Garrot Sombre</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
       <span class="skill-tag tag-active">Active</span>
     </div>
-    <p class="skill-desc">Pose une Marque Mortelle sur la cible → invoque un Spectre après 2 tours infligeant <em>1 088% de dégâts</em>. L'un des multiplicateurs de burst les plus élevés du jeu.</p>
+    <p class="skill-desc">Pose une Marque Mortelle → invoque un Spectre après 2 tours infligeant <em>1 088% de dégâts</em>. Multiplicateur parmi les plus élevés du jeu.</p>
   </div>
 
   <div class="skill amelio">
     <div class="skill-head"><span class="skill-name">Neutralisation</span><span class="skill-tag tag-amelio">Améliorée</span></div>
-    <p class="skill-desc">Réduit la Défense de la cible de <em>44%</em> pendant 5 tours. Debuff défensif majeur qui amplifie les dégâts de toute la formation, pas seulement d'Aerposia.</p>
+    <p class="skill-desc">Réduit la DEF de la cible de <em>44%</em> pendant 5 tours. Debuff défensif majeur qui amplifie les dégâts de toute la formation.</p>
   </div>
 
-  <div class="skill passive">
-    <div class="skill-head"><span class="skill-name">Barrière Spirituelle</span><span class="skill-tag tag-passive">Passif</span></div>
-    <p class="skill-desc">Immunité totale contre tous les effets de réduction de Rage. <em>Indissipable.</em> Contrecarre les héros ennemis capables de vider la Rage adverse (ex. Patty).</p>
+  <div class="skill util">
+    <div class="skill-head"><span class="skill-name">Barrière Spirituelle</span><span class="skill-tag tag-util">Passif</span></div>
+    <p class="skill-desc">Immunité totale contre tous les effets de réduction de Rage. <em>Indissipable.</em> Contrecarre les héros comme Patty (Volonté de la Reine).</p>
   </div>
 
-  <div class="skill amelio">
-    <div class="skill-head"><span class="skill-name">Moisson Spirituelle</span><span class="skill-tag tag-amelio">Améliorée</span></div>
-    <p class="skill-desc">Récupère <em>40% de Rage à chaque élimination</em> → enchaînement immédiat des compétences en combat prolongé. Synergie directe avec les générateurs de Rage comme Tala.</p>
+  <div class="skill passif">
+    <div class="skill-head"><span class="skill-name">Moisson Spirituelle</span><span class="skill-tag tag-passif">Améliorée</span></div>
+    <p class="skill-desc">Récupère <em>40% de Rage</em> à chaque kill → enchaînement immédiat des compétences en combat prolongé. Synergise parfaitement avec Tala.</p>
   </div>
 
   <div class="skill locked">
     <div class="skill-head"><span class="skill-name">Faiblesse de Cible</span><span class="skill-tag tag-locked">🔒 6 étoiles</span></div>
-    <p class="skill-desc"><em>+30% Briser.</em> Chance d'ignorer la Parade et d'infliger des dégâts normaux. Gain offensif majeur qui s'applique directement au Spectre à 1 088%.</p>
-  </div>
-
-  <div class="info-box">
-    <strong>💡 Pourquoi débloquer les 6 étoiles en priorité</strong><br>
-    Faiblesse de Cible est le gain offensif le plus immédiat d'Aerposia. +30% Briser sur un burst à 1 088% représente une augmentation de dégâts concrète et permanente.
+    <p class="skill-desc">+30% Briser. Chance d'ignorer la Parade et d'infliger des dégâts normaux. Gain offensif majeur actuellement verrouillé.</p>
   </div>
 </div>
 
 <div class="section">
   <div class="section-title">⚔️ Compétences de Troupe — Talent +4</div>
   <div class="troop-grid">
-    <div class="troop-item"><div class="troop-val">+300%</div><div class="troop-lbl">ATQ de troupe (compétence active)</div></div>
+    <div class="troop-item troop-highlight">
+      <div class="troop-val">+300%</div>
+      <div class="troop-lbl">ATQ de troupe (compétence active)</div>
+    </div>
     <div class="troop-item"><div class="troop-val">+90%</div><div class="troop-lbl">ATQ Cavalerie</div></div>
     <div class="troop-item"><div class="troop-val">+90%</div><div class="troop-lbl">ATQ Infanterie</div></div>
     <div class="troop-item"><div class="troop-val">+90%</div><div class="troop-lbl">DEF de Troupe</div></div>
   </div>
-  <div class="info-box" style="margin-top:10px">
-    <strong>Note</strong> — Les valeurs ci-dessus correspondent au Talent +4. Chaque niveau de Talent supplémentaire augmente ces pourcentages.
-  </div>
 </div>
 
 <div class="section">
-  <div class="section-title">⚔️ Arme Exclusive — Faux du Dévoreur d'Âmes</div>
+  <div class="section-title">⚔ Arme Exclusive — Faux du Dévoreur d'Âmes</div>
   <div class="weapon-box">
-    <div class="weapon-name">⚔ Faux du Dévoreur d'Âmes ★★★★★ — Niveau maximum : +13</div>
-    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus à +13 (niveau max)</div>
+    <div class="weapon-name">⚔ Faux du Dévoreur d'Âmes ★★★★★ — Niveau +13</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus au niveau actuel</div>
     <div class="weapon-stats">
       <span class="wstat">ATQ Troupe +17,5%</span>
       <span class="wstat">DEF Troupe +17,5%</span>
@@ -182,7 +199,7 @@
   </div>
   <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Aerposia uniquement)</div>
   <div class="exclu-list">
-    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>PV Cavalerie <strong style="color:#2ecc71">+80%</strong> — actif dès l'équipement</div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>PV Cavalerie <strong style="color:#2ecc71">+80%</strong></div></div>
     <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV Infanterie <strong style="color:#2ecc71">+80%</strong></div></div>
     <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>DEF de Troupe <strong style="color:#2ecc71">+40%</strong></div></div>
   </div>
@@ -193,17 +210,16 @@
   <div class="pf-grid">
     <div class="pf-box">
       <div class="pf-title green">✓ Points Forts</div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>Burst à 1 088% — l'un des plus puissants du jeu en PvP</div></div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>Debuff DEF −44% qui profite à toute la formation</div></div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>Immunité Rage indissipable — résiste aux contres meta</div></div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>Régénération de Rage à chaque kill — s'emballe en combat prolongé</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Spectre à 1 088% de dégâts — l'un des burst les plus élevés du jeu</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Debuff DEF −44% qui amplifie toute la formation</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Indissipable et immunisée aux réductions de Rage</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Moisson Spirituelle : recharge 40% de Rage par kill — excelle en combat long</div></div>
     </div>
     <div class="pf-box">
       <div class="pf-title red">✗ Limites</div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Inutile en Boss Alliance — ne jamais la déployer sur un Boss</div></div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Spectre déclenché après 2 tours — vulnérable aux formations à mort rapide</div></div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Faiblesse de Cible verrouillée derrière les 6 étoiles</div></div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Moins efficace seule — nécessite un support pour tenir en combat long</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Kit inadapté au Boss Alliance — cible unique avec délai de déclenchement</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Nécessite de survivre 2 tours après la marque pour que le Spectre frappe</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Faiblesse de Cible verrouillée tant que les 6★ ne sont pas atteintes</div></div>
     </div>
   </div>
 </div>
@@ -211,11 +227,11 @@
 <div class="section">
   <div class="section-title">🗺️ Contexte d'Utilisation</div>
   <table class="ctx-table">
-    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●●</span><span class="ctx-note">Contexte idéal — burst + debuff DEF = combinaison dominante</span></td></tr>
-    <tr><td class="ctx-label">KvK · Guerre</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Moisson Spirituelle s'emballe en combat prolongé — très efficace avec un générateur de Rage</span></td></tr>
-    <tr><td class="ctx-label">Expédition</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Chaque kill recharge la Rage — formation snowball redoutable</span></td></tr>
-    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●</span><span class="dots-empty">●●</span><span class="ctx-note">Solide mais pas la meilleure option — préférer des héros PvE dédiés</span></td></tr>
-    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●</span><span class="dots-empty">●●●●</span><span class="ctx-note">Kit inadapté aux Boss — utiliser Guan Yu, Norris, Khaos à la place</span></td></tr>
+    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●●</span><span class="ctx-note">Contexte idéal — burst + debuff DEF</span></td></tr>
+    <tr><td class="ctx-label">KvK · Guerre</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Excellente en combat prolongé avec Tala</span></td></tr>
+    <tr><td class="ctx-label">Expédition</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Moisson Spirituelle s'emballe sur les kills</span></td></tr>
+    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●</span><span class="dots-empty">●●</span><span class="ctx-note">Solide mais pas dominante</span></td></tr>
+    <tr><td class="ctx-label">Boss Alliance</td><td><span class="dots">●</span><span class="dots-empty">●●●●</span><span class="ctx-note">Kit inadapté — utiliser Guan Yu + Norris + Khaos</span></td></tr>
   </table>
 </div>
 
@@ -223,27 +239,33 @@
   <div class="section-title">🤝 Synergies Recommandées</div>
 
   <div class="synergie">
-    <div class="syn-head"><div><div class="syn-name">Tala</div><div class="syn-role">Nature · Génératrice de Rage · Support</div></div><span class="syn-tier s">S</span></div>
-    <p class="syn-desc">Synergie offensive directe. Tala recharge la Rage d'Aerposia → Aerposia enchaîne Garrot Sombre → Moisson Spirituelle récupère 40% → cycle quasi infini en combat prolongé. Meilleure partenaire offensive disponible.</p>
-    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-gold">Rage → Burst</span><span class="stag stag-green">KvK</span></div>
+    <div class="syn-head"><div><div class="syn-name">Khaos</div><div class="syn-role">Sombre · S PvP · S PvE · S Boss · Universel</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Compagnon Dark naturel. Khaos apporte ce qu'Aerposia n'a pas : un kit Boss S-Tier. Ensemble, ils couvrent tous les modes de jeu — Aerposia en PvP, Khaos en Boss et PvE.</p>
+    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-green">PvE</span><span class="stag stag-gold">Boss</span><span class="stag stag-purple">Dark</span></div>
   </div>
 
   <div class="synergie">
-    <div class="syn-head"><div><div class="syn-name">Khaos</div><div class="syn-role">Sombre · S Universel · Carry & Support</div></div><span class="syn-tier s">S</span></div>
-    <p class="syn-desc">Compagnon Sombre naturel. Khaos apporte ce qu'Aerposia n'a pas : un kit Boss S-Tier et une couverture PvE dominante. Ensemble, ils forment une formation capable de couvrir tous les modes de jeu.</p>
-    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-gold">Boss</span><span class="stag stag-blue">Universel</span></div>
+    <div class="syn-head"><div><div class="syn-name">Tala</div><div class="syn-role">Nature · Générateur de Rage · 6★ Ascendée</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Meilleure synergie offensive du roster. Tala recharge la Rage d'Aerposia → Aerposia enchaîne Garrot Sombre → Moisson Spirituelle recharge 40% → cycle infini en combat prolongé.</p>
+    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-gold">Rage → Burst</span></div>
   </div>
 
   <div class="synergie">
-    <div class="syn-head"><div><div class="syn-name">Tania</div><div class="syn-role">Glace · Soigneuse · Support Cavalerie</div></div><span class="syn-tier a">A</span></div>
-    <p class="syn-desc">Soutien défensif indispensable pour les combats prolongés. Tania soigne 44% des PV de toute la formation et ajoute +63% de Défense, permettant à Aerposia de tenir assez longtemps pour déclencher son Spectre.</p>
-    <div class="syn-tags"><span class="stag stag-blue">Cavalerie</span><span class="stag stag-red">PvP</span><span class="stag stag-green">Sustain</span></div>
+    <div class="syn-head"><div><div class="syn-name">Violette</div><div class="syn-role">Sombre · A PvE · S PvP · C Boss</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">Duo Dark PvP redoutable. Violette et Aerposia partagent le même profil S PvP — ensemble elles constituent la formation Dark PvP la plus efficace disponible.</p>
+    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-purple">Dark</span></div>
   </div>
 
   <div class="synergie">
-    <div class="syn-head"><div><div class="syn-name">Violette</div><div class="syn-role">Sombre · Carry Arène · S PvP</div></div><span class="syn-tier a">A</span></div>
-    <p class="syn-desc">Duo Sombre redoutable en PvP. Violette et Aerposia partagent le même profil S en Arène — ensemble elles constituent la formation Sombre PvP la plus agressive possible.</p>
-    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-purple">Duo Sombre</span></div>
+    <div class="syn-head"><div><div class="syn-name">Tania</div><div class="syn-role">Glace · Support · Soigneuse · 6★ Ascendée</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Sustain indispensable. Tania (soin 44% AoE + DEF +63%) permet à Aerposia de tenir dans les combats prolongés. Le duo Tania + Aerposia est la colonne vertébrale du roster actuel.</p>
+    <div class="syn-tags"><span class="stag stag-blue">Cavalerie</span><span class="stag stag-green">Sustain</span></div>
+  </div>
+
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">Herukab</div><div class="syn-role">Lumière · Debuffeur AoE double frappe</div></div><span class="syn-tier a">A</span></div>
+    <p class="syn-desc">Combo debuff → burst. Herukab réduit les coups ennemis de 34% et l'ATQ de 35% — Aerposia pose son Spectre sur des cibles affaiblies. Synergie inter-élément efficace.</p>
+    <div class="syn-tags"><span class="stag stag-red">PvP</span><span class="stag stag-gold">Debuff → Burst</span></div>
   </div>
 </div>
 
@@ -251,107 +273,89 @@
   <div class="section-title">🏆 Formations Types</div>
 
   <div class="formation">
-    <div class="form-title">Formation PvP Standard</div>
-    <div class="form-heroes">
-      <span class="fhero dark">Aerposia</span>
-      <span class="fhero glace">Tania</span>
-      <span class="fhero nature">Tala</span>
-    </div>
-    <p class="form-desc">Formation accessible et efficace. Tala recharge la Rage, Tania assure le sustain, Aerposia déclenche le burst. Fonctionne en PvP et KvK sans nécessiter de héros rares.</p>
-  </div>
-
-  <div class="formation">
-    <div class="form-title">Formation PvP Optimale (Trio Sombre)</div>
+    <div class="form-title">Formation PvP Optimale (objectif meta)</div>
     <div class="form-heroes">
       <span class="fhero dark">Khaos</span>
       <span class="fhero dark">Violette</span>
       <span class="fhero dark">Aerposia</span>
     </div>
-    <p class="form-desc">Triple Sombre S-Tier. La formation PvP la plus compétitive avec Aerposia — Khaos et Violette amplifient le profil offensif et comblent les lacunes (Boss, PvE).</p>
+    <p class="form-desc">Triple Dark S PvP. Khaos et Violette sont à acquérir — cette formation est l'objectif cible de progression. Priorité : acquérir Khaos en premier.</p>
   </div>
 
-  <div class="formation caution">
-    <div class="form-title red">⚠ Boss Alliance — Ne pas utiliser Aerposia</div>
+  <div class="formation sustain">
+    <div class="form-title blue">Formation PvP Actuelle (opérationnelle)</div>
+    <div class="form-heroes">
+      <span class="fhero dark">Aerposia</span>
+      <span class="fhero glace">Tania</span>
+      <span class="fhero nature">Tala</span>
+    </div>
+    <p class="form-desc">Formation opérationnelle dès maintenant. Tala recharge la Rage d'Aerposia, Tania assure le sustain. Efficace en PvP et KvK.</p>
+  </div>
+
+  <div class="formation boss">
+    <div class="form-title red">Boss Alliance — ne pas utiliser Aerposia</div>
     <div class="form-heroes">
       <span class="fhero nature">Guan Yu</span>
-      <span class="fhero lumiere">Norris</span>
+      <span class="fhero feu">Norris</span>
       <span class="fhero dark">Khaos</span>
     </div>
-    <p class="form-desc">Aerposia est notée C en Boss Alliance — son kit burst est inadapté aux mécaniques de Boss. Construire une équipe Boss séparée est essentiel pour maximiser les points d'alliance.</p>
+    <p class="form-desc">Aerposia a un rating C en Boss — la déployer gaspille le plafond de dégâts. Construire cette formation séparée est essentiel. Ordre tuiles : Vert → Rouge foncé → Violet.</p>
   </div>
 </div>
-
 
 <!-- ══ POSITION ══ -->
 <div class="section">
   <div class="section-title">🗺️ Position en Formation</div>
-  <div style="background:rgba(108,52,131,.12);border:1px solid #a569bd33;border-radius:8px;padding:12px 14px;margin-bottom:10px">
-    <div style="font-family:'Cinzel',serif;font-size:.8rem;color:#a569bd;margin-bottom:6px">Position recommandée</div>
-    <div style="font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px">📍 Flanc intérieur ou Centre</div>
-    <div style="font-size:.8rem;color:#8fa8c0;line-height:1.5">Aerposia doit recevoir le maximum de tuiles Sombre pour déclencher son burst rapidement. En flanc intérieur ou au centre, elle bénéficie des combos depuis les deux côtés et charge plus vite. Éviter le flanc extrême — elle y est ciblée en priorité avant d'avoir déclenché sa compétence.</div>
+  <div class="pos-box">
+    <div class="pos-label">Position recommandée</div>
+    <div class="pos-value">📍 Centre ou flanc intérieur</div>
+    <div class="pos-desc">Aerposia doit survivre 2 tours entre la pose de sa Marque Mortelle et l'invocation du Spectre — elle a donc besoin d'un minimum de protection, mais rester proche du centre lui permet d'atteindre sa cible rapidement et de profiter de Moisson Spirituelle sur les kills environnants. À combiner systématiquement avec un support (Tania) qui la maintient en vie le temps que son burst se déclenche. Ne jamais la placer seule en première ligne sans soin.</div>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:center;font-size:.65rem">
-    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>extrême G</div>
-    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>intérieur G</div>
-    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Centre</div>
-    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>intérieur D</div>
-    <div style="background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090">Flanc<br>extrême D</div>
+  <div class="pos-grid">
+    <div class="pos-slot">Flanc<br>extrême G</div>
+    <div class="pos-slot active">Flanc<br>intérieur G</div>
+    <div class="pos-slot active">Centre</div>
+    <div class="pos-slot active">Flanc<br>intérieur D</div>
+    <div class="pos-slot">Flanc<br>extrême D</div>
   </div>
   <div style="font-size:.72rem;color:#5a7090;margin-top:10px;line-height:1.4">
-    <strong style="color:var(--gold)">Investissement :</strong> 1★ à 6★ · jusqu'à Talent +8
+    <strong style="color:var(--gold)">Investissement :</strong> Héros S2 · jusqu'à 6★ · Talent +4 actuel
   </div>
 </div>
 
 <!-- ══ COMBOS PAR ACTIVITÉ ══ -->
 <div class="section">
   <div class="section-title">⚡ Combos par Activité</div>
-  
-  <div style="background:rgba(192,57,43,.12);border:1px solid #e74c3c44;border-radius:8px;padding:10px 12px;margin-bottom:8px">
-    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#e74c3c;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">PvP · Arène</div>
-    
-      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
-        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Khaos + Aerposia</div>
-        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Khaos immobilise la formation adverse via ses 5 décharges. Aerposia burst à 1 088% sur des cibles figées. Pression double impossible à gérer simultanément.</div>
-      </div>
-      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
-        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Sirona + Aerposia</div>
-        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Sirona charge +24% Rage → Aerposia déclenche avant les soigneurs adverses. Duo Sombre auto-suffisant avec sustain intégré.</div>
-      </div>
-      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
-        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Aurora + Aerposia</div>
-        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Aurora neutralise une cible (−50% Rage + exécution 99%), Aerposia burst une deuxième cible simultanément. Deux menaces indépendantes.</div>
-      </div>
+
+  <div class="combo-cat" style="background:rgba(192,57,43,.12);border:1px solid #e74c3c44">
+    <div class="combo-cat-title" style="color:#e74c3c">PvP · Arène</div>
+    <div class="combo-item">
+      <div class="combo-item-title">Aerposia + Tania + Tala</div>
+      <div class="combo-item-desc">Formation opérationnelle immédiate. Tala génère la Rage, Tania soigne, Aerposia burst. La base du roster actuel.</div>
+    </div>
+    <div class="combo-item">
+      <div class="combo-item-title">Aerposia + Khaos + Violette</div>
+      <div class="combo-item-desc">Trio Dark S-Tier — objectif de progression une fois Khaos et Violette acquis. Formation dominante en Arène.</div>
+    </div>
   </div>
-  <div style="background:rgba(232,184,75,.08);border:1px solid #e8b84b44;border-radius:8px;padding:10px 12px;margin-bottom:8px">
-    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#e8b84b;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">Boss Alliance</div>
-    
-      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
-        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Herukab + Aerposia</div>
-        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Herukab réduit la DEF du Boss de −44% → burst Aerposia amplifié sur cible affaiblie.</div>
-      </div>
-      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
-        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Guan Yu + Aerposia</div>
-        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Double DPS single-target simultané. Les deux accumulent des bonus progressifs sur la durée.</div>
-      </div>
+
+  <div class="combo-cat" style="background:rgba(232,184,75,.08);border:1px solid #e8b84b44">
+    <div class="combo-cat-title" style="color:#e8b84b">Boss Alliance</div>
+    <div class="combo-item">
+      <div class="combo-item-title">Ne pas déployer Aerposia</div>
+      <div class="combo-item-desc">Rating C en Boss. Utiliser Guan Yu + Norris + Khaos à la place — cette formation dédiée maximise le plafond de dégâts.</div>
+    </div>
   </div>
-  <div style="background:rgba(41,128,185,.1);border:1px solid #5dade244;border-radius:8px;padding:10px 12px;margin-bottom:8px">
-    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#5dade2;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">KvK · Guerre</div>
-    
-      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
-        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Tania + Aerposia</div>
-        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Tania soigne et buff DEF +63%. Aerposia inflige les dégâts. Formation durable pour les combats prolongés.</div>
-      </div>
-  </div>
-  <div style="background:rgba(39,174,96,.1);border:1px solid #6ecf9644;border-radius:8px;padding:10px 12px;margin-bottom:8px">
-    <div style="font-family:'Cinzel',serif;font-size:.75rem;color:#6ecf96;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase">Portail Mesdi</div>
-    
-      <div style="background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px">
-        <div style="font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px">Tania · Dimina · Herukab · Aerposia · Anastasia</div>
-        <div style="font-size:.77rem;color:#8fa8c0;line-height:1.4">Formation Monde 2 recommandée. Aerposia en flanc intérieur droit, Herukab au centre. Tuiles Sombre centrales accélèrent son burst.</div>
-      </div>
+
+  <div class="combo-cat" style="background:rgba(41,128,185,.1);border:1px solid #5dade244">
+    <div class="combo-cat-title" style="color:#5dade2">KvK · Guerre / Expédition</div>
+    <div class="combo-item">
+      <div class="combo-item-title">Aerposia + Tala + support de survie</div>
+      <div class="combo-item-desc">Combat prolongé = terrain idéal. Moisson Spirituelle s'emballe sur les kills successifs, Tala maintient le rythme de Rage.</div>
+    </div>
   </div>
 </div>
 
-<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Aerposia v3 — Juin 2026</footer>
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Aerposia v3 — Août 2026</footer>
 </body>
 </html>

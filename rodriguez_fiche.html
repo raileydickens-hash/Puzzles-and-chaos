@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zumera — Fiche Héros</title>
+<title>Rodriguez — Fiche Héros</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
-  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#6c3483;--elem-light:#bb8fce;--elem-bg:rgba(142,68,173,.12);--elem-border-a:rgba(142,68,173,.35);--elem-border-b:rgba(142,68,173,.5)}
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#9a7d0a;--elem-light:#e8b84b;--elem-bg:rgba(232,184,75,.12);--elem-border-a:rgba(232,184,75,.35);--elem-border-b:rgba(232,184,75,.5)}
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a2a 0%,#0d1117 65%)}
   .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
@@ -116,92 +116,100 @@
 <a class="back" href="heroes.html">← Retour aux héros</a>
 
 <div class="hero-header">
-  <div class="elem-badge">⬡ Élément Sombre · 6★ · Sortie 04/06/2026</div>
-  <div class="hero-name">ZUMERA</div>
-  <div class="hero-subtitle">Type de troupe : Civil · Carry Cible Unique · Contrôle par Malédiction</div>
+  <div class="elem-badge">☀ Élément Lumière · Curiosité 8★</div>
+  <div class="hero-name">RODRIGUEZ</div>
+  <div class="hero-subtitle">Roi Guerrier · Buff d'Équipe Massif · Dissipation</div>
   <div class="stat-row">
-    <div class="stat-badge"><span class="val">6★</span><span class="lbl">Étoiles max</span></div>
-    <div class="stat-badge"><span class="val">⬡ Sombre</span><span class="lbl">Élément</span></div>
-    <div class="stat-badge"><span class="val">640%</span><span class="lbl">Dégâts cible unique</span></div>
-    <div class="stat-badge"><span class="val">Curiosité</span><span class="lbl">Œil du Seigneur Démon</span></div>
+    <div class="stat-badge"><span class="val">5★ (6★ débloquées)</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">☀ Lumière</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">+80%</span><span class="lbl">ATQ toute l'équipe</span></div>
+    <div class="stat-badge"><span class="val">Support</span><span class="lbl">Rôle</span></div>
   </div>
   <div class="ratings">
-    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval b">?</div><div class="rdesc">Non évalué en jeu</div></div>
-    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval b">?</div><div class="rdesc">Non évalué en jeu</div></div>
-    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval b">?</div><div class="rdesc">Non évalué en jeu</div></div>
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval s">S</div><div class="rdesc">Buff d'équipe + dissipation</div></div>
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval a">A</div><div class="rdesc">Amplifie toute la formation</div></div>
+    <div class="rating-box"><div class="rtitle">Boss Alliance</div><div class="rval a">A</div><div class="rdesc">+80% ATQ équipe = DPS collectif</div></div>
   </div>
 </div>
 
 <div class="info-box" style="margin-bottom:14px">
-  <strong>⚠️ Note de fiabilité</strong> — Les compétences ci-dessous proviennent du wiki Fandom Puzzles &amp; Chaos (données brutes officielles). Les tiers PvP/PvE/Boss et la position en formation n'ont pas encore été confirmés en jeu par l'alliance — ce sont des hypothèses de lecture de kit, à corriger avec un retour terrain.
+  <strong>⚠️ Note de fiabilité</strong> — Tiers déduits par lecture de kit (méthode Tania/Aerposia). Inflexible reste verrouillé jusqu'à 6★.
 </div>
 
-<!-- ══ CE QU'ELLE FAIT ══ -->
+<!-- ══ CE QU'IL FAIT ══ -->
 <div class="section">
-  <div class="section-title">🎯 Ce qu'elle fait</div>
-  <p class="skill-desc">Zumera est une <em>carry cible unique à contrôle par malédiction</em>. Âme Dévorée inflige 640% de dégâts à la cible ennemie — un burst mono-cible élevé. Malédiction Maléfique inflige l'état <em>Perturbé</em> pendant 3 tours : tant que la cible est Perturbée, chaque fois que Zumera utilise une compétence de Rage, la cible perturbée est forcée d'attaquer un allié au hasard — un contrôle qui retourne l'ennemi contre sa propre formation. Ses paliers supérieurs allongent la durée de Perturbation (+1 tour à Lv.31) puis la rendent indissipable (Lv.71). Profil de duelliste anti-carry : idéale contre un héros ennemi unique très puissant plutôt qu'en AoE.</p>
+  <div class="section-title">🎯 Ce qu'il fait</div>
+  <p class="skill-desc">Rodriguez est un <em>support de buff d'équipe</em> au potentiel exceptionnel : Promesse de Victoire augmente l'ATQ de <strong>toute l'équipe de 80%</strong> tout en réduisant les coups reçus de 25% — un double effet offensif et défensif collectif rare dans le roster. Prouesse Royale réduit l'ATQ ennemie de 20% pendant 5 tours, et Privation de Foi dissipe tous les buffs que les ennemis ont gagnés par leurs compétences actives — un outil de contre-buff précieux contre les formations qui s'appuient sur leurs propres renforcements (Force Glaciale de Boule de Neige et Lierre côté adverse, par exemple). Un profil de "roi de guerre" qui transforme n'importe quelle formation en machine offensive tout en la protégeant.</p>
 </div>
 
 <div class="section">
-  <div class="section-title">⬡ Compétences — Progression par niveau</div>
+  <div class="section-title">☀ Compétences de Héros — Talent +4</div>
 
   <div class="skill active">
     <div class="skill-head">
-      <div><span class="skill-name">Âme Dévorée</span><span class="skill-regen"> — Régén. Rage : Moyenne · Dès le départ</span></div>
+      <div><span class="skill-name">Promesse de Victoire</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
       <span class="skill-tag tag-active">Active</span>
     </div>
-    <p class="skill-desc">Inflige <em>640% de dégâts</em> à la cible ennemie. Burst mono-cible parmi les plus élevés du roster sur une cible unique.</p>
+    <p class="skill-desc">Augmente l'ATQ de <em>+80%</em> et réduit les coups reçus de <em>25%</em> pour <strong>tous les alliés</strong>. Buff collectif offensif et défensif combiné — l'un des plus puissants du roster pour l'ensemble d'une formation.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Art du Commandement</span><span class="skill-tag tag-amelio">Améliorée</span></div>
+    <p class="skill-desc">Ajuste la réduction des coups de tous les alliés de <em>35% à 25%</em>. Affine l'effet défensif de Promesse de Victoire.</p>
   </div>
 
   <div class="skill ctrl">
-    <div class="skill-head"><span class="skill-name">Malédiction Maléfique</span><span class="skill-tag tag-ctrl">Niveau 11</span></div>
-    <p class="skill-desc">Compétence active améliorée : inflige <em>Perturbé</em> à la cible pendant 3 tours. Lors de l'utilisation d'une compétence de Rage, la cible Perturbée effectue une attaque spéciale contre un allié au hasard — retourne l'ennemi contre sa propre équipe.</p>
+    <div class="skill-head"><span class="skill-name">Prouesse Royale</span><span class="skill-tag tag-ctrl">Améliorée</span></div>
+    <p class="skill-desc">Réduit l'ATQ ennemie de <em>20% pendant 5 tours</em>. Amplifie l'écart de puissance déjà créé par le buff de Promesse de Victoire.</p>
   </div>
 
-  <div class="skill amelio">
-    <div class="skill-head"><span class="skill-name">Corruption Vile</span><span class="skill-tag tag-amelio">Niveau 31</span></div>
-    <p class="skill-desc">Compétence active améliorée : prolonge la durée de l'effet Perturbé de <em>+1 tour</em>. Renforce la fenêtre de contrôle sur la cible.</p>
-  </div>
-
-  <div class="skill amelio">
-    <div class="skill-head"><span class="skill-name">Lignée du Seigneur Démon</span><span class="skill-tag tag-amelio">Niveau 71</span></div>
-    <p class="skill-desc">Compétence active améliorée : l'effet Perturbé devient <em>indissipable</em>. La cible ne peut plus se soustraire au contrôle une fois marquée.</p>
+  <div class="skill ctrl">
+    <div class="skill-head"><span class="skill-name">Privation de Foi</span><span class="skill-tag tag-ctrl">Améliorée</span></div>
+    <p class="skill-desc"><em>Dissipe tous les buffs</em> que les ennemis ont gagnés par leurs compétences actives. Contre-buff précieux contre les formations qui reposent sur leurs propres renforcements.</p>
   </div>
 
   <div class="skill locked">
-    <div class="skill-head"><span class="skill-name">Volonté d'Acier</span><span class="skill-tag tag-locked">🔒 6★★</span></div>
-    <p class="skill-desc">Résistance Critique <em>+30%</em>. Chance de recevoir des dégâts normaux en lieu d'un coup critique.</p>
+    <div class="skill-head"><span class="skill-name">Inflexible</span><span class="skill-tag tag-locked">🔒 6★</span></div>
+    <p class="skill-desc">Augmente la Parade de <em>+30%</em> (chance de réduire les dégâts reçus lors d'une attaque).</p>
   </div>
 </div>
 
 <div class="section">
-  <div class="section-title">⚔️ Compétence de Troupe</div>
+  <div class="section-title">⚔️ Compétence de Troupe — Talent +4</div>
   <div class="troop-grid">
-    <div class="troop-item troop-highlight">
-      <div class="troop-val">Jusqu'à +500%</div>
-      <div class="troop-lbl">Dégâts de troupe (compétence active) — évolue avec le niveau du héros, paliers +100/+120/+150/+200/+300/+500%</div>
-    </div>
-    <div class="troop-item"><div class="troop-val">Civil</div><div class="troop-lbl">Type de troupe (particularité de Zumera — hors Cavalerie/Archer/Infanterie)</div></div>
+    <div class="troop-item troop-highlight"><div class="troop-val">+300%</div><div class="troop-lbl">Dégâts de troupe (compétence active)</div></div>
+    <div class="troop-item"><div class="troop-val">+25,6%</div><div class="troop-lbl">PV de Troupe</div></div>
+    <div class="troop-item"><div class="troop-val">+25,6%</div><div class="troop-lbl">DEF de Troupe</div></div>
+    <div class="troop-item"><div class="troop-val">+25,6%</div><div class="troop-lbl">ATQ de Troupe</div></div>
   </div>
   <div class="info-box" style="margin-top:10px">
-    <strong>Note</strong> — Les bonus PV/DEF/ATQ de troupe se débloquent à partir du niveau 31 (DEF) et 131 (ATQ) du héros, avec des paliers supplémentaires à 6★ et 6★★. Système de progression par niveau plutôt que par Talent — à recouper avec le niveau actuel de Zumera en jeu.
+    <strong>Note</strong> — Valeurs confirmées en jeu à Talent +4, 5★, Puissance 1 523 490.
   </div>
 </div>
 
 <div class="section">
-  <div class="section-title">💎 Curiosité — Œil du Seigneur Démon</div>
+  <div class="section-title">💎 Curiosité — Couronne de Conquérant</div>
   <div class="weapon-box">
-    <div class="weapon-name">💎 Œil du Seigneur Démon</div>
-    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus selon rareté de la curiosité</div>
+    <div class="weapon-name">💎 Couronne de Conquérant ★★★★★★★★ — Niveau +30 (max)</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus à 8★ +30 (aperçu maximal)</div>
     <div class="weapon-stats">
-      <span class="wstat">DEF Troupe jusqu'à +100%</span>
-      <span class="wstat">PV Troupe jusqu'à +100%</span>
-      <span class="wstat">ATQ Troupe jusqu'à +100%</span>
-      <span class="wstat">ATQ Troupe (Légendaire) +150%</span>
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1200</span>
     </div>
   </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Rodriguez uniquement)</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>DEF de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>ATQ de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>Dégâts de troupe <strong style="color:#2ecc71">+10%</strong></div></div>
+  </div>
   <div class="info-box" style="margin-top:10px">
-    <strong>Note</strong> — Comme toutes les curiosités, l'Œil du Seigneur Démon possède aussi des Attributs de Légion (passifs) et des Attributs de Héros communs à toutes les curiosités du jeu. Se référer au guide Curiosités général pour le détail.
+    <strong>Note</strong> — Curiosité disponible à l'achat direct (Parchemin) ou via la Maison des Ventes.
   </div>
 </div>
 
@@ -210,16 +218,25 @@
   <div class="pf-grid">
     <div class="pf-box">
       <div class="pf-title green">✓ Points Forts</div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>640% de dégâts sur cible unique — burst mono-cible très élevé</div></div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>Contrôle unique : force l'ennemi Perturbé à attaquer son propre allié</div></div>
-      <div class="pf-item"><div class="pf-dot green"></div><div>Perturbation prolongée puis indissipable aux paliers supérieurs — contrôle très fiable en fin de progression</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>+80% ATQ pour toute l'équipe — l'un des buffs collectifs les plus forts du roster</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Réduction des coups reçus pour toute l'équipe en plus du buff offensif</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Dissipe les buffs ennemis — contre-mesure rare et précieuse</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Double debuff ennemi (ATQ −20%) qui accentue l'écart de puissance</div></div>
     </div>
     <div class="pf-box">
       <div class="pf-title red">✗ Limites</div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Aucun dégât ni contrôle AoE — profil strictement mono-cible</div></div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Type de troupe « Civil » atypique — synergies de légion à vérifier en jeu</div></div>
-      <div class="pf-item"><div class="pf-dot red"></div><div>Effet Perturbé pleinement puissant seulement à partir du niveau 71</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Aucun dégât direct significatif — dépend des autres héros pour convertir le buff en dégâts</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Inflexible encore verrouillé jusqu'à 6★</div></div>
     </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🤝 Synergies Recommandées</div>
+  <div class="synergie">
+    <div class="syn-head"><div><div class="syn-name">N'importe quel carry à fort ATQ</div><div class="syn-role">Aerposia, Tamamo Mae, Guan Yu...</div></div><span class="syn-tier s">S</span></div>
+    <p class="syn-desc">+80% ATQ profite directement à tout carry burst — plus le multiplicateur de dégâts de base du carry est élevé, plus le gain absolu de Rodriguez est important.</p>
+    <div class="syn-tags"><span class="stag stag-gold">Buff → Burst</span></div>
   </div>
 </div>
 
@@ -227,9 +244,9 @@
 <div class="section">
   <div class="section-title">🗺️ Position en Formation</div>
   <div class="pos-box">
-    <div class="pos-label">Position — hypothèse à valider</div>
-    <div class="pos-value">📍 Flanc intérieur (à confirmer)</div>
-    <div class="pos-desc">Zumera cible un ennemi unique — sa position exacte a moins d'impact que pour un héros de zone. Le flanc intérieur offre un compromis entre portée sur la cible et un minimum de protection. Cette recommandation est une lecture de kit et n'a pas encore été testée en formation par l'alliance — à ajuster selon retour terrain.</div>
+    <div class="pos-label">Position recommandée</div>
+    <div class="pos-value">📍 Flanc intérieur ou arrière</div>
+    <div class="pos-desc">Support pur sans dégât significatif — Rodriguez doit rester protégé pour continuer à appliquer son buff d'équipe tour après tour. Un flanc intérieur ou une position en retrait, derrière un tank comme Boule de Neige et Lierre, maximise sa survie.</div>
   </div>
   <div class="pos-grid">
     <div class="pos-slot">Flanc<br>extrême G</div>
@@ -239,31 +256,10 @@
     <div class="pos-slot">Flanc<br>extrême D</div>
   </div>
   <div style="font-size:.72rem;color:#5a7090;margin-top:10px;line-height:1.4">
-    <strong style="color:var(--gold)">Investissement :</strong> jusqu'à 6★ puis 6★★ (Volonté d'Acier) · progression par niveau (paliers 11 / 31 / 71 / 131)
+    <strong style="color:var(--gold)">Investissement :</strong> 5★ (6★ débloquées) · Talent +4 · Curiosité 8★ +30 disponible
   </div>
 </div>
 
-<!-- ══ COMBOS PAR ACTIVITÉ ══ -->
-<div class="section">
-  <div class="section-title">⚡ Combos par Activité — hypothèses à tester</div>
-
-  <div class="combo-cat" style="background:rgba(192,57,43,.12);border:1px solid #e74c3c44">
-    <div class="combo-cat-title" style="color:#e74c3c">PvP · Arène</div>
-    <div class="combo-item">
-      <div class="combo-item-title">Zumera contre un carry adverse isolé</div>
-      <div class="combo-item-desc">Le contrôle « attaque un allié au hasard » est surtout utile contre des formations resserrées où l'ennemi Perturbé peut frapper son propre support. À tester en situation réelle avant de généraliser.</div>
-    </div>
-  </div>
-
-  <div class="combo-cat" style="background:rgba(232,184,75,.08);border:1px solid #e8b84b44">
-    <div class="combo-cat-title" style="color:#e8b84b">Boss Alliance</div>
-    <div class="combo-item">
-      <div class="combo-item-title">Profil compatible en théorie</div>
-      <div class="combo-item-desc">640% sur cible unique correspond au profil recherché pour les Boss (cible unique fixe). Non testé — à comparer avec Guan Yu/Norris/Khaos avant de l'intégrer à une formation Boss.</div>
-    </div>
-  </div>
-</div>
-
-<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Zumera v1 — Août 2026 · Données : wiki Fandom P&amp;C</footer>
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Rodriguez v1 — Août 2026 · Données confirmées par capture d'écran en jeu</footer>
 </body>
 </html>
