@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&C — Fiches Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a2a 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
+  .back:hover{color:var(--gold)}
+  .page-header{text-align:center;padding:22px 16px;margin-bottom:20px}
+  .page-title{font-family:'Cinzel',serif;font-size:1.9rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:8px}
+  .page-subtitle{font-size:.82rem;color:#7a8fa8;letter-spacing:.5px}
+  .filter-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0 26px}
+  .filter-btn{background:var(--panel2);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.75rem;color:#8fa8c0;cursor:pointer;transition:.15s;font-weight:600}
+  .filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+  .filter-btn.active{background:rgba(232,184,75,.12);border-color:var(--gold);color:var(--gold)}
+  .elem-section{margin-bottom:30px}
+  .elem-heading{font-family:'Cinzel',serif;font-size:1.05rem;letter-spacing:1.5px;padding-bottom:8px;margin-bottom:14px;border-bottom:2px solid;display:flex;align-items:center;gap:8px}
+  .elem-heading.dark{color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .elem-heading.glace{color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .elem-heading.nature{color:#6ecf96;border-color:rgba(39,174,96,.4)}
+  .elem-heading.feu{color:#e07070;border-color:rgba(192,57,43,.4)}
+  .elem-heading.lumiere{color:var(--gold);border-color:rgba(232,184,75,.4)}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .hcard{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 12px 10px;text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;transition:.15s}
+  .hcard:hover{border-color:var(--gold);transform:translateY(-2px)}
+  .hcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .hcard.dark::before{background:#bb8fce}.hcard.glace::before{background:#5dade2}
+  .hcard.nature::before{background:#6ecf96}.hcard.feu::before{background:#e07070}
+  .hcard.lumiere::before{background:var(--gold)}
+  .hcard-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .hcard-name{font-family:'Cinzel',serif;font-size:.86rem;color:var(--gold);font-weight:700;letter-spacing:.5px}
+  .hcard-tier{font-family:'Cinzel',serif;font-size:.95rem;font-weight:900;flex-shrink:0}
+  .hcard-tier.s{color:#e8b84b}.hcard-tier.a{color:#5dade2}.hcard-tier.b{color:#7a9ab8}
+  .hcard-role{font-size:.66rem;color:#7a8fa8;line-height:1.35}
+  .hcard-modes{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+  .hcard-mode{font-size:.6rem;padding:1px 6px;border-radius:8px;font-weight:700;background:var(--panel2);border:1px solid var(--border);color:#8fa8c0}
+  .hcard-new{position:absolute;top:8px;right:8px;background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.4);font-size:.58rem;padding:1px 6px;border-radius:8px;font-weight:700}
+  .hcard-soon{opacity:.55;cursor:default}
+  .hcard-soon:hover{transform:none;border-color:var(--border)}
+  .hcard-soon .hcard-name{color:#8fa8c0}
+  .soon-tag{font-size:.6rem;color:#5a7090;font-style:italic}
+  .unclassed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+  .uc-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:7px 10px;font-size:.72rem;color:#7a8fa8;text-align:center}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:12px 14px;font-size:.8rem;color:#c8a84b;line-height:1.5;margin-bottom:20px}
+  .info-box strong{color:var(--gold)}
+  .warn-box{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:12px 14px;font-size:.8rem;color:#e0a0a0;line-height:1.5;margin-bottom:20px}
+  .warn-box strong{color:#e07070}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Retour à l'accueil</a>
+
+<div class="page-header">
+  <div class="page-title">⚔️ FICHES HÉROS</div>
+  <div class="page-subtitle">35 fiches complètes · 26 à venir (élément confirmé) · ~30 non classés · Objectif : 65 héros</div>
+</div>
+
+<div class="info-box">
+  <strong>💡 Nouveauté</strong> — Fiche <strong>Zumera</strong> ajoutée (Sombre, 6★, contrôle par malédiction). Tiers de <strong>Dimina, Boyd, Aurora, Sirona, Fiona</strong> revus par lecture de kit, alignés sur les tests d'alliance plutôt que sur une tier list externe généraliste.
+</div>
+
+<div class="warn-box">
+  <strong>⚠️ À vérifier</strong> — « Norris (Lumière) » (fiche à venir, ci-dessous) pourrait être un doublon du Norris Feu déjà documenté plutôt qu'un héros distinct. En attente de confirmation avant de créer sa fiche.
+</div>
+
+<div class="filter-row">
+  <button class="filter-btn active" data-f="all">Tous</button>
+  <button class="filter-btn" data-f="dark">⬡ Sombre</button>
+  <button class="filter-btn" data-f="glace">❄ Glace</button>
+  <button class="filter-btn" data-f="nature">🌿 Nature</button>
+  <button class="filter-btn" data-f="feu">🔥 Feu</button>
+  <button class="filter-btn" data-f="lumiere">☀ Lumière</button>
+</div>
+
+<!-- ══════════ SOMBRE ══════════ -->
+<div class="elem-section" data-elem="dark">
+  <div class="elem-heading dark">⬡ Élément Sombre</div>
+  <div class="card-grid">
+    <a class="hcard dark" href="aerposia_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">AERPOSIA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Cavalerie · Carry DPS Burst</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">PvE A</span></div>
+    </a>
+    <a class="hcard dark" href="eris_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">ERIS</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Carry AoE · Contrôle · Étourdissement</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">PvE A</span></div>
+    </a>
+    <a class="hcard dark" href="sirona_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">SIRONA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Soigneuse · Support Rage · Ralliement · Civil (éco.)</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Rallye S</span></div>
+    </a>
+    <a class="hcard dark" href="aurora_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">AURORA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Exécution 99% PV · Blocage Rage · Civil (éco.)</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Rallye S</span></div>
+    </a>
+    <a class="hcard dark" href="khaos_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">KHAOS</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">S2 · 5 Décharges 950% · Immobilisation · Universel</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Boss S</span></div>
+    </a>
+    <a class="hcard dark" href="zumera_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">ZUMERA</span><span class="hcard-tier b">?</span></div>
+      <div class="hcard-role">6★ · Carry mono-cible 640% · Contrôle Perturbé</div>
+      <div class="hcard-modes"><span class="hcard-mode">Non évalué</span></div>
+    </a>
+    <a class="hcard dark" href="william_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">WILLIAM</span><span class="hcard-tier b">C</span></div>
+      <div class="hcard-role">AoE 138% · Civil · Coût Nourriture/Bois</div>
+      <div class="hcard-modes"><span class="hcard-mode">Éco A</span><span class="hcard-mode">PvP C</span></div>
+    </a>
+    <a class="hcard dark" href="chloe_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">CHLOE</span><span class="hcard-tier a">B</span></div>
+      <div class="hcard-role">Vol de PV 70% · Civil · Coût Pierre/Fer</div>
+      <div class="hcard-modes"><span class="hcard-mode">Éco A</span><span class="hcard-mode">PvP B</span></div>
+    </a>
+    <a class="hcard dark" href="elsa_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">ELSA</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">AoE 180% + Double Debuff · Civil · Construction</div>
+      <div class="hcard-modes"><span class="hcard-mode">Éco A</span><span class="hcard-mode">PvP A</span></div>
+    </a>
+    <a class="hcard dark" href="charogne_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">CHAROGNE</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Invocateur · 3 Gardiens d'Âme · ATQ Croissante</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">Boss A</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <div class="hcard dark hcard-soon"><div class="hcard-top"><span class="hcard-name">VIOLETTE</span></div><div class="hcard-role">Carry Arène · S PvP</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard dark hcard-soon"><div class="hcard-top"><span class="hcard-name">SETEMOS</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard dark hcard-soon"><div class="hcard-top"><span class="hcard-name">MONICA</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard dark hcard-soon"><div class="hcard-top"><span class="hcard-name">ESTELLE</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard dark hcard-soon"><div class="hcard-top"><span class="hcard-name">ERIC</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+  </div>
+</div>
+
+<!-- ══════════ GLACE ══════════ -->
+<div class="elem-section" data-elem="glace">
+  <div class="elem-heading glace">❄ Élément Glace</div>
+  <div class="card-grid">
+    <a class="hcard glace" href="tania_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">TANIA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Cavalerie · Soigneuse · Support</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">PvE A</span></div>
+    </a>
+    <a class="hcard glace" href="edith_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">EDITH</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Archer · AoE · DEF −44% · ATQ −34%</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Boss A</span></div>
+    </a>
+    <a class="hcard glace" href="basilong_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">BASILONG</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">AoE Partielle · Snowball Rage · Immunité Alliés</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">PvE A</span></div>
+    </a>
+    <a class="hcard glace" href="maxim_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">MAXIM</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">S2 · Transformation · DEF +80% · Immunité Silence</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">PvE S</span></div>
+    </a>
+    <a class="hcard glace" href="tamamo_mae_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">TAMAMO MAE</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Carry Burst · Exécution %PV · Résurrection</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Boss A</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <a class="hcard glace" href="snowball_ivy_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">BOULE DE NEIGE &amp; LIERRE</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Tank · Provocation · Buff ATQ Équipe</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">Boss A</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <a class="hcard glace" href="apan_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">APAN</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Infanterie · Contre-attaque 125% · Anti-Nature</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">vs Nature S</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <div class="hcard glace hcard-soon"><div class="hcard-top"><span class="hcard-name">SELANTIA</span></div><div class="hcard-role">Niche PvP/Boss (source externe)</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard glace hcard-soon"><div class="hcard-top"><span class="hcard-name">VYNORA</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard glace hcard-soon"><div class="hcard-top"><span class="hcard-name">OGREMIRE</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard glace hcard-soon"><div class="hcard-top"><span class="hcard-name">NEPTUNE</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard glace hcard-soon"><div class="hcard-top"><span class="hcard-name">ECHO</span></div><div class="hcard-role">Civil (économie, à confirmer)</div><span class="soon-tag">Fiche à venir</span></div>
+  </div>
+</div>
+
+<!-- ══════════ NATURE ══════════ -->
+<div class="elem-section" data-elem="nature">
+  <div class="elem-heading nature">🌿 Élément Nature</div>
+  <div class="card-grid">
+    <a class="hcard nature" href="dimina_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">DIMINA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Cav. &amp; Archer · Blocage Rage AoE</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvE S</span><span class="hcard-mode">PvP A</span></div>
+    </a>
+    <a class="hcard nature" href="tala_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">TALA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Support Rage · Économie Fer</div>
+      <div class="hcard-modes"><span class="hcard-mode">Éco S</span><span class="hcard-mode">PvE A</span></div>
+    </a>
+    <a class="hcard nature" href="sodoma_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">SODOMA</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Burst Cible Unique · Vol de Rage · Meute</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">Boss A</span></div>
+    </a>
+    <a class="hcard nature" href="boyd_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">BOYD</span><span class="hcard-tier b">B</span></div>
+      <div class="hcard-role">Cavalerie · Carry · Sang Froid</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvE A</span><span class="hcard-mode">PvP B</span></div>
+    </a>
+    <a class="hcard nature" href="guanyu_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">GUAN YU</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">S2 · Burst 530% · Meilleur DPS Boss</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Boss S</span></div>
+    </a>
+    <a class="hcard nature" href="isabella_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">ISABELLA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Support Total · Soin + 4 Buffs Équipe</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Boss S</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">VELOSA</span></div><div class="hcard-role">Niche PvP (source externe)</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">VALERIUS</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">SEA GODDESS</span></div><div class="hcard-role">Civil (économie, à confirmer)</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">KUJO MAMORU</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">KAIRA</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">FREYA</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+  </div>
+</div>
+
+<!-- ══════════ FEU ══════════ -->
+<div class="elem-section" data-elem="feu">
+  <div class="elem-heading feu">🔥 Élément Feu</div>
+  <div class="card-grid">
+    <a class="hcard feu" href="anastasia_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">ANASTASIA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Support Survie · Résurrection de Zone</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">PvE S</span></div>
+    </a>
+    <a class="hcard feu" href="oichi_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">OICHI</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">AoE Partielle S3 · Brûlure niv.2 · Étourdissement</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">PvE A</span></div>
+    </a>
+    <a class="hcard feu" href="norris_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">NORRIS</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Archer · AoE Brûlure · DPS Boss</div>
+      <div class="hcard-modes"><span class="hcard-mode">Boss A</span><span class="hcard-mode">PvP B</span></div>
+    </a>
+    <a class="hcard feu" href="tutanhet_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">TUTANHET</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Toutes troupes · Paralysie</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">PvE A</span></div>
+    </a>
+    <a class="hcard feu" href="fiona_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">FIONA</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">AoE Poison · Buff ATQ · Civil (économie)</div>
+      <div class="hcard-modes"><span class="hcard-mode">Éco A</span><span class="hcard-mode">PvP B</span></div>
+    </a>
+    <div class="hcard feu hcard-soon"><div class="hcard-top"><span class="hcard-name">LEONA</span></div><div class="hcard-role">Carry en développement</div><span class="soon-tag">Fiche à venir</span></div>
+    <a class="hcard feu" href="kanye_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">KANYE</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Polyvalent · Boost lignée Archer</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">PvE A</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <a class="hcard feu" href="saya_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">SAYA</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Civil · Vitesse construction (économie)</div>
+      <div class="hcard-modes"><span class="hcard-mode">Éco A</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <div class="hcard feu hcard-soon"><div class="hcard-top"><span class="hcard-name">MOLEG</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard feu hcard-soon"><div class="hcard-top"><span class="hcard-name">LYLIA</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard feu hcard-soon"><div class="hcard-top"><span class="hcard-name">CAPOS</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+  </div>
+</div>
+
+<!-- ══════════ LUMIÈRE ══════════ -->
+<div class="elem-section" data-elem="lumiere">
+  <div class="elem-heading lumiere">☀ Élément Lumière</div>
+  <div class="card-grid">
+    <a class="hcard lumiere" href="herukab_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">HERUKAB</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Double AoE · Double Debuff</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">PvE A+</span></div>
+    </a>
+    <a class="hcard lumiere" href="patty_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">PATTY</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Collecte · Ralliement · Support · Civil (économie)</div>
+      <div class="hcard-modes"><span class="hcard-mode">Éco S</span><span class="hcard-mode">Support A</span></div>
+    </a>
+    <a class="hcard lumiere" href="rodriguez_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">RODRIGUEZ</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Buff Équipe +80% ATQ · Dissipation</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Boss A</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <a class="hcard lumiere" href="christina_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">CHRISTINA</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">Cavalerie · Carry + Buff DEF Équipe</div>
+      <div class="hcard-modes"><span class="hcard-mode">PvP A</span><span class="hcard-mode">Éco B</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <a class="hcard lumiere" href="celeya_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">CELEYA</span><span class="hcard-tier s">S</span></div>
+      <div class="hcard-role">Archer · Ignore Défenses · Anti-Soin</div>
+      <div class="hcard-modes"><span class="hcard-mode">Boss S</span><span class="hcard-mode">PvP S</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
+    <div class="hcard lumiere hcard-soon"><div class="hcard-top"><span class="hcard-name">NORRIS (LUMIÈRE)</span></div><div class="hcard-role">⚠️ Possible doublon — à vérifier</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard lumiere hcard-soon"><div class="hcard-top"><span class="hcard-name">ANGELITA</span></div><div class="hcard-role">A/B partout (source externe) · Pilier Arène</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard lumiere hcard-soon"><div class="hcard-top"><span class="hcard-name">WU KONG</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard lumiere hcard-soon"><div class="hcard-top"><span class="hcard-name">OSKIR</span></div><div class="hcard-role">Civil (économie, à confirmer)</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard lumiere hcard-soon"><div class="hcard-top"><span class="hcard-name">KAIOS</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard lumiere hcard-soon"><div class="hcard-top"><span class="hcard-name">EDMUND</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+    <div class="hcard lumiere hcard-soon"><div class="hcard-top"><span class="hcard-name">CARVELL</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
+  </div>
+</div>
+
+<!-- ══════════ NON CLASSÉS ══════════ -->
+<div class="elem-section" data-elem="all">
+  <div class="elem-heading" style="color:#5a7090;border-color:var(--border)">🔍 Non classés — élément à confirmer</div>
+  <p style="font-size:.75rem;color:#5a7090;margin-bottom:12px">Ces héros apparaissent dans l'index officiel du jeu mais leur élément n'a pas encore été vérifié. Ils seront reclassés dans leur section dès confirmation.</p>
+  <div class="unclassed-grid">
+    <div class="uc-item">Ada</div><div class="uc-item">Aemon</div><div class="uc-item">Andre</div><div class="uc-item">Axel</div>
+    <div class="uc-item">Baron</div><div class="uc-item">Carrion</div><div class="uc-item">Cassandra</div>
+    <div class="uc-item">Claudia</div><div class="uc-item">Dolly</div>
+    <div class="uc-item">Gerolin</div><div class="uc-item">Gina</div><div class="uc-item">Grimhand</div>
+    <div class="uc-item">Hannah</div><div class="uc-item">Hanzo</div><div class="uc-item">Infernal Tooka</div><div class="uc-item">Leora</div>
+    <div class="uc-item">Lucia</div><div class="uc-item">Luke</div><div class="uc-item">Ocularion</div><div class="uc-item">Odell</div>
+    <div class="uc-item">Penny</div><div class="uc-item">Roger</div><div class="uc-item">Schubert</div><div class="uc-item">Sirius</div>
+    <div class="uc-item">Sophia</div><div class="uc-item">Tooka</div><div class="uc-item">Tulios</div>
+    <div class="uc-item">Viola</div><div class="uc-item">Wallace</div><div class="uc-item">Ysera</div>
+  </div>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · 35 fiches complètes · Août 2026</footer>
+
+<script>
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.f;
+    document.querySelectorAll('.elem-section').forEach(sec=>{
+      const e=sec.dataset.elem;
+      sec.style.display=(f==='all'||e===f||e==='all')?'':'none';
+    });
+  });
+});
+</script>
+</body>
+</html>
