@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setemos — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#6c3483;--elem-light:#bb8fce;--elem-bg:rgba(142,68,173,.12);--elem-border-a:rgba(142,68,173,.35);--elem-border-b:rgba(142,68,173,.5)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a2a 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
+  .back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid var(--elem-border-a);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.b-plus{color:#85c1e9}.rval.c{color:#e07070}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.util{border-left-color:#5dade2}.skill.ctrl{border-left-color:#bb8fce}.skill.locked{border-left-color:#455a75;opacity:.7}.skill.passif{border-left-color:#f39c12}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-util{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-ctrl{background:rgba(142,68,173,.15);color:#bb8fce;border:1px solid rgba(142,68,173,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .tag-passif{background:rgba(243,156,18,.14);color:#f5b041;border:1px solid rgba(243,156,18,.4)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .troop-highlight{grid-column:1/-1;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.3)}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .formation.sustain{border-left-color:#5dade2}.formation.boss{border-left-color:#e74c3c}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-title.blue{color:#5dade2}.form-title.red{color:#e07070}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}
+  .fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}
+  .fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}
+  .fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}
+  .fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  .pos-box{background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+  .pos-label{font-family:'Cinzel',serif;font-size:.8rem;color:var(--elem-light);margin-bottom:6px}
+  .pos-value{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px}
+  .pos-desc{font-size:.8rem;color:#8fa8c0;line-height:1.5}
+  .pos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:center;font-size:.65rem}
+  .pos-slot{background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090}
+  .pos-slot.active{background:var(--elem-bg);color:var(--gold);border:1px solid var(--elem-border-b);font-weight:700}
+  .combo-cat{border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .combo-cat-title{font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
+  .combo-item{background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px}
+  .combo-item:last-child{margin-bottom:0}
+  .combo-item-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px}
+  .combo-item-desc{font-size:.77rem;color:#8fa8c0;line-height:1.4}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<a class="back" href="heroes.html">← Retour aux héros</a>
+
+<div class="hero-header">
+  <div class="elem-badge">⬡ Élément Sombre · Curiosité 8★</div>
+  <div class="hero-name">SETEMOS</div>
+  <div class="hero-subtitle">Tank Contre-Attaquant · AoE Partielle · Chasseur de Monstres</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">5★ (6★ débloquées)</span><span class="lbl">Étoiles</span></div>
+    <div class="stat-badge"><span class="val">⬡ Sombre</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">240%</span><span class="lbl">Dégâts + adjacents</span></div>
+    <div class="stat-badge"><span class="val">Talent +3</span><span class="lbl">Niveau actuel</span></div>
+  </div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval a">A</div><div class="rdesc">Contre-attaque punitive</div></div>
+    <div class="rating-box"><div class="rtitle">Chasse aux Monstres</div><div class="rval a">A</div><div class="rdesc">Bonus ATQ chasseur +45%</div></div>
+    <div class="rating-box"><div class="rtitle">PvE · Campagne</div><div class="rval b">B</div><div class="rdesc">Correct, pas dominant</div></div>
+  </div>
+</div>
+
+<div class="info-box" style="margin-bottom:14px">
+  <strong>⚠️ Note de fiabilité</strong> — Tiers déduits par lecture de kit (méthode Tania/Aerposia), pas encore confirmés par un test d'alliance. Maîtrise de Combat verrouillée jusqu'à 6★.
+</div>
+
+<!-- ══ CE QU'IL FAIT ══ -->
+<div class="section">
+  <div class="section-title">🎯 Ce qu'il fait</div>
+  <p class="skill-desc">Setemos est un <em>tank contre-attaquant</em> à AoE partielle : Attaque Sombre inflige 240% de dégâts à la cible et aux ennemis adjacents, avec une régénération de Rage rapide. Bâton Dévoreur d'Âmes fait que lui-même et ses alliés adjacents contre-attaquent avec 100% des dégâts reçus pendant 4 tours — porté à <strong>150%</strong> avec Protection des Enfers, son ultérieure amélioration. Bénédiction Sombre le rend immunisé à l'Étourdissement, garantissant qu'il peut toujours déclencher son kit. Particularité notable : son bonus de troupe inclut un <strong>bonus d'ATQ de Chasseur (+45%)</strong> et des Ressources Sûres, ce qui en fait un candidat intéressant pour la chasse aux repaires de monstres en plus du combat classique.</p>
+</div>
+
+<div class="section">
+  <div class="section-title">⬡ Compétences de Héros — Talent +3</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Attaque Sombre</span><span class="skill-regen"> — Régénération Rage : Rapide</span></div>
+      <span class="skill-tag tag-active">Active</span>
+    </div>
+    <p class="skill-desc">Inflige <em>240% de dégâts</em> à la cible et aux ennemis adjacents. AoE partielle avec régénération de Rage rapide — se déclenche fréquemment.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Bâton Dévoreur d'Âmes</span><span class="skill-tag tag-amelio">Améliorée</span></div>
+    <p class="skill-desc">Lorsque le lanceur ou les alliés adjacents sont attaqués, ils <em>contre-attaquent avec 100% des dégâts reçus</em>, pendant 4 tours. Punit les agresseurs et protège les voisins.</p>
+  </div>
+
+  <div class="skill amelio">
+    <div class="skill-head"><span class="skill-name">Protection des Enfers</span><span class="skill-tag tag-amelio">Améliorée</span></div>
+    <p class="skill-desc">Porte la contre-attaque à <em>150% des dégâts reçus</em> au lieu de 100%. Amélioration directe du Bâton Dévoreur d'Âmes.</p>
+  </div>
+
+  <div class="skill util">
+    <div class="skill-head"><span class="skill-name">Bénédiction Sombre</span><span class="skill-tag tag-util">Passif</span></div>
+    <p class="skill-desc"><em>Immunisé</em> à l'Étourdissement. Garantit que Setemos reste toujours actif malgré le contrôle adverse.</p>
+  </div>
+
+  <div class="skill locked">
+    <div class="skill-head"><span class="skill-name">Maîtrise de Combat</span><span class="skill-tag tag-locked">🔒 6★</span></div>
+    <p class="skill-desc">Augmente le taux de Coup Critique de <em>+30%</em> (chance d'infliger le double des dégâts).</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚔️ Compétence de Troupe — Talent +3</div>
+  <div class="troop-grid">
+    <div class="troop-item troop-highlight"><div class="troop-val">+200%</div><div class="troop-lbl">Dégâts de troupe (compétence active)</div></div>
+    <div class="troop-item"><div class="troop-val">+45%</div><div class="troop-lbl">Bonus d'ATQ de Chasseur</div></div>
+    <div class="troop-item"><div class="troop-val">+24%</div><div class="troop-lbl">DEF de Troupe (Passif)</div></div>
+    <div class="troop-item"><div class="troop-val">+3,6%</div><div class="troop-lbl">Ressources Sûres</div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px">
+    <strong>Note</strong> — Profil de troupe atypique : Setemos combine un bonus de combat classique (DEF) avec des bonus orientés chasse aux monstres (ATQ Chasseur, Ressources Sûres). Valeurs confirmées à Talent +3.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">💎 Curiosité — Bâton du Styx</div>
+  <div class="weapon-box">
+    <div class="weapon-name">💎 Bâton du Styx ★★★★★★★★ — Niveau +30 (max)</div>
+    <div style="font-size:.72rem;color:#5a7090;margin-bottom:8px">Bonus à 8★ +30 (aperçu maximal)</div>
+    <div class="weapon-stats">
+      <span class="wstat">ATQ Troupe +106%</span>
+      <span class="wstat">DEF Troupe +106%</span>
+      <span class="wstat">PV Troupe +106%</span>
+      <span class="wstat">ATQ Héros +600</span>
+      <span class="wstat">DEF Héros +600</span>
+      <span class="wstat">PV Héros +1200</span>
+    </div>
+  </div>
+  <div style="font-size:.72rem;color:#5a7090;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.5px">Attributs exclusifs (Setemos uniquement)</div>
+  <div class="exclu-list">
+    <div class="exclu-item"><span class="exclu-tier">Héros +0</span><div>DEF de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +2</span><div>PV de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +4</span><div>ATQ de Troupe <strong style="color:#2ecc71">+100%</strong></div></div>
+    <div class="exclu-item"><span class="exclu-tier">Héros +6</span><div>PV de Troupe <strong style="color:#2ecc71">+150%</strong></div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px">
+    <strong>Note</strong> — Curiosité disponible via évènements de fête (Parchemins de Curiosité).
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Contre-attaque évolutive (100% → 150%) qui punit sévèrement les agresseurs</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>AoE partielle avec régénération de Rage rapide</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Bonus de Chasseur utile pour les repaires de monstres, en plus du combat</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Immunité Étourdissement — fiabilise le déclenchement de son kit</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Aucun dégât direct majeur — rôle défensif/punitif plutôt qu'offensif pur</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Maîtrise de Combat verrouillée jusqu'à 6★</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Bonus de troupe hybride (chasse + combat) moins optimisé qu'un spécialiste pur</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">Chasse aux Repaires de Monstres</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Bonus d'ATQ de Chasseur +45% directement utile</span></td></tr>
+    <tr><td class="ctx-label">PvP · Arène</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Bon protecteur de formation via contre-attaque partagée</span></td></tr>
+    <tr><td class="ctx-label">PvE · Campagne</td><td><span class="dots">●●●</span><span class="dots-empty">●●</span><span class="ctx-note">Correct sans être dominant</span></td></tr>
+  </table>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Setemos v1 — Août 2026 · Données confirmées par capture d'écran en jeu</footer>
+</body>
+</html>
