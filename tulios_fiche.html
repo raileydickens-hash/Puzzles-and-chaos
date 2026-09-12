@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tulios — Fiche Héros</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nunito:wght@400;600;700&display=swap');
+  :root{--gold:#e8b84b;--gold-dark:#a07720;--bg:#0d1117;--panel:#161c26;--panel2:#1e2635;--border:#2e3d55;--text:#cdd6e0;--elem:#922b21;--elem-light:#e07070;--elem-bg:rgba(192,57,43,.12);--elem-border-a:rgba(192,57,43,.35);--elem-border-b:rgba(192,57,43,.5)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;padding:16px;background-image:radial-gradient(ellipse at top,#0a1a2a 0%,#0d1117 65%)}
+  .back{display:inline-flex;align-items:center;gap:6px;color:#5a7090;font-size:.78rem;text-decoration:none;margin-bottom:16px;letter-spacing:.5px}
+  .back:hover{color:var(--gold)}
+  .hero-header{text-align:center;padding:20px 16px 22px;background:linear-gradient(180deg,var(--elem-bg) 0%,transparent 100%);border:1px solid var(--elem-border-a);border-radius:14px;margin-bottom:18px}
+  .elem-badge{display:inline-flex;align-items:center;gap:6px;background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:20px;padding:3px 12px;font-size:.73rem;color:var(--elem-light);letter-spacing:.5px;margin-bottom:10px}
+  .hero-name{font-family:'Cinzel',serif;font-size:2rem;letter-spacing:3px;color:var(--gold);text-shadow:0 0 28px rgba(232,184,75,.4);margin-bottom:4px}
+  .hero-subtitle{font-size:.8rem;color:#7a8fa8;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+  .stat-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:14px}
+  .stat-badge{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center}
+  .stat-badge .val{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);display:block}
+  .stat-badge .lbl{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px}
+  .ratings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .rating-box{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+  .rating-box .rtitle{font-size:.63rem;color:#5a7090;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+  .rating-box .rval{font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;line-height:1}
+  .rating-box .rdesc{font-size:.6rem;color:#5a7090;margin-top:2px}
+  .rval.s{color:#e8b84b}.rval.a{color:#5dade2}.rval.b{color:#7a9ab8}.rval.b-plus{color:#85c1e9}.rval.c{color:#e07070}
+  .section{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+  .section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--elem-light),transparent)}
+  .section-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold);letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .skill{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid}
+  .skill.active{border-left-color:#e8b84b}.skill.amelio{border-left-color:#2ecc71}.skill.util{border-left-color:#5dade2}.skill.ctrl{border-left-color:#bb8fce}.skill.locked{border-left-color:#455a75;opacity:.7}.skill.passif{border-left-color:#f39c12}
+  .skill-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .skill-name{font-weight:700;font-size:.85rem;color:var(--gold)}
+  .skill-regen{font-size:.65rem;color:#5a7090;font-style:italic}
+  .skill-tag{font-size:.62rem;padding:2px 7px;border-radius:10px;font-weight:700;letter-spacing:.3px;flex-shrink:0;margin-left:6px}
+  .tag-active{background:rgba(232,184,75,.15);color:var(--gold);border:1px solid rgba(232,184,75,.4)}
+  .tag-amelio{background:rgba(39,174,96,.12);color:#6ecf96;border:1px solid rgba(39,174,96,.35)}
+  .tag-util{background:rgba(41,128,185,.15);color:#5dade2;border:1px solid rgba(41,128,185,.4)}
+  .tag-ctrl{background:rgba(142,68,173,.15);color:#bb8fce;border:1px solid rgba(142,68,173,.4)}
+  .tag-locked{background:rgba(46,61,85,.4);color:#5a7090;border:1px solid var(--border)}
+  .tag-passif{background:rgba(243,156,18,.14);color:#f5b041;border:1px solid rgba(243,156,18,.4)}
+  .skill-desc{font-size:.8rem;line-height:1.45}
+  .skill-desc em{color:#f8c471;font-style:normal;font-weight:700}
+  .troop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .troop-item{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+  .troop-val{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);font-weight:700}
+  .troop-lbl{font-size:.67rem;color:#5a7090;margin-top:1px}
+  .troop-highlight{grid-column:1/-1;background:rgba(93,173,226,.08);border:1px solid rgba(93,173,226,.3)}
+  .weapon-box{background:linear-gradient(135deg,rgba(232,184,75,.04),rgba(232,184,75,.1));border:1px solid rgba(232,184,75,.3);border-radius:8px;padding:12px 14px}
+  .weapon-name{font-family:'Cinzel',serif;font-size:.88rem;color:var(--gold);margin-bottom:8px}
+  .weapon-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .wstat{background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:.72rem}
+  .exclu-list{margin-top:4px}
+  .exclu-item{display:flex;gap:8px;align-items:flex-start;padding:6px 10px;border-radius:6px;margin-bottom:5px;background:var(--panel2);font-size:.8rem}
+  .exclu-tier{font-size:.7rem;color:#5a7090;flex-shrink:0;min-width:60px}
+  .ctx-table{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:6px}
+  .ctx-table td{padding:5px 8px;border-bottom:1px solid rgba(46,61,85,.5);vertical-align:top}
+  .ctx-table tr:last-child td{border-bottom:none}
+  .ctx-label{color:var(--gold);font-weight:700;white-space:nowrap}
+  .dots{color:#e8b84b;letter-spacing:1px}.dots-empty{color:#2e3d55;letter-spacing:1px}
+  .ctx-note{color:#5a7090;font-size:.7rem;display:block;margin-top:2px}
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+  .pf-box{background:var(--panel2);border-radius:8px;padding:10px 12px}
+  .pf-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
+  .pf-title.green{color:#2ecc71}.pf-title.red{color:#e07070}
+  .pf-item{display:flex;gap:6px;font-size:.77rem;margin-bottom:5px;line-height:1.35}
+  .pf-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .pf-dot.green{background:#2ecc71}.pf-dot.red{background:#e74c3c}
+  .synergie{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .syn-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+  .syn-name{font-weight:700;font-size:.88rem;color:var(--gold)}
+  .syn-tier{font-family:'Cinzel',serif;font-size:1rem;font-weight:900}
+  .syn-tier.s{color:#e8b84b}.syn-tier.a{color:#5dade2}
+  .syn-role{font-size:.68rem;color:#5a7090;margin-bottom:5px}
+  .syn-desc{font-size:.78rem;line-height:1.4;margin-bottom:6px}
+  .syn-tags{display:flex;flex-wrap:wrap;gap:4px}
+  .stag{padding:2px 8px;border-radius:12px;font-size:.65rem;font-weight:700;border:1px solid}
+  .stag-red{background:rgba(192,57,43,.15);color:#e07070;border-color:rgba(192,57,43,.4)}
+  .stag-blue{background:rgba(41,128,185,.15);color:#5dade2;border-color:rgba(41,128,185,.4)}
+  .stag-green{background:rgba(39,174,96,.12);color:#6ecf96;border-color:rgba(39,174,96,.35)}
+  .stag-purple{background:rgba(142,68,173,.15);color:#bb8fce;border-color:rgba(142,68,173,.4)}
+  .stag-gold{background:rgba(232,184,75,.1);color:var(--gold);border-color:rgba(232,184,75,.35)}
+  .formation{background:var(--panel2);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--gold)}
+  .formation.sustain{border-left-color:#5dade2}.formation.boss{border-left-color:#e74c3c}
+  .form-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:4px}
+  .form-title.blue{color:#5dade2}.form-title.red{color:#e07070}
+  .form-heroes{display:flex;gap:6px;margin:6px 0;flex-wrap:wrap}
+  .fhero{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:.75rem;font-weight:700}
+  .fhero.feu{border-color:rgba(192,57,43,.5);color:#e07070}
+  .fhero.dark{border-color:rgba(142,68,173,.5);color:#bb8fce}
+  .fhero.glace{border-color:rgba(41,128,185,.5);color:#5dade2}
+  .fhero.nature{border-color:rgba(39,174,96,.5);color:#6ecf96}
+  .fhero.lumiere{border-color:rgba(232,184,75,.5);color:var(--gold)}
+  .form-desc{font-size:.78rem;color:#8fa8c0;line-height:1.4}
+  .info-box{background:rgba(232,184,75,.07);border:1px solid rgba(232,184,75,.25);border-radius:8px;padding:10px 12px;font-size:.78rem;color:#c8a84b;line-height:1.45;margin-top:10px}
+  .info-box strong{color:var(--gold)}
+  .pos-box{background:var(--elem-bg);border:1px solid var(--elem-border-b);border-radius:8px;padding:12px 14px;margin-bottom:10px}
+  .pos-label{font-family:'Cinzel',serif;font-size:.8rem;color:var(--elem-light);margin-bottom:6px}
+  .pos-value{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px}
+  .pos-desc{font-size:.8rem;color:#8fa8c0;line-height:1.5}
+  .pos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:8px;text-align:center;font-size:.65rem}
+  .pos-slot{background:var(--panel2);border-radius:6px;padding:6px 2px;color:#5a7090}
+  .pos-slot.active{background:var(--elem-bg);color:var(--gold);border:1px solid var(--elem-border-b);font-weight:700}
+  .combo-cat{border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .combo-cat-title{font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px;text-transform:uppercase}
+  .combo-item{background:var(--panel2);border-radius:7px;padding:8px 10px;margin-bottom:6px}
+  .combo-item:last-child{margin-bottom:0}
+  .combo-item-title{font-weight:700;font-size:.82rem;color:var(--gold);margin-bottom:3px}
+  .combo-item-desc{font-size:.77rem;color:#8fa8c0;line-height:1.4}
+  footer{text-align:center;font-size:.68rem;color:#2e3d55;margin-top:24px;padding-top:10px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<a class="back" href="heroes.html">← Retour aux héros</a>
+
+<div class="hero-header">
+  <div class="elem-badge">🔥 Élément Feu</div>
+  <div class="hero-name">TULIOS</div>
+  <div class="hero-subtitle">Guerrier Grec · Drain de Rage · Chasse aux Monstres</div>
+  <div class="stat-row">
+    <div class="stat-badge"><span class="val">3★</span><span class="lbl">Étoiles actuelles</span></div>
+    <div class="stat-badge"><span class="val">🔥 Feu</span><span class="lbl">Élément</span></div>
+    <div class="stat-badge"><span class="val">174%</span><span class="lbl">Dégâts + adjacents</span></div>
+    <div class="stat-badge"><span class="val">Talent +5</span><span class="lbl">Niveau actuel</span></div>
+  </div>
+  <div class="ratings">
+    <div class="rating-box"><div class="rtitle">PvP · Arène</div><div class="rval b">B</div><div class="rdesc">Drain de Rage utile mais dégâts modestes</div></div>
+    <div class="rating-box"><div class="rtitle">Chasse aux Monstres</div><div class="rval a">A</div><div class="rdesc">Vitesse de marche + ATQ Chasseur</div></div>
+    <div class="rating-box"><div class="rtitle">Économie</div><div class="rval b">B</div><div class="rdesc">+30% Vitesse Collecte Fer</div></div>
+  </div>
+</div>
+
+<div class="info-box" style="margin-bottom:14px">
+  <strong>⚠️ Note de fiabilité</strong> — Tiers déduits par lecture de kit (méthode Tania/Aerposia), pas encore confirmés par un test d'alliance. Bonus d'ATQ de Chasseur encore verrouillé (niveau 71).
+</div>
+
+<!-- ══ CE QU'IL FAIT ══ -->
+<div class="section">
+  <div class="section-title">🎯 Ce qu'il fait</div>
+  <p class="skill-desc">Tulios est un guerrier grec à l'AoE partielle : Pique Pénétrante inflige 174% de dégâts à la cible et aux ennemis adjacents, un multiplicateur modeste comparé aux carry S-Tier du roster. Poids de l'Honneur draine 16% de la Rage de la cible et des ennemis adjacents — un contrôle de zone léger qui ralentit la riposte adverse. Esprit du Combattant renforce sa propre DEF et régénération de Rage. Son bonus de troupe le rend particulièrement intéressant pour la <strong>chasse aux repaires de monstres</strong> : vitesse de collecte de Fer, vitesse de marche de chasse, et bonus d'ATQ de Chasseur à plus haut niveau.</p>
+</div>
+
+<div class="section">
+  <div class="section-title">🔥 Compétences de Héros — Talent +5</div>
+
+  <div class="skill active">
+    <div class="skill-head">
+      <div><span class="skill-name">Pique Pénétrante</span><span class="skill-regen"> — Régénération Rage : Moyenne</span></div>
+      <span class="skill-tag tag-active">Active</span>
+    </div>
+    <p class="skill-desc">Inflige <em>174% de dégâts</em> à la cible et aux ennemis adjacents. AoE partielle avec des dégâts modestes comparés aux meilleurs carry du roster.</p>
+  </div>
+
+  <div class="skill ctrl">
+    <div class="skill-head"><span class="skill-name">Poids de l'Honneur</span><span class="skill-tag tag-ctrl">Améliorée</span></div>
+    <p class="skill-desc">Draine <em>16% de la Rage</em> de la cible et des ennemis adjacents. Contrôle de zone léger qui ralentit la riposte adverse.</p>
+  </div>
+
+  <div class="skill util">
+    <div class="skill-head"><span class="skill-name">Esprit du Combattant</span><span class="skill-tag tag-util">Passif</span></div>
+    <p class="skill-desc">Augmente la DEF et la régénération de Rage de <em>+10% et +5%</em> respectivement. Renforcement personnel modeste.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚔️ Compétence de Troupe — Talent +5</div>
+  <div class="troop-grid">
+    <div class="troop-item troop-highlight"><div class="troop-val">+500%</div><div class="troop-lbl">Dégâts de troupe (compétence active)</div></div>
+    <div class="troop-item troop-highlight"><div class="troop-val">+30%</div><div class="troop-lbl">Vitesse de Collecte de Fer (économie)</div></div>
+    <div class="troop-item troop-highlight"><div class="troop-val">+30%</div><div class="troop-lbl">Vitesse de Marche de Chasse</div></div>
+    <div class="troop-item"><div class="troop-val">+30%</div><div class="troop-lbl">Bonus d'ATQ de Chasseur — 🔒 niveau 71</div></div>
+  </div>
+  <div class="info-box" style="margin-top:10px">
+    <strong>Note</strong> — Profil orienté chasse aux monstres (vitesse de marche + ATQ Chasseur), comme Setemos. Valeurs confirmées à Talent +5, 3★, Puissance 265 500.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">⚖️ Points Forts et Limites</div>
+  <div class="pf-grid">
+    <div class="pf-box">
+      <div class="pf-title green">✓ Points Forts</div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Profil de chasse aux monstres complet (vitesse de marche + ATQ Chasseur + collecte Fer)</div></div>
+      <div class="pf-item"><div class="pf-dot green"></div><div>Drain de Rage de zone qui ralentit la formation adverse</div></div>
+    </div>
+    <div class="pf-box">
+      <div class="pf-title red">✗ Limites</div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Dégâts de compétence active modestes (174%) comparés au reste du roster</div></div>
+      <div class="pf-item"><div class="pf-dot red"></div><div>Bonus d'ATQ de Chasseur encore verrouillé (niveau 71)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">🗺️ Contexte d'Utilisation</div>
+  <table class="ctx-table">
+    <tr><td class="ctx-label">Chasse aux Repaires de Monstres</td><td><span class="dots">●●●●</span><span class="dots-empty">●</span><span class="ctx-note">Vitesse de marche et ATQ Chasseur directement utiles</span></td></tr>
+    <tr><td class="ctx-label">PvP / PvE standard</td><td><span class="dots">●●</span><span class="dots-empty">●●●</span><span class="ctx-note">Dégâts modestes, préférer un carry dédié</span></td></tr>
+  </table>
+</div>
+
+<footer>Puzzles &amp; Chaos : Frozen Castle · Fiche Tulios v1 — Août 2026 · Données confirmées par capture d'écran en jeu</footer>
+</body>
+</html>
