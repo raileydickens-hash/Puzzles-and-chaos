@@ -40,6 +40,7 @@
   .hcard-modes{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
   .hcard-mode{font-size:.6rem;padding:1px 6px;border-radius:8px;font-weight:700;background:var(--panel2);border:1px solid var(--border);color:#8fa8c0}
   .hcard-soon{opacity:.55;cursor:default}
+  .hcard-new{position:absolute;top:8px;right:8px;background:rgba(46,204,113,.15);color:#2ecc71;border:1px solid rgba(46,204,113,.4);font-size:.58rem;padding:1px 6px;border-radius:8px;font-weight:700}
   .hcard-soon:hover{transform:none;border-color:var(--border)}
   .hcard-soon .hcard-name{color:#8fa8c0}
   .soon-tag{font-size:.6rem;color:#5a7090;font-style:italic}
@@ -58,7 +59,7 @@
 
 <div class="page-header">
   <div class="page-title">⚔️ FICHES HÉROS</div>
-  <div class="page-subtitle">44 fiches complètes · Objectif : 65 héros</div>
+  <div class="page-subtitle">45 fiches complètes · Objectif : 65 héros</div>
 </div>
 
 <div class="info-box">
@@ -242,6 +243,12 @@
       <div class="hcard-role">Support Total · Soin + 4 Buffs Équipe</div>
       <div class="hcard-modes"><span class="hcard-mode">PvP S</span><span class="hcard-mode">Boss S</span></div>
     </a>
+    <a class="hcard nature" href="valerius_fiche.html">
+      <div class="hcard-top"><span class="hcard-name">VALERIUS</span><span class="hcard-tier a">A</span></div>
+      <div class="hcard-role">AoE + Vol de Vie · Buff Crit Nature</div>
+      <div class="hcard-modes"><span class="hcard-mode">Formation A</span><span class="hcard-mode">PvP B</span></div>
+      <span class="hcard-new">Nouveau</span>
+    </a>
     <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">VELOSA</span></div><div class="hcard-role">Niche PvP</div><span class="soon-tag">Fiche à venir</span></div>
     <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">VALERIUS</span></div><div class="hcard-role">Élément confirmé</div><span class="soon-tag">Fiche à venir</span></div>
     <div class="hcard nature hcard-soon"><div class="hcard-top"><span class="hcard-name">SEA GODDESS</span></div><div class="hcard-role">Civil (économie, à confirmer)</div><span class="soon-tag">Fiche à venir</span></div>
@@ -369,7 +376,7 @@
   </div>
 </div>
 
-<footer>Puzzles &amp; Chaos : Frozen Castle · 44 fiches complètes · Août 2026</footer>
+<footer>Puzzles &amp; Chaos : Frozen Castle · 45 fiches complètes · Août 2026</footer>
 
 <script>
 document.querySelectorAll('.filter-btn').forEach(btn=>{
